@@ -89,7 +89,7 @@ export default function Hero() {
             className="w-full sm:w-auto px-8 py-4 rounded-full shadow-lg shadow-[#a66b9630] bg-gradient-to-r from-[#a66b96] to-[#d49bbd] text-[#ffffff] font-bold text-lg hover:from-[#d49bbd] hover:to-[#a66b96] transition-all duration-300 active:scale-95 animate-pulse-gold flex items-center justify-center gap-2"
           >
             استعرضي القوالب الآن
-            <IconDiamond size={20} color="currentColor" />
+            <IconDiamond size={20} />
           </button>
           <a
             id="hero-whatsapp-btn"

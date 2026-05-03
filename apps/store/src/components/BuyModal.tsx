@@ -69,7 +69,7 @@ export default function BuyModal({ template, onClose }: BuyModalProps) {
 
               {/* Gold ring icon */}
               <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#a66b96] to-[#d49bbd] flex items-center justify-center text-[#fdfbf7]">
-                <IconDiamond size={32} color="currentColor" />
+                <IconDiamond size={32} />
               </div>
 
               <h2 className="text-2xl font-bold text-center text-[#3d2c38] mb-1">
