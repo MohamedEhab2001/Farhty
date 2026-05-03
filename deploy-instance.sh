@@ -45,5 +45,31 @@ cat > $INSTANCE_DIR/config.json << EOF
 }
 EOF
 
+# Step 5: Create Nginx configuration
+echo "[$(date +%T)] Creating Nginx configuration..."
+NGINX_CONF="/etc/nginx/sites-available/$SLUG.farhty.online"
+cat > $NGINX_CONF << EOF
+server {
+    listen 80;
+    server_name $SLUG.farhty.online;
+
+    root $INSTANCE_DIR;
+    index index.html;
+
+    location / {
+        try_files \\$uri \\$uri/ /index.html;
+    }
+}
+EOF
+
+# Step 6: Enable Nginx configuration
+echo "[$(date +%T)] Enabling Nginx site..."
+ln -sf $NGINX_CONF /etc/nginx/sites-enabled/
+systemctl reload nginx
+
+# Step 7: Issue SSL Certificate
+echo "[$(date +%T)] Provisioning SSL with Certbot..."
+certbot --nginx -d $SLUG.farhty.online
+
 echo "[$(date +%T)] ✓ Deployed successfully"
 echo "[$(date +%T)] Live at → https://$SLUG.farhty.online"
