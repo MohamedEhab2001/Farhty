@@ -1,0 +1,121 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Layout from '../components/Layout'
+import ConfirmDialog from '../components/ConfirmDialog'
+import { api } from '../api/client'
+
+interface Template {
+  _id: string; name: string; slug: string; language: string
+  price: number; status: string; version: string
+}
+
+const LANG_LABEL: Record<string, string> = { ar: 'عربي', en: 'English', both: 'عربي+English' }
+
+export default function Templates() {
+  const [templates, setTemplates] = useState<Template[]>([])
+  const [loading, setLoading] = useState(true)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
+  const navigate = useNavigate()
+
+  const load = () => {
+    api.get<Template[]>('/api/admin/templates').then(r => setTemplates(r.data)).finally(() => setLoading(false))
+  }
+  useEffect(load, [])
+
+  const toggleStatus = async (t: Template) => {
+    const next = t.status === 'active' ? 'draft' : 'active'
+    await api.patch(`/api/admin/templates/${t._id}/status`, { status: next })
+    load()
+  }
+
+  const confirmDelete = async () => {
+    if (!deleteId) return
+    setDeleting(true)
+    await api.delete(`/api/admin/templates/${deleteId}`)
+    setDeleteId(null)
+    setDeleting(false)
+    load()
+  }
+
+  return (
+    <Layout title="القوالب">
+      {deleteId && (
+        <ConfirmDialog
+          message="هل تريد حذف هذا القالب نهائياً؟"
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteId(null)}
+          loading={deleting}
+        />
+      )}
+
+      <div className="flex justify-between items-center mb-6">
+        <p className="text-[#9d8fa8] text-sm">{templates.length} قالب</p>
+        <button id="new-template-btn" onClick={() => navigate('/templates/new')} className="btn-gold">
+          + قالب جديد
+        </button>
+      </div>
+
+      <div className="card p-0 overflow-hidden">
+        {loading ? (
+          <div className="p-8 text-center text-[#9d8fa8]">جاري التحميل...</div>
+        ) : templates.length === 0 ? (
+          <div className="p-8 text-center text-[#9d8fa8]">لا توجد قوالب بعد</div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>الاسم</th>
+                <th>اللغة</th>
+                <th>السعر</th>
+                <th>الحالة</th>
+                <th>الإصدار</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              {templates.map(t => (
+                <tr key={t._id}>
+                  <td className="font-semibold text-[#f0e8d8]">{t.name}</td>
+                  <td><span className="badge badge-gray">{LANG_LABEL[t.language] || t.language}</span></td>
+                  <td className="text-[#e8b857] font-semibold">{t.price} ج</td>
+                  <td>
+                    <span className={`badge ${t.status === 'active' ? 'badge-green' : 'badge-yellow'}`}>
+                      {t.status === 'active' ? 'نشط' : 'مسودة'}
+                    </span>
+                  </td>
+                  <td className="text-[#9d8fa8] font-mono text-xs">{t.version}</td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <button
+                        id={`edit-tpl-${t._id}`}
+                        onClick={() => navigate(`/templates/${t._id}/edit`)}
+                        className="btn-ghost py-1 px-3 text-xs"
+                      >تعديل</button>
+                      <button
+                        id={`toggle-tpl-${t._id}`}
+                        onClick={() => toggleStatus(t)}
+                        className="btn-ghost py-1 px-3 text-xs"
+                      >{t.status === 'active' ? 'إلغاء النشر' : 'نشر'}</button>
+                      <a
+                        href={`https://preview-${t.slug}.farhty.online`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-ghost py-1 px-3 text-xs"
+                      >معاينة ↗</a>
+                      <button
+                        id={`delete-tpl-${t._id}`}
+                        onClick={() => setDeleteId(t._id)}
+                        className="py-1 px-3 text-xs rounded-lg text-red-400 hover:bg-red-900/20 transition-all"
+                      >حذف</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </Layout>
+  )
+}

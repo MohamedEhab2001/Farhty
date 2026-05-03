@@ -1,0 +1,64 @@
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import { connectDB } from './config/db';
+
+// Auth
+import authRoutes from './routes/auth';
+
+// Templates
+import { publicTemplateRouter, adminTemplateRouter } from './routes/templates';
+
+// Instances
+import { publicInstanceRouter, adminInstanceRouter } from './routes/instances';
+
+// Orders (admin-only)
+import orderRoutes from './routes/orders';
+
+// Testimonials
+import { publicTestimonialRouter, adminTestimonialRouter } from './routes/testimonials';
+
+// Upload
+import uploadRoutes from './routes/upload';
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(cors());
+app.use(express.json({ limit: '10mb' }));
+
+// ─── Health ───────────────────────────────────────────────────────────────────
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok' });
+});
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+app.use('/api/auth', authRoutes);
+
+// ─── Public routes ────────────────────────────────────────────────────────────
+app.use('/api/templates', publicTemplateRouter);
+app.use('/api/instances', publicInstanceRouter);
+app.use('/api/testimonials', publicTestimonialRouter);
+
+// ─── Admin routes ─────────────────────────────────────────────────────────────
+app.use('/api/admin/templates', adminTemplateRouter);
+app.use('/api/admin/instances', adminInstanceRouter);
+app.use('/api/admin/orders', orderRoutes);
+app.use('/api/admin/testimonials', adminTestimonialRouter);
+
+// ─── Upload ───────────────────────────────────────────────────────────────────
+app.use('/api/upload', uploadRoutes);
+
+// ─── Global error handler ─────────────────────────────────────────────────────
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+// ─── Start ────────────────────────────────────────────────────────────────────
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Farhty API running on port ${PORT}`);
+  });
+});
