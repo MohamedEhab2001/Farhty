@@ -50,7 +50,7 @@ const TemplateFieldSchema = new Schema<ITemplateField>(
   { _id: false }
 );
 
-const TemplateFeaturesSchema = new Schema<ITemplateFeatures>(
+const TemplateFeaturesSchema = new Schema(
   {
     music: { type: Boolean, default: false },
     gallery: { type: Boolean, default: false },
@@ -59,7 +59,7 @@ const TemplateFeaturesSchema = new Schema<ITemplateFeatures>(
     rtl: { type: Boolean, default: true },
     pages: { type: Number, default: 1 },
   },
-  { _id: false }
+  { _id: false, strict: false }
 );
 
 const TemplateSchema = new Schema<ITemplate>(

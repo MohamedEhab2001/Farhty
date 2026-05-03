@@ -163,9 +163,67 @@ or gate it with instance.features.[key].
 
 CUSTOM FLOWS:
 Some features require their own API calls beyond what the SDK provides.
-For example:
-  - RSVP form → POST to a custom endpoint
-  - Wish wall → POST/GET from a separate collection
+There are TWO approaches — prefer the instance-data approach whenever possible:
+
+─── Approach 1: Instance Data (PREFERRED — no new endpoints needed) ───
+
+Features like RSVP and Wish Wall can store guest submissions as JSON arrays
+inside the instance record, using the EXISTING SDK endpoints:
+
+  GET  /api/instances/by-domain?slug=<slug>  → read instance data (guest token)
+  PATCH /api/instances/:id/data               → update instance data (guest token)
+
+How it works in a component:
+
+  1. Read config.json to get apiBase and slug
+  2. Get the guest's instance token from localStorage (`farhty_token_${slug}`)
+  3. GET /api/instances/by-domain?slug=<slug> to read current data
+  4. Append the new entry to the existing array field (e.g. rsvp_entries, wish_entries)
+  5. PATCH /api/instances/:id/data with the full updated data object
+
+Example — RSVP form:
+
+  const config = await fetch('/config.json').then(r => r.json())
+  const apiBase = config.apiBase
+  const slug = config.slug || window.location.hostname.split('.')[0]
+  const token = localStorage.getItem(`farhty_token_${slug}`)
+
+  // Read current data
+  const res = await fetch(`${apiBase}/api/instances/by-domain?slug=${slug}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  const instanceData = await res.json()
+
+  // Append new entry
+  const newEntry = { name, attendance: true, guests: 2, timestamp: new Date().toISOString() }
+  const updatedData = {
+    ...instanceData.data,
+    rsvp_entries: [...(instanceData.data.rsvp_entries ?? []), newEntry]
+  }
+
+  // Write back
+  await fetch(`${apiBase}/api/instances/${instanceData.instanceId}/data`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(updatedData)
+  })
+
+For this approach, add the array field to the MongoDB fields array:
+
+  { "key": "rsvp_entries", "label": "تأكيدات الحضور (JSON)", "type": "json", "defaultValue": "[]" }
+  { "key": "wish_entries",  "label": "التهاني (JSON)",          "type": "json", "defaultValue": "[]" }
+
+RULES for instance-data approach:
+  - Use the guest's instance token (from localStorage) for both reads and writes
+  - Always merge with existing data — never overwrite other fields
+  - Spread instanceData.data first, then override your target field
+  - Never hardcode the API base URL — always read from config.json
+  - Mark submitted state in localStorage (e.g. farhty_rsvp_submitted) to prevent duplicates
+
+─── Approach 2: Custom Endpoints (only if truly needed) ───
+
+Only use custom endpoints if the data model genuinely cannot fit inside instance.data
+(e.g. if entries need their own IDs, pagination, or independent querying).
 
 For these, call the API directly inside the component:
 
