@@ -36,7 +36,7 @@ export function CustomerDashboard() {
         { folder: field.cloudinaryFolder || `instances/${slug}` },
         { headers: { Authorization: `Bearer ${token}` } }
       )
-      const { signature, timestamp, api_key: apiKey, cloud_name: cloudName } = signRes.data
+      const { signature, timestamp, apiKey, cloudName } = signRes.data
       // Upload to Cloudinary
       const fd = new FormData()
       fd.append('file', file)
@@ -48,6 +48,9 @@ export function CustomerDashboard() {
         method: 'POST', body: fd
       })
       const upData = await upRes.json()
+      if (upData.error) {
+        throw new Error(upData.error.message || 'Upload rejected by Cloudinary')
+      }
       set(field.key, upData.secure_url)
     } catch (e) {
       console.error('Upload failed', e)

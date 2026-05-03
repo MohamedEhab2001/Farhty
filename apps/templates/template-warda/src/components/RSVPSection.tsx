@@ -35,25 +35,15 @@ export default function RSVPSection() {
     try {
       const config = await fetch('/config.json').then(r => r.json())
       const currentSlug = config.slug || window.location.hostname.split('.')[0]
-      const token = localStorage.getItem(`farhty_token_${currentSlug}`)
 
-      const res = await fetch(`${config.apiBase}/api/instances/by-domain?slug=${currentSlug}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      const current = await res.json()
-
-      await fetch(`${config.apiBase}/api/instances/${current.instanceId}/data`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
+      await fetch(`${config.apiBase}/api/instances/by-domain/rsvp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...current.data,
-          rsvp_entries: [
-            ...(Array.isArray(current.data.rsvp_entries) ? current.data.rsvp_entries : []),
-            { name, attending: attending === 'yes', guests: attending === 'yes' ? guests : 0, timestamp: new Date().toISOString() }
-          ]
+          slug: currentSlug,
+          name,
+          attending: attending === 'yes',
+          guests: attending === 'yes' ? guests : 0
         })
       })
 

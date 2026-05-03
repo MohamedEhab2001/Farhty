@@ -49,8 +49,8 @@ publicInstanceRouter.post('/auth', async (req: Request, res: Response): Promise<
   }
 });
 
-// GET /api/instances/by-domain — resolves slug from query param or Host header
-publicInstanceRouter.get('/by-domain', instanceAuth, async (req: InstanceRequest, res: Response): Promise<void> => {
+// GET /api/instances/by-domain — public: resolves slug from query param or Host header
+publicInstanceRouter.get('/by-domain', async (req: Request, res: Response): Promise<void> => {
   try {
     // Prefer explicit slug query param (browsers cannot set Host header)
     // Fall back to Host header for server-side / native clients
@@ -81,6 +81,74 @@ publicInstanceRouter.get('/by-domain', instanceAuth, async (req: InstanceRequest
       fields: template.fields,
       data: Object.fromEntries(instance.data),
     });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ error: msg });
+  }
+});
+
+// POST /api/instances/by-domain/rsvp — public: submit RSVP
+publicInstanceRouter.post('/by-domain/rsvp', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { slug, name, attending, guests } = req.body as { slug: string; name: string; attending: boolean; guests: number };
+
+    if (!slug || !name || attending === undefined) {
+      res.status(400).json({ error: 'slug, name, and attending are required' });
+      return;
+    }
+
+    const instance = await Instance.findOne({ slug });
+    if (!instance) {
+      res.status(404).json({ error: 'Instance not found' });
+      return;
+    }
+
+    const entries: unknown[] = Array.isArray(instance.data.get('rsvp_entries'))
+      ? instance.data.get('rsvp_entries') as unknown[]
+      : [];
+
+    instance.data.set('rsvp_entries', [
+      ...entries,
+      { name, attending, guests: attending ? (guests || 1) : 0, timestamp: new Date().toISOString() }
+    ]);
+    instance.lastUpdatedAt = new Date();
+    await instance.save();
+
+    res.json({ message: 'RSVP submitted', data: Object.fromEntries(instance.data) });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ error: msg });
+  }
+});
+
+// POST /api/instances/by-domain/wish — public: submit wish
+publicInstanceRouter.post('/by-domain/wish', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { slug, name, message } = req.body as { slug: string; name: string; message: string };
+
+    if (!slug || !name || !message) {
+      res.status(400).json({ error: 'slug, name, and message are required' });
+      return;
+    }
+
+    const instance = await Instance.findOne({ slug });
+    if (!instance) {
+      res.status(404).json({ error: 'Instance not found' });
+      return;
+    }
+
+    const entries: unknown[] = Array.isArray(instance.data.get('wish_entries'))
+      ? instance.data.get('wish_entries') as unknown[]
+      : [];
+
+    instance.data.set('wish_entries', [
+      { name: name.trim(), message: message.trim(), timestamp: new Date().toISOString() },
+      ...entries
+    ]);
+    instance.lastUpdatedAt = new Date();
+    await instance.save();
+
+    res.json({ message: 'Wish submitted', data: Object.fromEntries(instance.data) });
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Unknown error';
     res.status(500).json({ error: msg });

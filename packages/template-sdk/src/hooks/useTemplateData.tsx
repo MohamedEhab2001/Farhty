@@ -49,31 +49,30 @@ export function TemplateProvider({ children }: { children: ReactNode }) {
       const tokenKey = `farhty_token_${resolvedSlug}`
       const token = localStorage.getItem(tokenKey)
 
-      if (!token) {
-        // No token — show password gate
-        await minDelay(startTime)
-        setIsLoading(false)
-        return
-      }
-
-      // 3. Fetch instance data — pass slug as query param (browsers block Host header)
+      // 3. Fetch instance data (always, even without token — public read)
       try {
+        const headers: Record<string, string> = {}
+        if (token) {
+          headers.Authorization = `Bearer ${token}`
+        }
         const res = await api.get<InstanceData>('/api/instances/by-domain', {
           params: { slug: resolvedSlug },
-          headers: { Authorization: `Bearer ${token}` },
+          headers,
         })
         const data = res.data
         setInstance(data)
-        // Merge fields defaultValues with saved data
         const merged: Record<string, unknown> = {}
         for (const field of data.fields) {
           merged[field.key] = data.data[field.key] ?? field.defaultValue ?? ''
         }
         setFieldData(merged)
-        setIsAuthenticated(true)
+        if (token) {
+          setIsAuthenticated(true)
+        }
       } catch {
-        // Token invalid or expired — clear it
-        localStorage.removeItem(tokenKey)
+        if (token) {
+          localStorage.removeItem(tokenKey)
+        }
       } finally {
         await minDelay(startTime)
         setIsLoading(false)

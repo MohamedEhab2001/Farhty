@@ -33,26 +33,11 @@ export default function WishWall() {
     try {
       const config = await fetch('/config.json').then(r => r.json())
       const currentSlug = config.slug || window.location.hostname.split('.')[0]
-      const token = localStorage.getItem(`farhty_token_${currentSlug}`)
 
-      const res = await fetch(`${config.apiBase}/api/instances/by-domain?slug=${currentSlug}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      const current = await res.json()
-
-      await fetch(`${config.apiBase}/api/instances/${current.instanceId}/data`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          ...current.data,
-          wish_entries: [
-            { name: name.trim(), message: message.trim(), timestamp: new Date().toISOString() },
-            ...(Array.isArray(current.data.wish_entries) ? current.data.wish_entries : [])
-          ]
-        })
+      await fetch(`${config.apiBase}/api/instances/by-domain/wish`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: currentSlug, name: name.trim(), message: message.trim() })
       })
 
       setName('')

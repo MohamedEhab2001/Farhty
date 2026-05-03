@@ -87,8 +87,10 @@ import {
 } from '@farhty/template-sdk'
 
 useTemplateData()
-  → { instance, isLoading, isAuthenticated }
-  instance: { instanceId, templateId, slug, isPreview, features, fields, data }
+   → { instance, isLoading, isAuthenticated, slug, fieldData, setFieldData }
+   instance: { instanceId, templateId, slug, isPreview, features, fields, data }
+   isAuthenticated is true ONLY when an admin token exists in localStorage.
+   instance data is ALWAYS fetched on boot — public visitors see the template without auth.
 
 useTemplateFields()
   → { get, set, save, isSaving }
@@ -198,6 +200,20 @@ UPLOAD LOADING STATES — mandatory for every image/audio upload:
   - Check for upData.error from Cloudinary response (e.g. "cloud_name is disabled")
   - Never let uploads fail silently — always surface the error
 
+UPLOAD SIGN RESPONSE — CRITICAL KEY NAMES:
+  The sign endpoint returns camelCase keys. You MUST destructure with camelCase:
+
+    const { signature, timestamp, apiKey, cloudName, folder } = signRes.data
+
+  WRONG — will cause uploads to fail silently (undefined values):
+    const { api_key: apiKey, cloud_name: cloudName } = signRes.data   ← NEVER DO THIS
+
+  The Cloudinary upload URL must use cloudName:
+    https://api.cloudinary.com/v1_1/${cloudName}/${isAudio ? 'video' : 'image'}/upload
+
+  Always pass apiKey as the api_key form field:
+    fd.append('api_key', apiKey)
+
 USE useTemplateFields() for all data:
   const { get, set, save, isSaving } = useTemplateFields()
   Each input: value={get('key')} onChange={e => set('key', e.target.value)}
@@ -236,61 +252,83 @@ RULE: If a feature needs customer-configurable data → add a field to MongoDB.
 Purely decorative features need no field.
 
 ═══════════════════════════════════════════
-CRUD-ONLY RULE — NO NEW ENDPOINTS EVER
+API ENDPOINTS & DATA RULES
 ═══════════════════════════════════════════
 
-ALL data operations — including guest submissions (RSVP, wish wall) —
-MUST use the existing two instance endpoints only. Never create new API routes.
+═════════════════════════════════════════════
+PUBLIC DATA ACCESS — VISITORS SEE DATA WITHOUT AUTH
+═════════════════════════════════════════════
 
-Available endpoints:
-  GET  /api/instances/by-domain?slug=<slug>   → read full instance data
-  PATCH /api/instances/:id/data               → write/update instance data
+RULE: The public invitation page NEVER requires authentication to read data.
 
-How to store guest submissions without new endpoints:
+useTemplateData() always fetches instance data on boot, with or without a token.
+If a token exists (admin who previously authenticated), it is sent along.
+If no token exists (first-time visitor sharing the link), data is still fetched.
 
-  1. fetch('/config.json') → get apiBase + slug
-  2. localStorage.getItem(`farhty_token_${slug}`) → get instance token
-  3. GET by-domain → read current data
-  4. Append new entry to the target array field
-  5. PATCH with full merged data object (spread existing, override target field)
+The isAuthenticated flag ONLY controls whether /admin shows the dashboard.
+It does NOT gate the public invitation page.
 
-Example — RSVP submission:
+GET /api/instances/by-domain?slug=<slug>
+  → Public. No Authorization header needed.
+  → Returns instance data, fields, features, everything needed to render.
+  → Always include slug as a query param (browsers cannot set Host header).
+
+═════════════════════════════════════════════
+GUEST SUBMISSIONS — RSVP & WISH WALL
+═════════════════════════════════════════════
+
+Guest-facing interactions (RSVP, wish wall) MUST use the dedicated public endpoints.
+These do NOT require authentication — visitors submit directly.
+
+Available public endpoints for guest submissions:
+  POST /api/instances/by-domain/rsvp   → { slug, name, attending, guests }
+  POST /api/instances/by-domain/wish   → { slug, name, message }
+
+Example — RSVP submission (NO auth token needed):
 
   const config = await fetch('/config.json').then(r => r.json())
   const slug = config.slug || window.location.hostname.split('.')[0]
-  const token = localStorage.getItem(`farhty_token_${slug}`)
 
-  const res = await fetch(`${config.apiBase}/api/instances/by-domain?slug=${slug}`, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-  const current = await res.json()
-
-  await fetch(`${config.apiBase}/api/instances/${current.instanceId}/data`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify({
-      ...current.data,
-      rsvp_entries: [
-        ...(current.data.rsvp_entries ?? []),
-        { name, attending: true, timestamp: new Date().toISOString() }
-      ]
-    })
+  await fetch(`${config.apiBase}/api/instances/by-domain/rsvp`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ slug, name, attending: true, guests: 2 })
   })
 
   localStorage.setItem(`farhty_rsvp_submitted_${slug}`, 'true')
+
+Example — Wish submission (NO auth token needed):
+
+  const config = await fetch('/config.json').then(r => r.json())
+  const slug = config.slug || window.location.hostname.split('.')[0]
+
+  await fetch(`${config.apiBase}/api/instances/by-domain/wish`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ slug, name: 'Ahmed', message: 'Congratulations!' })
+  })
 
 Add array fields to MongoDB record:
   { "key": "rsvp_entries", "label": "تأكيدات الحضور", "type": "json", "defaultValue": "[]" }
   { "key": "wish_entries", "label": "التهاني",          "type": "json", "defaultValue": "[]" }
 
-ABSOLUTE RULE:
-- Never output a section called "Additional API Endpoints Needed"
-- Never suggest creating a new route, controller, or backend file
-- Every feature must work within the two existing endpoints above
-- If a feature seemingly requires a new endpoint → store it in instance data instead
+ABSOLUTE RULES:
+- Never use PATCH /api/instances/:id/data for guest submissions (that requires auth)
+- Never require localStorage token for RSVP or wish wall submissions
+- Always pass slug in the POST body — the backend resolves the instance
+- Use localStorage only for "already submitted" local dedup (e.g. farhty_rsvp_submitted_${slug})
+- Never suggest creating new API routes beyond the ones listed here
+
+═════════════════════════════════════════════
+ADMIN-ONLY OPERATIONS
+═════════════════════════════════════════════
+
+These require the instance auth token (Bearer header):
+  POST /api/instances/auth           → get token
+  PATCH /api/instances/:id/data      → save edited fields (admin dashboard)
+  POST /api/upload/sign              → get Cloudinary signed params (admin dashboard)
+
+The AdminDashboard and CustomerDashboard handle these internally via the SDK.
 
 ═══════════════════════════════════════════
 DATA ACCESS RULES
@@ -456,7 +494,10 @@ OUTPUT FORMAT — DELIVER IN THIS ORDER
 | 2 | Loading screen didn't reference actual logo | Explicitly uses `public/فرحتي بنفسجي.png` |
 | 3 | PasswordGate appeared on public invitation | PasswordGate only on `/admin` via `isAdminRoute` check |
 | 4 | `/admin` rendered raw unstyled CustomerDashboard | Must build styled `AdminDashboard.tsx` matching template aesthetic |
-| 5 | Allowed new API endpoints | Hard rule: CRUD only via existing 2 endpoints, no new routes ever |
+| 5 | Guest submissions required auth token (visitors couldn't RSVP/wish) | New public POST endpoints: `/by-domain/rsvp` and `/by-domain/wish` — no auth needed |
+| 6 | Public page didn't fetch data without token | useTemplateData now always fetches instance data; isAuthenticated only gates /admin |
+| 7 | Upload sign response keys were snake_case in examples | Documented that sign endpoint returns camelCase keys (`apiKey`, `cloudName`) — must destructure correctly |
+| 8 | CRUD-only rule blocked guest features | Updated: guest submissions use dedicated public endpoints; admin operations still need auth |
 
 ---
 

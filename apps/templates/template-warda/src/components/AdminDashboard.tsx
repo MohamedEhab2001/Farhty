@@ -37,7 +37,7 @@ export default function AdminDashboard() {
     const token = localStorage.getItem(tokenKey)
     try {
       const signRes = await api.post('/api/upload/sign', { folder }, { headers: { Authorization: `Bearer ${token}` } })
-      const { signature, timestamp, api_key: apiKey, cloud_name: cloudName } = signRes.data
+      const { signature, timestamp, apiKey, cloudName } = signRes.data
       if (!cloudName) {
         throw new Error('Cloudinary not configured. Please check your API server environment variables.')
       }
