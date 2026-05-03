@@ -1,7 +1,6 @@
 #!/bin/bash
 # deploy-instance.sh
 # Usage: ./scripts/deploy-instance.sh <template-slug> <instance-slug>
-# Example: ./scripts/deploy-instance.sh template-001 ahmed-sara
 
 set -e
 
@@ -24,7 +23,6 @@ echo "[$(date +%T)] Starting deployment of $TEMPLATE → $SLUG.farhty.online"
 echo "[$(date +%T)] Building $TEMPLATE..."
 cd $REPO_ROOT
 pnpm --filter $TEMPLATE build
-
 echo "[$(date +%T)] Build complete ✓"
 
 # Step 2: Create instance directory
@@ -35,7 +33,7 @@ mkdir -p $INSTANCE_DIR
 echo "[$(date +%T)] Copying build to $INSTANCE_DIR..."
 cp -r $REPO_ROOT/apps/templates/$TEMPLATE/dist/* $INSTANCE_DIR/
 
-# Step 4: Write instance config (overrides the empty config.json from build)
+# Step 4: Write instance config
 echo "[$(date +%T)] Writing instance config..."
 cat > $INSTANCE_DIR/config.json << EOF
 {
@@ -45,31 +43,35 @@ cat > $INSTANCE_DIR/config.json << EOF
 }
 EOF
 
-# Step 5: Create Nginx configuration
+# Step 5: Create Nginx configuration using single-quote EOF to prevent escaping issues
 echo "[$(date +%T)] Creating Nginx configuration..."
 NGINX_CONF="/etc/nginx/sites-available/$SLUG.farhty.online"
-cat > $NGINX_CONF << EOF
+
+cat > $NGINX_CONF << 'NGINXEOF'
 server {
     listen 80;
-    server_name $SLUG.farhty.online;
-
-    root $INSTANCE_DIR;
+    server_name SLUG_PLACEHOLDER.farhty.online;
+    root INSTANCE_DIR_PLACEHOLDER;
     index index.html;
-
     location / {
-        try_files \\$uri \\$uri/ /index.html;
+        try_files $uri $uri/ /index.html;
     }
 }
-EOF
+NGINXEOF
+
+# Replace placeholders with real values
+sed -i "s|SLUG_PLACEHOLDER|$SLUG|g" $NGINX_CONF
+sed -i "s|INSTANCE_DIR_PLACEHOLDER|$INSTANCE_DIR|g" $NGINX_CONF
 
 # Step 6: Enable Nginx configuration
 echo "[$(date +%T)] Enabling Nginx site..."
 ln -sf $NGINX_CONF /etc/nginx/sites-enabled/
+nginx -t
 systemctl reload nginx
 
 # Step 7: Issue SSL Certificate
 echo "[$(date +%T)] Provisioning SSL with Certbot..."
-certbot --nginx -d $SLUG.farhty.online
+certbot --nginx -d $SLUG.farhty.online --non-interactive --agree-tos -m mohamedehab567t@gmail.com
 
 echo "[$(date +%T)] ✓ Deployed successfully"
 echo "[$(date +%T)] Live at → https://$SLUG.farhty.online"
