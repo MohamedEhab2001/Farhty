@@ -8,7 +8,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="text-center md:text-right">
             <div className="flex items-center gap-2 justify-center md:justify-start mb-3">
-              <img src="/فرحتي بنفسجي.png" alt="فارهتي" className="h-12 w-auto" />
+              <img src="/فرحتي بنفسجي.png" alt="فرحتي" className="h-12 w-auto" />
             </div>
             <p className="text-[#8c7a87] text-sm max-w-xs">
               منصة دعوات الزفاف الرقمية الأولى في مصر
@@ -55,7 +55,7 @@ export default function Footer() {
         <div className="section-divider my-8" />
 
         <p className="text-center text-[#8c7a87] text-xs">
-          © {new Date().getFullYear()} فارهتي — جميع الحقوق محفوظة
+          © {new Date().getFullYear()} فرحتي — جميع الحقوق محفوظة
         </p>
       </div>
     </footer>

@@ -33,7 +33,7 @@ export default function HowItWorks() {
         >
           <span className="text-[#a66b96] text-sm font-semibold tracking-widest uppercase mb-4 block">خطوات بسيطة</span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d2c38]">
-            كيف يعمل فارهتي؟
+            كيف يعمل فرحتي؟
           </h2>
         </motion.div>
 

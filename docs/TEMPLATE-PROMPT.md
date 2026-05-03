@@ -109,14 +109,18 @@ APP.TSX — ALWAYS THIS EXACT PATTERN
 export default function App() {
   const { instance, isLoading, isAuthenticated } = useTemplateData()
   const { get } = useTemplateFields()
+  const isAdminRoute = window.location.pathname === '/admin'
 
   if (isLoading) return <LoadingScreen bg="[your bg color]" />
-  if (!isAuthenticated) return <PasswordGate />
+
+  if (isAdminRoute) {
+    if (!isAuthenticated) return <PasswordGate />
+    return <CustomerDashboard />
+  }
 
   return (
     <>
       {instance.isPreview && <PreviewBanner templateName={instance.templateId} />}
-      <CustomerDashboard />
 
       {/* TEMPLATE DESIGN STARTS HERE */}
       {/* Every feature and section below is your own creative work */}
@@ -126,9 +130,9 @@ export default function App() {
 
 RULES — non-negotiable:
 1. isLoading check ALWAYS first → <LoadingScreen />
-2. isAuthenticated check ALWAYS second → <PasswordGate />
-3. <PreviewBanner /> ALWAYS first inside return when isPreview
-4. <CustomerDashboard /> ALWAYS rendered — never skip it
+2. Check if isAdminRoute (window.location.pathname === '/admin'). If true, enforce <PasswordGate /> if !isAuthenticated, else render <CustomerDashboard />
+3. If NOT isAdminRoute, render the public template
+4. <PreviewBanner /> ALWAYS first inside return when isPreview
 5. Never build your own loading screen or password gate
 
 ═══════════════════════════════════════════
@@ -214,7 +218,7 @@ LOADING SCREEN — NON-NEGOTIABLE
 - NEVER build your own loading screen
 - NEVER show content before isLoading is false
 - 800ms minimum is handled inside the SDK
-- The Farhty pulsing logo appears on every template — this is brand
+- The "فرحتي بنفسجي.png" pulsing logo appears on every template — this is brand
 
 ═══════════════════════════════════════════
 RTL / LTR

@@ -70,7 +70,7 @@ export default function Hero() {
           </button>
           <a
             id="hero-whatsapp-btn"
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد معرفة المزيد عن دعوات فارهتي')}`}
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد معرفة المزيد عن دعوات فرحتي')}`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto px-8 py-4 rounded-full shadow-sm border border-[#ebdce3]/50 bg-white text-[#3d2c38] font-semibold text-lg hover:border-[#a66b96] hover:text-[#a66b96] hover:bg-[#fff7fa] shadow-sm transition-all duration-300 flex items-center justify-center gap-3 group"

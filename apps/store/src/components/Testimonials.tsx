@@ -27,7 +27,7 @@ export default function Testimonials() {
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d2c38] mb-4">
             ماذا يقول عملاؤنا؟
           </h2>
-          <p className="text-[#8c7a87]">مئات الأزواج اختاروا فارهتي لدعوة زفافهم</p>
+          <p className="text-[#8c7a87]">مئات الأزواج اختاروا فرحتي لدعوة زفافهم</p>
         </motion.div>
 
         {loading ? (

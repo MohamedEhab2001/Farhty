@@ -17,7 +17,7 @@ export default function TrustBadges() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-[#3d2c38]">لماذا تختار فارهتي؟</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-[#3d2c38]">لماذا تختار فرحتي؟</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
