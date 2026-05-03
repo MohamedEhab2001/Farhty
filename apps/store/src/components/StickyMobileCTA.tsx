@@ -1,3 +1,5 @@
+import { IconDiamond } from './BrandIcons'
+
 export default function StickyMobileCTA() {
   const scrollTo = () => {
     document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth' })
@@ -12,9 +14,10 @@ export default function StickyMobileCTA() {
         <button
           id="sticky-mobile-cta-btn"
           onClick={scrollTo}
-          className="w-full py-3.5 rounded-2xl bg-gradient-to-l from-[#a66b96] to-[#d49bbd] text-[#fdfbf7] font-bold text-base active:scale-95 transition-transform"
+          className="w-full py-3.5 rounded-2xl bg-gradient-to-l from-[#a66b96] to-[#d49bbd] text-[#fdfbf7] font-bold text-base active:scale-95 transition-transform flex justify-center items-center gap-2"
         >
-          💍 اطلب دعوتك الآن
+          <IconDiamond size={20} />
+          اطلب دعوتك الآن
         </button>
       </div>
     </div>

@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion'
+import { IconShield, IconHeadset, IconInstant, IconDiamond } from './BrandIcons'
 
 const BADGES = [
-  { icon: '🔄', text: 'ضمان استرداد المبلغ خلال 24 ساعة' },
-  { icon: '🎧', text: 'دعم فني مجاني بعد الشراء' },
-  { icon: '⚡', text: 'تسليم فوري بعد تأكيد الدفع' },
-  { icon: '💎', text: 'قوالب حصرية غير متاحة في أي مكان آخر' },
+  { icon: <IconShield size={24} className="text-[#a66b96]" />, text: 'ضمان استرداد المبلغ خلال 24 ساعة' },
+  { icon: <IconHeadset size={24} className="text-[#a66b96]" />, text: 'دعم فني مجاني بعد الشراء' },
+  { icon: <IconInstant size={24} className="text-[#a66b96]" />, text: 'تسليم فوري بعد تأكيد الدفع' },
+  { icon: <IconDiamond size={24} className="text-[#a66b96]" />, text: 'قوالب حصرية غير متاحة في أي مكان آخر' },
 ]
 
 export default function TrustBadges() {

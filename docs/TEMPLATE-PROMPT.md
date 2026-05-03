@@ -99,7 +99,7 @@ useTemplateFields()
 
 LoadingScreen     → props: bg (CSS color string)
 PasswordGate      → no props
-CustomerDashboard → no props — auto-generates editors from fields schema
+CustomerDashboard → NOT used directly — see AdminDashboard below
 PreviewBanner     → props: templateName (string)
 
 ═══════════════════════════════════════════
@@ -111,29 +111,105 @@ export default function App() {
   const { get } = useTemplateFields()
   const isAdminRoute = window.location.pathname === '/admin'
 
-  if (isLoading) return <LoadingScreen bg="[your bg color]" />
+  // 1. Always show loading screen first — uses Farhty logo
+  if (isLoading) return <LoadingScreen bg="[your template bg color]" />
 
+  // 2. /admin route only: password gate then styled dashboard
   if (isAdminRoute) {
     if (!isAuthenticated) return <PasswordGate />
-    return <CustomerDashboard />
+    return <AdminDashboard />
   }
 
+  // 3. Public invitation — no auth, no admin UI ever
   return (
     <>
       {instance.isPreview && <PreviewBanner templateName={instance.templateId} />}
-
       {/* TEMPLATE DESIGN STARTS HERE */}
-      {/* Every feature and section below is your own creative work */}
     </>
   )
 }
 
 RULES — non-negotiable:
-1. isLoading check ALWAYS first → <LoadingScreen />
-2. Check if isAdminRoute (window.location.pathname === '/admin'). If true, enforce <PasswordGate /> if !isAuthenticated, else render <CustomerDashboard />
-3. If NOT isAdminRoute, render the public template
-4. <PreviewBanner /> ALWAYS first inside return when isPreview
+1. isLoading ALWAYS first → <LoadingScreen bg="..." />
+2. PasswordGate ONLY on /admin route — never on the public invitation
+3. Public invitation never shows any admin or auth UI
+4. <PreviewBanner /> always first inside public return when isPreview
 5. Never build your own loading screen or password gate
+
+═══════════════════════════════════════════
+LOADING SCREEN — THE FARHTY LOGO
+═══════════════════════════════════════════
+
+The LoadingScreen SDK component shows the Farhty logo.
+The logo file is always at: public/فرحتي بنفسجي.png
+The SDK references it as: /فرحتي بنفسجي.png
+
+LoadingScreen renders:
+- Full screen with your template's bg color
+- Farhty logo image centered, pulsing (scale + opacity CSS keyframe)
+- Minimum display: 800ms — prevents flash on fast connections
+
+RULES:
+- NEVER build your own loading screen
+- NEVER show content before isLoading is false
+- NEVER replace or skip the Farhty logo — this is brand consistency
+
+═══════════════════════════════════════════
+ADMIN DASHBOARD — /admin ROUTE
+═══════════════════════════════════════════
+
+The /admin route is the ONLY place customers edit their data.
+It is protected by PasswordGate from the SDK.
+Once authenticated, render <AdminDashboard /> — a component YOU build in
+src/components/AdminDashboard.tsx
+
+AdminDashboard is a beautifully designed form. NOT a raw field dump.
+
+DESIGN REQUIREMENTS for AdminDashboard:
+- Matches the template's color palette and typography
+- Arabic RTL layout if template is Arabic
+- Groups fields into logical sections with styled headings:
+    e.g. "بيانات العروسين" | "تفاصيل الحفل" | "الصور والوسائط" | "إعدادات"
+- Each section has a visible separator or card container
+- Field label above each input, styled and readable
+- Proper input styling — no raw unstyled HTML
+- A prominent "حفظ التغييرات" save button with loading spinner (isSaving)
+- Success toast: "تم الحفظ بنجاح ✓"
+- Fully mobile responsive
+
+FIELD TYPE → INPUT MAPPING in AdminDashboard:
+  text    → styled <input type="text" />
+  image   → Cloudinary upload button + current image preview thumbnail
+            + LOADING STATE while uploading + success/error feedback
+  audio   → Cloudinary upload button + <audio> player preview
+            + LOADING STATE while uploading + success/error feedback
+  date    → styled <input type="date" />
+  color   → styled <input type="color" /> + hex value display beside it
+  boolean → styled toggle switch
+  json    → styled <textarea /> with placeholder showing the expected format
+
+UPLOAD LOADING STATES — mandatory for every image/audio upload:
+  - Show a loading indicator on the upload button while uploading (e.g. "جاري الرفع...")
+  - Disable the button during upload (opacity-50 + pointer-events-none)
+  - Show success feedback after upload completes (e.g. "تم الرفع ✓"), auto-dismiss after 3s
+  - Show error feedback on failure (e.g. "فشل الرفع"), auto-dismiss after 5s
+  - Surface Cloudinary error messages to the user in a visible red banner
+  - Check for empty cloud_name from the sign response (means misconfigured server)
+  - Check for upData.error from Cloudinary response (e.g. "cloud_name is disabled")
+  - Never let uploads fail silently — always surface the error
+
+USE useTemplateFields() for all data:
+  const { get, set, save, isSaving } = useTemplateFields()
+  Each input: value={get('key')} onChange={e => set('key', e.target.value)}
+  Save button: onClick={save}
+
+RULES for AdminDashboard:
+- Never render the public template content on this route
+- All saves through save() → PATCH /api/instances/:id/data — no new endpoints
+- Never use raw unstyled inputs
+- Never show all fields in one flat unsorted list
+- Every image/audio upload MUST have a loading state, success feedback, and error feedback
+- Uploads must NEVER fail silently — always show errors to the user
 
 ═══════════════════════════════════════════
 DYNAMIC FEATURES — HOW TO HANDLE THEM
@@ -149,101 +225,83 @@ Every feature must be conditionally rendered using instance.features:
   {instance.features.rsvp && <RSVPSection />}
   {instance.features.envelopeIntro && <EnvelopeReveal />}
   {instance.features.wishWall && <WishWall instanceId={instance.instanceId} />}
-  {instance.features.venueMap && <VenueMap coords={get('venue_coords')} />}
+  {instance.features.venueMap && <VenueMap src={get('venue_map_image')} />}
   {instance.features.schedule && <DayProgram items={get('schedule_items')} />}
   {instance.features.videoBackground && <VideoBg src={get('hero_video')} />}
   {instance.features.shareButton && <ShareButton />}
   {instance.features.qrCode && <QRSection url={window.location.href} />}
-  ... and so on for ANY feature you define
+  ... any feature you define follows this same pattern
 
-RULE: If a feature needs customer-configurable data, add the corresponding
-field to the fields array in the MongoDB record. If it is purely decorative
-(e.g. falling petals animation), it needs no field — just render it always
-or gate it with instance.features.[key].
+RULE: If a feature needs customer-configurable data → add a field to MongoDB.
+Purely decorative features need no field.
 
-CUSTOM FLOWS:
-Some features require their own API calls beyond what the SDK provides.
-There are TWO approaches — prefer the instance-data approach whenever possible:
+═══════════════════════════════════════════
+CRUD-ONLY RULE — NO NEW ENDPOINTS EVER
+═══════════════════════════════════════════
 
-─── Approach 1: Instance Data (PREFERRED — no new endpoints needed) ───
+ALL data operations — including guest submissions (RSVP, wish wall) —
+MUST use the existing two instance endpoints only. Never create new API routes.
 
-Features like RSVP and Wish Wall can store guest submissions as JSON arrays
-inside the instance record, using the EXISTING SDK endpoints:
+Available endpoints:
+  GET  /api/instances/by-domain?slug=<slug>   → read full instance data
+  PATCH /api/instances/:id/data               → write/update instance data
 
-  GET  /api/instances/by-domain?slug=<slug>  → read instance data (guest token)
-  PATCH /api/instances/:id/data               → update instance data (guest token)
+How to store guest submissions without new endpoints:
 
-How it works in a component:
+  1. fetch('/config.json') → get apiBase + slug
+  2. localStorage.getItem(`farhty_token_${slug}`) → get instance token
+  3. GET by-domain → read current data
+  4. Append new entry to the target array field
+  5. PATCH with full merged data object (spread existing, override target field)
 
-  1. Read config.json to get apiBase and slug
-  2. Get the guest's instance token from localStorage (`farhty_token_${slug}`)
-  3. GET /api/instances/by-domain?slug=<slug> to read current data
-  4. Append the new entry to the existing array field (e.g. rsvp_entries, wish_entries)
-  5. PATCH /api/instances/:id/data with the full updated data object
-
-Example — RSVP form:
+Example — RSVP submission:
 
   const config = await fetch('/config.json').then(r => r.json())
-  const apiBase = config.apiBase
   const slug = config.slug || window.location.hostname.split('.')[0]
   const token = localStorage.getItem(`farhty_token_${slug}`)
 
-  // Read current data
-  const res = await fetch(`${apiBase}/api/instances/by-domain?slug=${slug}`, {
+  const res = await fetch(`${config.apiBase}/api/instances/by-domain?slug=${slug}`, {
     headers: { Authorization: `Bearer ${token}` }
   })
-  const instanceData = await res.json()
+  const current = await res.json()
 
-  // Append new entry
-  const newEntry = { name, attendance: true, guests: 2, timestamp: new Date().toISOString() }
-  const updatedData = {
-    ...instanceData.data,
-    rsvp_entries: [...(instanceData.data.rsvp_entries ?? []), newEntry]
-  }
-
-  // Write back
-  await fetch(`${apiBase}/api/instances/${instanceData.instanceId}/data`, {
+  await fetch(`${config.apiBase}/api/instances/${current.instanceId}/data`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    body: JSON.stringify(updatedData)
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      ...current.data,
+      rsvp_entries: [
+        ...(current.data.rsvp_entries ?? []),
+        { name, attending: true, timestamp: new Date().toISOString() }
+      ]
+    })
   })
 
-For this approach, add the array field to the MongoDB fields array:
+  localStorage.setItem(`farhty_rsvp_submitted_${slug}`, 'true')
 
-  { "key": "rsvp_entries", "label": "تأكيدات الحضور (JSON)", "type": "json", "defaultValue": "[]" }
-  { "key": "wish_entries",  "label": "التهاني (JSON)",          "type": "json", "defaultValue": "[]" }
+Add array fields to MongoDB record:
+  { "key": "rsvp_entries", "label": "تأكيدات الحضور", "type": "json", "defaultValue": "[]" }
+  { "key": "wish_entries", "label": "التهاني",          "type": "json", "defaultValue": "[]" }
 
-RULES for instance-data approach:
-  - Use the guest's instance token (from localStorage) for both reads and writes
-  - Always merge with existing data — never overwrite other fields
-  - Spread instanceData.data first, then override your target field
-  - Never hardcode the API base URL — always read from config.json
-  - Mark submitted state in localStorage (e.g. farhty_rsvp_submitted) to prevent duplicates
-
-─── Approach 2: Custom Endpoints (only if truly needed) ───
-
-Only use custom endpoints if the data model genuinely cannot fit inside instance.data
-(e.g. if entries need their own IDs, pagination, or independent querying).
-
-For these, call the API directly inside the component:
-
-  const config = await fetch('/config.json').then(r => r.json())
-  const API_BASE = config.apiBase
-
-Never hardcode https://api.farhty.online anywhere in template code.
+ABSOLUTE RULE:
+- Never output a section called "Additional API Endpoints Needed"
+- Never suggest creating a new route, controller, or backend file
+- Every feature must work within the two existing endpoints above
+- If a feature seemingly requires a new endpoint → store it in instance data instead
 
 ═══════════════════════════════════════════
 DATA ACCESS RULES
 ═══════════════════════════════════════════
 
-ALWAYS use get() for customer data. Never hardcode. Never access instance.data directly.
+ALWAYS use get() for customer data. Never hardcode. Never read instance.data directly.
 
 Correct:
   get('bride_name') ?? 'ليلى'
   get('venue_name') ?? 'قاعة الأفراح'
-  get('accent_color') ?? '#c9a96e'
   get('schedule_items') ?? []
-  get('gallery_images') ?? []
 
 Wrong:
   'ليلى'                     ← hardcoded
@@ -251,32 +309,19 @@ Wrong:
 
 Fallbacks must be beautiful and realistic — never empty strings for visible text.
 
-FIELD TYPES available in the schema:
+FIELD TYPES:
   text | image | audio | date | color | boolean | json
 
-Use type: 'json' for structured data like arrays of objects
-(e.g. schedule_items, wish_list, program_steps).
-The customer edits json fields via a textarea in CustomerDashboard.
+Use type: 'json' for structured arrays (schedule, rsvp_entries, wish_entries).
 
 ═══════════════════════════════════════════
 MEDIA RULES
 ═══════════════════════════════════════════
 
 - All customer images/audio → Cloudinary URLs from get()
-- Static decorative assets (SVG patterns, overlays) → local imports are fine
-- Always handle image loading state and fallback gracefully
-- For audio: respect browser autoplay restrictions — use user-triggered play or
-  a visible play button that the user must click first
-
-═══════════════════════════════════════════
-LOADING SCREEN — NON-NEGOTIABLE
-═══════════════════════════════════════════
-
-- if (isLoading) return <LoadingScreen bg="your bg color" />
-- NEVER build your own loading screen
-- NEVER show content before isLoading is false
-- 800ms minimum is handled inside the SDK
-- The "فرحتي بنفسجي.png" pulsing logo appears on every template — this is brand
+- Static decorative assets → local imports fine
+- Handle image loading state and fallback gracefully
+- Audio: respect browser autoplay — use user-triggered play button
 
 ═══════════════════════════════════════════
 RTL / LTR
@@ -285,7 +330,6 @@ RTL / LTR
 ar   → dir="rtl", font: Tajawal or Cairo (Google Fonts)
 en   → dir="ltr", font: your creative choice
 both → const dir = get('language_preference') === 'en' ? 'ltr' : 'rtl'
-       import both font families
 
 Google Fonts always imported at top of index.css before Tailwind directives.
 
@@ -293,35 +337,53 @@ Google Fonts always imported at top of index.css before Tailwind directives.
 VITE CONFIG
 ═══════════════════════════════════════════
 
-- base: './'  ← required — never omit this
+- base: './'  ← required — never omit
 - No hardcoded URLs anywhere
 - public/config.json → { "slug": "", "template": "", "apiBase": "" }
   left empty — filled by deploy script at deployment time
-  SDK reads this automatically
+
+═══════════════════════════════════════════
+DESIGN DIRECTION — FULL CREATIVE FREEDOM
+═══════════════════════════════════════════
+
+Mood/Vibe: [filled by you]
+
+You have COMPLETE creative freedom on the design.
+No color restrictions. No layout restrictions. No typography restrictions.
+No limits on effects, animations, or visual style.
+
+The only requirement: the template must feel premium and be something
+a couple is genuinely proud to share with their guests.
+
+Dark or light. Minimal or maximalist. Modern or traditional.
+Particles or clean white space. Scroll snap or full bleed.
+Arabic calligraphy or geometric abstraction.
+
+Make bold decisions. Commit fully. Do not go generic.
 
 ═══════════════════════════════════════════
 FILE STRUCTURE TO OUTPUT
 ═══════════════════════════════════════════
 
 apps/templates/[template-slug]/
-├── package.json          ← name: "@farhty/[template-slug]", all deps listed
-├── vite.config.ts        ← base: './'
+├── package.json
+├── vite.config.ts              ← base: './'
 ├── tailwind.config.ts
 ├── index.html
 ├── public/
-│   └── config.json       ← { "slug": "", "template": "", "apiBase": "" }
+│   ├── config.json             ← { "slug": "", "template": "", "apiBase": "" }
+│   └── فرحتي بنفسجي.png       ← copy from shared assets (already in public/)
 └── src/
-    ├── App.tsx            ← exact SDK pattern
+    ├── App.tsx                 ← exact pattern: isAdminRoute check
     ├── main.tsx
-    ├── index.css          ← Google Fonts + Tailwind + CSS variables
+    ├── index.css               ← Google Fonts + Tailwind + CSS variables
     └── components/
-        └── [all components — fully written, zero placeholders]
+        ├── AdminDashboard.tsx  ← beautifully styled form
+        └── [all other components — fully written, zero placeholders]
 
 ═══════════════════════════════════════════
 MONGODB RECORD
 ═══════════════════════════════════════════
-
-Output a ready-to-POST JSON:
 
 {
   "name": "",
@@ -330,7 +392,7 @@ Output a ready-to-POST JSON:
   "description": "",
   "language": "ar|en|both",
   "features": {
-    [any key: boolean — whatever this template uses, you define the keys]
+    [any key: boolean — you define all keys]
     "rtl": true,
     "pages": 1
   },
@@ -350,45 +412,15 @@ Output a ready-to-POST JSON:
   "version": "1.0.0"
 }
 
-ALWAYS include these default fields unless genuinely irrelevant:
+ALWAYS include these defaults unless irrelevant:
 { "key": "bride_name",   "label": "اسم العروسة",  "type": "text",  "defaultValue": "ليلى", "required": true }
 { "key": "groom_name",   "label": "اسم العريس",   "type": "text",  "defaultValue": "كريم", "required": true }
 { "key": "wedding_date", "label": "تاريخ الزفاف", "type": "date",  "defaultValue": "",      "required": true }
 { "key": "hero_image",   "label": "صورة الغلاف",  "type": "image", "defaultValue": "",      "cloudinaryFolder": "templates/[slug]/hero", "required": true }
 { "key": "accent_color", "label": "اللون الرئيسي","type": "color", "defaultValue": "[your primary hex]", "required": false }
 
-Then add every additional field this template's features require.
-Every get() call in the code MUST have a matching field entry here.
-Every instance.features.[key] check MUST have that key in the features object.
-
-═══════════════════════════════════════════
-DESIGN DIRECTION
-═══════════════════════════════════════════
-
-Mood/Vibe: [filled by you]
-
-Make bold, specific decisions:
-
-1. Color palette → 2-3 colors max as CSS variables in index.css
-   --color-primary / --color-secondary / --color-bg
-
-2. Typography → one display font + one body font, named specifically
-
-3. Animation personality → pick one and commit:
-   slow cinematic fade | staggered entrance | parallax scroll |
-   particle / petal fall | typewriter reveal | scroll snap pages |
-   envelope unfold | shimmer sweep
-
-4. Layout structure → pick one:
-   full bleed scroll | scroll snap pages | centered card stack |
-   split screen | layered depth sections
-
-5. Decorative motifs → baked as SVG or CSS, never customer-editable:
-   Arabic geometric tile | floral watercolor | calligraphy frame |
-   golden particle field | starfield | flowing ribbon | mandala
-
-The template must feel like a premium product couples are proud to share.
-No generic layouts. Make real design decisions.
+Every get() call in the code MUST have a matching field here.
+Every instance.features.[key] MUST exist in the features object.
 
 ═══════════════════════════════════════════
 OUTPUT FORMAT — DELIVER IN THIS ORDER
@@ -402,21 +434,29 @@ OUTPUT FORMAT — DELIVER IN THIS ORDER
 
 ## Register in Workspace
 [one pnpm command]
-
-## Additional API Endpoints Needed
-[only if this template needs custom endpoints beyond the standard SDK ones
-e.g. RSVP submissions, wish wall — list method, route, request body, response]
 ```
 
 ---
 
 ## How to Use
 
-1. Copy the full prompt above
-2. Fill in all `[bracketed]` values — be as descriptive as you want in Features & Flows
+1. Copy everything inside the code block above
+2. Fill in all `[bracketed]` values
 3. Paste into Claude
-4. Claude outputs: MongoDB record + full code + any extra API endpoints needed
+4. Claude outputs: MongoDB record + full template code
 5. Follow `docs/TEMPLATE-GUIDE.md` to add to repo, test, and publish
+
+---
+
+## What Changed
+
+| # | Issue | Fix |
+|---|---|---|
+| 1 | Design was restricted to specific choices | Full creative freedom — no design constraints at all |
+| 2 | Loading screen didn't reference actual logo | Explicitly uses `public/فرحتي بنفسجي.png` |
+| 3 | PasswordGate appeared on public invitation | PasswordGate only on `/admin` via `isAdminRoute` check |
+| 4 | `/admin` rendered raw unstyled CustomerDashboard | Must build styled `AdminDashboard.tsx` matching template aesthetic |
+| 5 | Allowed new API endpoints | Hard rule: CRUD only via existing 2 endpoints, no new routes ever |
 
 ---
 
@@ -442,6 +482,7 @@ Features & Flows:
 - Venue section: venue name, address, and map image the customer uploads
 - Parents names: father of bride and father of groom displayed decoratively
 - Share button: copies page URL to clipboard with Arabic toast confirmation
+- RSVP: guest enters name and attendance, saves to rsvp_entries array in instance data
 
 Custom fields: venue name, venue address, venue map image,
 father of bride name, father of groom name, schedule items (json array)
@@ -464,14 +505,14 @@ father of bride name, father of groom name, schedule items (json array)
 - Before/after photo slider
 
 **Functional**
-- RSVP form (name + attendance → saves to DB)
-- Wish wall (guests leave messages → displayed as cards)
+- RSVP → saves to rsvp_entries[] in instance data (no new endpoint)
+- Wish wall → saves to wish_entries[] in instance data (no new endpoint)
 - Day program / schedule timeline
 - Dress code section
 - QR code to invitation URL
 
 **Location**
-- Venue map image (customer uploads)
+- Venue map image (customer uploads to Cloudinary)
 - Google Maps directions button
 
 **Social**

@@ -1,21 +1,22 @@
 import { motion } from 'framer-motion'
+import { IconTemplate, IconChat, IconShare } from './BrandIcons'
 
 const STEPS = [
   {
     num: '١',
-    icon: '🔍',
+    icon: <IconTemplate size={36} className="text-[#a66b96]" />,
     title: 'اختار قالبك المفضل',
     desc: 'تصفّح قوالبنا الفاخرة واختر التصميم الذي يعكس ذوقك وشخصيتك',
   },
   {
     num: '٢',
-    icon: '💬',
+    icon: <IconChat size={36} className="text-[#a66b96]" />,
     title: 'تواصل معنا على واتساب',
     desc: 'راسلنا لتأكيد الطلب وسداد المبلغ بإحدى طرق الدفع المتاحة',
   },
   {
     num: '٣',
-    icon: '✨',
+    icon: <IconShare size={36} className="text-[#a66b96]" />,
     title: 'ادخل بياناتك وشارك دعوتك',
     desc: 'احصل على رابط دعوتك الخاصة واملأ بياناتك وشاركها مع ضيوفك فوراً',
   },

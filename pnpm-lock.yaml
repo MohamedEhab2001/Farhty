@@ -132,7 +132,7 @@ importers:
         specifier: ^6.4.2
         version: 6.4.2(@types/node@20.19.39)(jiti@2.6.1)(lightningcss@1.32.0)
 
-  apps/templates/ivory-001:
+  apps/templates/template-warda:
     dependencies:
       '@farhty/template-sdk':
         specifier: workspace:*

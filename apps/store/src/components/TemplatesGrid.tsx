@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useTemplates } from '../hooks/useTemplates'
 import { Template } from '../hooks/useTemplates'
 import TemplateCard from './TemplateCard'
+import { IconTemplate } from './BrandIcons'
 
 interface TemplatesGridProps {
   onBuy: (template: Template) => void
@@ -44,7 +45,9 @@ export default function TemplatesGrid({ onBuy }: TemplatesGridProps) {
 
         {!loading && !error && templates.length === 0 && (
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">💍</div>
+            <div className="flex justify-center mb-6">
+              <IconTemplate size={64} className="text-[#d49bbd]" />
+            </div>
             <p className="text-[#8c7a87] text-lg">قريباً — نعمل على قوالب رائعة لكم!</p>
           </div>
         )}

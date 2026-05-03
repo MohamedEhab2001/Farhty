@@ -1,4 +1,12 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
+
+if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+  console.error('ERROR: Missing Cloudinary env vars. Check .env file.');
+  process.exit(1);
+}
+
 import express from 'express';
 import cors from 'cors';
 import { connectDB } from './config/db';

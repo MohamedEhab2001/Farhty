@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Template } from '../hooks/useTemplates'
 import { apiClient, WHATSAPP_NUMBER } from '../api/client'
+import { IconDiamond, IconWhatsApp } from './BrandIcons'
 
 interface BuyModalProps {
   template: Template | null
@@ -67,8 +68,8 @@ export default function BuyModal({ template, onClose }: BuyModalProps) {
               </button>
 
               {/* Gold ring icon */}
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#a66b96] to-[#d49bbd] flex items-center justify-center text-3xl">
-                💍
+              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#a66b96] to-[#d49bbd] flex items-center justify-center text-[#fdfbf7]">
+                <IconDiamond size={32} color="currentColor" />
               </div>
 
               <h2 className="text-2xl font-bold text-center text-[#3d2c38] mb-1">
@@ -90,7 +91,7 @@ export default function BuyModal({ template, onClose }: BuyModalProps) {
                 disabled={sending}
                 className="w-full py-4 rounded-2xl font-bold text-lg text-[#fdfbf7] bg-gradient-to-l from-[#a66b96] to-[#d49bbd] hover:from-[#d49bbd] hover:to-[#a66b96] transition-all duration-300 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-3 group"
               >
-                <img src="/whatsapp-gold.svg" alt="WhatsApp" className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                <IconWhatsApp size={24} className="group-hover:scale-110 transition-transform" />
                 ابدأ المحادثة
               </button>
 

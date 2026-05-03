@@ -4,8 +4,6 @@ import { useTemplateFieldsWithSave } from '../hooks/useTemplateFields'
 import { TemplateField } from '../types'
 import { api } from '../services/api'
 
-const API_BASE = import.meta?.env?.VITE_API_URL || 'http://localhost:3001'
-
 export function CustomerDashboard() {
   const { instance, slug, fieldData, setFieldData } = useTemplateData()
   const { get, set, save } = useTemplateFieldsWithSave()
@@ -194,6 +192,24 @@ function FieldInput({ field, value, onChange, onUpload }: FieldInputProps) {
             <audio src={value} controls style={{ width: '100%', marginTop: 8 }} />
           )}
         </div>
+      )
+
+    case 'json':
+      return (
+        <textarea
+          className="farhty-field-input"
+          value={typeof value === 'string' ? value : JSON.stringify(value, null, 2)}
+          onChange={e => {
+            try {
+              onChange(JSON.parse(e.target.value))
+            } catch {
+              onChange(e.target.value)
+            }
+          }}
+          rows={4}
+          placeholder='[ { "key": "value" } ]'
+          style={{ resize: 'vertical', fontSize: 12, fontFamily: 'monospace' }}
+        />
       )
 
     default:

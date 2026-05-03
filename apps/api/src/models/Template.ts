@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface ITemplateField {
   key: string;
   label: string;
-  type: 'text' | 'image' | 'audio' | 'date' | 'color' | 'boolean';
+  type: 'text' | 'image' | 'audio' | 'date' | 'color' | 'boolean' | 'json';
   defaultValue: unknown;
   cloudinaryFolder: string;
   required: boolean;
@@ -40,7 +40,7 @@ const TemplateFieldSchema = new Schema<ITemplateField>(
     label: { type: String, required: true },
     type: {
       type: String,
-      enum: ['text', 'image', 'audio', 'date', 'color', 'boolean'],
+      enum: ['text', 'image', 'audio', 'date', 'color', 'boolean', 'json'],
       required: true,
     },
     defaultValue: { type: Schema.Types.Mixed },

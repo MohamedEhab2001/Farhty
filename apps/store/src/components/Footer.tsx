@@ -1,4 +1,5 @@
 import { WHATSAPP_NUMBER } from '../api/client'
+import { IconWhatsApp, IconTikTok } from './BrandIcons'
 
 export default function Footer() {
   return (
@@ -22,19 +23,19 @@ export default function Footer() {
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:scale-110 transition-transform"
+                className="hover:scale-110 transition-transform text-[#8c7a87] hover:text-[#a66b96]"
                 title="واتساب"
               >
-                <img src="/whatsapp-gold.svg" alt="WhatsApp" className="w-6 h-6" />
+                <IconWhatsApp size={24} />
               </a>
               <a
                 href={`https://tiktok.com/@farhty.online`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:scale-110 transition-transform"
+                className="hover:scale-110 transition-transform text-[#8c7a87] hover:text-[#a66b96]"
                 title="تيك توك"
               >
-                <img src="/tiktok-gold.svg" alt="TikTok" className="w-6 h-6" />
+                <IconTikTok size={24} />
               </a>
             </div>
             <button

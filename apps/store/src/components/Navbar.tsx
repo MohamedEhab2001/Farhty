@@ -1,5 +1,6 @@
 import { WHATSAPP_NUMBER } from '../api/client'
 import { motion } from 'framer-motion'
+import { IconWhatsApp } from './BrandIcons'
 
 export default function Navbar() {
   const scrollTo = (id: string) => {
@@ -40,7 +41,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             className="hidden sm:flex items-center gap-2 text-sm text-[#8c7a87] hover:text-[#a66b96] transition-colors"
           >
-            <img src="/whatsapp-gold.svg" alt="WhatsApp" className="w-5 h-5" />
+            <IconWhatsApp size={20} />
           </a>
           <button
             id="navbar-cta-btn"

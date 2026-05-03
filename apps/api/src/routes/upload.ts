@@ -1,12 +1,12 @@
 import { Router, Request, Response, IRouter } from 'express';
-import { adminAuth } from '../middleware/adminAuth';
+import { instanceAuth } from '../middleware/instanceAuth';
 import { generateSignedUploadParams } from '../services/cloudinary.service';
 
 const router: IRouter = Router();
 
 // POST /api/upload/sign  — returns signed Cloudinary upload params
 // Mounted at /api/upload, so path is /sign
-router.post('/sign', adminAuth, async (req: Request, res: Response): Promise<void> => {
+router.post('/sign', instanceAuth, async (req: Request, res: Response): Promise<void> => {
   try {
     const { folder } = req.body as { folder: string };
 

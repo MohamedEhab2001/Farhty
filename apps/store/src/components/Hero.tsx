@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { WHATSAPP_NUMBER } from '../api/client'
+import { IconDiamond, IconWhatsApp, BotanicalRose, BotanicalBranch, BotanicalFlower, BotanicalWheat } from './BrandIcons'
 
 export default function Hero() {
   const scrollToTemplates = () => {
@@ -13,6 +14,23 @@ export default function Hero() {
     >
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#fff7fa] via-[#ffffff] to-[#fdfbf7]" />
+
+      {/* Floating Botanical Particles */}
+      <div className="absolute top-12 right-[10%] animate-float" style={{ animationDuration: '6s', animationDelay: '0s' }}>
+        <BotanicalRose size={100} className="text-[#a66b96]" opacity={0.12} />
+      </div>
+      <div className="absolute top-48 left-[8%] animate-float hidden md:block" style={{ animationDuration: '7s', animationDelay: '1s' }}>
+        <BotanicalBranch size={110} className="text-[#d49bbd]" opacity={0.15} />
+      </div>
+      <div className="absolute bottom-24 right-[15%] animate-float hidden sm:block" style={{ animationDuration: '5s', animationDelay: '2s' }}>
+        <BotanicalFlower size={80} className="text-[#a66b96]" opacity={0.15} />
+      </div>
+      <div className="absolute bottom-40 left-[12%] animate-float" style={{ animationDuration: '8s', animationDelay: '1.5s' }}>
+        <BotanicalWheat size={90} className="text-[#d49bbd]" opacity={0.12} />
+      </div>
+      <div className="absolute top-24 left-[30%] animate-float hidden lg:block" style={{ animationDuration: '6.5s', animationDelay: '3s' }}>
+        <BotanicalFlower size={60} className="text-[#a66b96]" opacity={0.08} />
+      </div>
 
       {/* Decorative orbs */}
       <div className="absolute top-10 right-10 w-96 h-96 rounded-full bg-[#a66b960a] blur-3xl pointer-events-none" />
@@ -29,7 +47,11 @@ export default function Hero() {
           transition={{ delay: 0.1 }}
           className="inline-flex items-center gap-2 bg-[#a66b9615] border border-[#a66b9630] rounded-full px-5 py-2 mb-6 shadow-sm"
         >
-          <span className="text-[#a66b96] text-sm font-semibold">✨ لا تنسي أن تصنعي ذكريات لا تُنسى ✨</span>
+          <span className="text-[#a66b96] text-sm font-semibold flex items-center gap-2">
+            <IconDiamond size={16} />
+            لا تنسي أن تصنعي ذكريات لا تُنسى
+            <IconDiamond size={16} />
+          </span>
         </motion.div>
 
         {/* Headline */}
@@ -51,7 +73,7 @@ export default function Hero() {
           transition={{ delay: 0.35 }}
           className="text-[#8c7a87] text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-8"
         >
-          تصاميم رومانسية ناعمة، تفاصيل تخطف الأنظار، ودعوة تفاعلية تشاركينها مع أحبابك بلمسة زر لتكتمل فرحتك! 💖
+          تصاميم رومانسية ناعمة، تفاصيل تخطف الأنظار، ودعوة تفاعلية تشاركينها مع أحبابك بلمسة زر لتكتمل فرحتك!
         </motion.p>
 
         {/* CTAs */}
@@ -64,18 +86,19 @@ export default function Hero() {
           <button
             id="hero-browse-btn"
             onClick={scrollToTemplates}
-            className="w-full sm:w-auto px-8 py-4 rounded-full shadow-lg shadow-[#a66b9630] bg-gradient-to-r from-[#a66b96] to-[#d49bbd] text-[#ffffff] font-bold text-lg hover:from-[#d49bbd] hover:to-[#a66b96] transition-all duration-300 active:scale-95 animate-pulse-gold"
+            className="w-full sm:w-auto px-8 py-4 rounded-full shadow-lg shadow-[#a66b9630] bg-gradient-to-r from-[#a66b96] to-[#d49bbd] text-[#ffffff] font-bold text-lg hover:from-[#d49bbd] hover:to-[#a66b96] transition-all duration-300 active:scale-95 animate-pulse-gold flex items-center justify-center gap-2"
           >
-            استعرضي القوالب الآن 👰‍♀️
+            استعرضي القوالب الآن
+            <IconDiamond size={20} color="currentColor" />
           </button>
           <a
             id="hero-whatsapp-btn"
             href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد معرفة المزيد عن دعوات فرحتي')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-8 py-4 rounded-full shadow-sm border border-[#ebdce3]/50 bg-white text-[#3d2c38] font-semibold text-lg hover:border-[#a66b96] hover:text-[#a66b96] hover:bg-[#fff7fa] shadow-sm transition-all duration-300 flex items-center justify-center gap-3 group"
+            className="w-full sm:w-auto px-8 py-4 rounded-full shadow-sm border border-[#ebdce3]/50 bg-white text-[#3d2c38] font-semibold text-lg hover:border-[#a66b96] hover:text-[#a66b96] hover:bg-[#fff7fa] transition-all duration-300 flex items-center justify-center gap-3 group"
           >
-            <img src="/whatsapp-gold.svg" alt="WhatsApp" className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <IconWhatsApp size={20} className="group-hover:scale-110 transition-transform" />
             تحدثي معنا
           </a>
         </motion.div>

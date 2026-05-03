@@ -11,3 +11,6 @@ export { LoadingScreen } from './components/LoadingScreen'
 export { PasswordGate } from './components/PasswordGate'
 export { PreviewBanner } from './components/PreviewBanner'
 export { CustomerDashboard } from './components/CustomerDashboard'
+
+// ─── Services ────────────────────────────────────────────────────────────────
+export { api } from './services/api'

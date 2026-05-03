@@ -1,6 +1,6 @@
 // ─── Field Types ──────────────────────────────────────────────────────────────
 
-export type FieldType = 'text' | 'image' | 'audio' | 'date' | 'color' | 'boolean'
+export type FieldType = 'text' | 'image' | 'audio' | 'date' | 'color' | 'boolean' | 'json'
 
 export interface TemplateField {
   key: string
@@ -15,12 +15,13 @@ export interface TemplateField {
 // ─── Template Features ────────────────────────────────────────────────────────
 
 export interface TemplateFeatures {
-  music: boolean
-  gallery: boolean
-  rsvp: boolean
-  countdownTimer: boolean
-  rtl: boolean
-  pages: number
+  music?: boolean
+  gallery?: boolean
+  rsvp?: boolean
+  countdownTimer?: boolean
+  rtl?: boolean
+  pages?: number
+  [key: string]: boolean | number | undefined
 }
 
 // ─── Instance Data ────────────────────────────────────────────────────────────
