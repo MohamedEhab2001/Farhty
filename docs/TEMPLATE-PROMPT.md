@@ -96,8 +96,9 @@ useTemplateFields()
   → { get, set, save, isSaving }
   get('key')        → customer value OR field defaultValue
   set('key', value) → local state update
-  save()            → PATCH /api/instances/:id/data → MongoDB
+  save()            → PATCH /api/instances/:id/data → MongoDB (requires token)
   isSaving          → boolean
+  This hook includes save() — use it for both reading AND saving field data.
 
 LoadingScreen     → props: bg (CSS color string)
 PasswordGate      → no props
@@ -135,26 +136,34 @@ RULES — non-negotiable:
 1. isLoading ALWAYS first → <LoadingScreen bg="..." />
 2. PasswordGate ONLY on /admin route — never on the public invitation
 3. Public invitation never shows any admin or auth UI
-4. <PreviewBanner /> always first inside public return when isPreview
-5. Never build your own loading screen or password gate
+4. Public invitation renders for ALL visitors — no token, no password, no gate
+5. <PreviewBanner /> always first inside public return when isPreview
+6. Never build your own loading screen or password gate
+7. isAuthenticated is ONLY checked inside `if (isAdminRoute)` — nowhere else
 
 ═══════════════════════════════════════════
 LOADING SCREEN — THE FARHTY LOGO
 ═══════════════════════════════════════════
 
-The LoadingScreen SDK component shows the Farhty logo.
-The logo file is always at: public/فرحتي بنفسجي.png
-The SDK references it as: /فرحتي بنفسجي.png
+The LoadingScreen SDK component displays the Farhty brand logo image.
+The logo file MUST be at: public/فرحتي بنفسجي.png
+The SDK renders it as: <img src="/فرحتي بنفسجي.png" />
 
 LoadingScreen renders:
-- Full screen with your template's bg color
-- Farhty logo image centered, pulsing (scale + opacity CSS keyframe)
+- Full screen with your template's bg color (passed via bg prop)
+- Farhty logo IMAGE (not text, not a CSS-styled div) centered, pulsing animation
 - Minimum display: 800ms — prevents flash on fast connections
 
+IMPORTANT — every template MUST include the logo file:
+  Copy the Farhty logo image into: apps/templates/[template-slug]/public/فرحتي بنفسجي.png
+  This file is referenced by the SDK's LoadingScreen component at /فرحتي بنفسجي.png
+  Without this file, the loading screen will show a broken image.
+
 RULES:
-- NEVER build your own loading screen
+- NEVER build your own loading screen — always use <LoadingScreen bg="..." /> from SDK
 - NEVER show content before isLoading is false
 - NEVER replace or skip the Farhty logo — this is brand consistency
+- ALWAYS include the logo file in public/ — the SDK loads it as an <img> tag
 
 ═══════════════════════════════════════════
 ADMIN DASHBOARD — /admin ROUTE
@@ -214,10 +223,73 @@ UPLOAD SIGN RESPONSE — CRITICAL KEY NAMES:
   Always pass apiKey as the api_key form field:
     fd.append('api_key', apiKey)
 
+COMPLETE UPLOAD FUNCTION — copy this pattern exactly into AdminDashboard:
+
+  const [uploadStates, setUploadStates] = useState<Record<string, 'idle'|'uploading'|'success'|'error'>>({})
+  const [uploadErrors, setUploadErrors] = useState<Record<string, string>>({})
+
+  const handleUpload = async (key: string, file: File, folder: string, isAudio = false) => {
+    setUploadStates(prev => ({ ...prev, [key]: 'uploading' }))
+    try {
+      const token = localStorage.getItem(`farhty_token_${slug}`)
+      const signRes = await api.post('/api/upload/sign',
+        { folder },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      const { signature, timestamp, apiKey, cloudName } = signRes.data
+
+      if (!cloudName) throw new Error('cloud_name missing — server misconfigured')
+
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('signature', signature)
+      fd.append('timestamp', String(timestamp))
+      fd.append('api_key', apiKey)
+      fd.append('folder', folder)
+
+      const upRes = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/${isAudio ? 'video' : 'image'}/upload`,
+        { method: 'POST', body: fd }
+      )
+      const upData = await upRes.json()
+      if (upData.error) throw new Error(upData.error.message || 'Cloudinary rejected upload')
+
+      set(key, upData.secure_url)
+      setUploadStates(prev => ({ ...prev, [key]: 'success' }))
+      setTimeout(() => setUploadStates(prev => ({ ...prev, [key]: 'idle' })), 3000)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Upload failed'
+      setUploadStates(prev => ({ ...prev, [key]: 'error' }))
+      setUploadErrors(prev => ({ ...prev, [key]: msg }))
+      setTimeout(() => {
+        setUploadStates(prev => ({ ...prev, [key]: 'idle' }))
+        setUploadErrors(prev => { const n = { ...prev }; delete n[key]; return n })
+      }, 5000)
+    }
+  }
+
+  RENDER for image/audio fields — shows loading/success/error states:
+
+    <div>
+      <label className="..." style={uploadStates[key] === 'uploading' ? { opacity: 0.5, pointerEvents: 'none' } : {}}>
+        {uploadStates[key] === 'uploading' ? 'جاري الرفع...' : 'اختر صورة'}
+        <input type="file" accept="image/*" style={{ display: 'none' }}
+          disabled={uploadStates[key] === 'uploading'}
+          onChange={e => { const f = e.target.files?.[0]; if (f) handleUpload(key, f, folder) }} />
+      </label>
+      {uploadStates[key] === 'success' && <p className="text-green-500 text-sm mt-1">تم الرفع بنجاح</p>}
+      {uploadStates[key] === 'error' && <p className="text-red-500 text-sm mt-1 bg-red-500/10 p-2 rounded">{uploadErrors[key]}</p>}
+      {get(key) && <img src={get(key)} alt="" className="..." />}
+    </div>
+
 USE useTemplateFields() for all data:
   const { get, set, save, isSaving } = useTemplateFields()
   Each input: value={get('key')} onChange={e => set('key', e.target.value)}
   Save button: onClick={save}
+
+IMPORTANT — slug and api must be imported for uploads:
+  import { api } from '@farhty/template-sdk'
+  Get slug from: const { slug } = useTemplateData()
 
 RULES for AdminDashboard:
 - Never render the public template content on this route
@@ -226,6 +298,7 @@ RULES for AdminDashboard:
 - Never show all fields in one flat unsorted list
 - Every image/audio upload MUST have a loading state, success feedback, and error feedback
 - Uploads must NEVER fail silently — always show errors to the user
+- ALWAYS import { api } from '@farhty/template-sdk' for upload signing
 
 ═══════════════════════════════════════════
 DYNAMIC FEATURES — HOW TO HANDLE THEM
@@ -259,19 +332,32 @@ API ENDPOINTS & DATA RULES
 PUBLIC DATA ACCESS — VISITORS SEE DATA WITHOUT AUTH
 ═════════════════════════════════════════════
 
-RULE: The public invitation page NEVER requires authentication to read data.
+CRITICAL RULE: The public invitation page NEVER requires authentication.
+Wedding guests who receive the link MUST see the full invitation immediately.
+No password. No login. No token. Just open the link and see the invitation.
 
 useTemplateData() always fetches instance data on boot, with or without a token.
 If a token exists (admin who previously authenticated), it is sent along.
 If no token exists (first-time visitor sharing the link), data is still fetched.
 
 The isAuthenticated flag ONLY controls whether /admin shows the dashboard.
-It does NOT gate the public invitation page.
+It does NOT gate the public invitation page. NEVER check isAuthenticated
+outside of the /admin route check.
 
 GET /api/instances/by-domain?slug=<slug>
   → Public. No Authorization header needed.
   → Returns instance data, fields, features, everything needed to render.
   → Always include slug as a query param (browsers cannot set Host header).
+
+NEVER do this on the public route:
+  if (!isAuthenticated) return <PasswordGate />   ← WRONG on public page
+  if (!token) return <SomeBlockingScreen />       ← WRONG — blocks guests
+
+The ONLY place PasswordGate appears is inside the isAdminRoute check:
+  if (isAdminRoute) {
+    if (!isAuthenticated) return <PasswordGate />
+    return <AdminDashboard />
+  }
 
 ═════════════════════════════════════════════
 GUEST SUBMISSIONS — RSVP & WISH WALL
@@ -410,7 +496,7 @@ apps/templates/[template-slug]/
 ├── index.html
 ├── public/
 │   ├── config.json             ← { "slug": "", "template": "", "apiBase": "" }
-│   └── فرحتي بنفسجي.png       ← copy from shared assets (already in public/)
+│   └── فرحتي بنفسجي.png       ← REQUIRED: Farhty logo for LoadingScreen (copy from any existing template)
 └── src/
     ├── App.tsx                 ← exact pattern: isAdminRoute check
     ├── main.tsx
@@ -491,13 +577,14 @@ OUTPUT FORMAT — DELIVER IN THIS ORDER
 | # | Issue | Fix |
 |---|---|---|
 | 1 | Design was restricted to specific choices | Full creative freedom — no design constraints at all |
-| 2 | Loading screen didn't reference actual logo | Explicitly uses `public/فرحتي بنفسجي.png` |
-| 3 | PasswordGate appeared on public invitation | PasswordGate only on `/admin` via `isAdminRoute` check |
+| 2 | Loading screen showed CSS "ف" instead of logo image | SDK LoadingScreen now renders `<img src="/فرحتي بنفسجي.png" />` — must include file in public/ |
+| 3 | PasswordGate appeared on public invitation | PasswordGate only on `/admin` via `isAdminRoute` check — guests see invitation directly |
 | 4 | `/admin` rendered raw unstyled CustomerDashboard | Must build styled `AdminDashboard.tsx` matching template aesthetic |
-| 5 | Guest submissions required auth token (visitors couldn't RSVP/wish) | New public POST endpoints: `/by-domain/rsvp` and `/by-domain/wish` — no auth needed |
-| 6 | Public page didn't fetch data without token | useTemplateData now always fetches instance data; isAuthenticated only gates /admin |
+| 5 | Guest submissions required auth token (visitors couldn't RSVP/wish) | Public POST endpoints: `/by-domain/rsvp` and `/by-domain/wish` — no auth needed |
+| 6 | Public page didn't fetch data without token | useTemplateData always fetches instance data; isAuthenticated only gates /admin |
 | 7 | Upload sign response keys were snake_case in examples | Documented that sign endpoint returns camelCase keys (`apiKey`, `cloudName`) — must destructure correctly |
-| 8 | CRUD-only rule blocked guest features | Updated: guest submissions use dedicated public endpoints; admin operations still need auth |
+| 8 | Uploads failed silently with no user feedback | Complete upload function with loading/success/error states provided as copy-paste pattern |
+| 9 | isAuthenticated checked outside /admin blocking guests | isAuthenticated ONLY checked inside isAdminRoute block — never on public route |
 
 ---
 
@@ -546,8 +633,8 @@ father of bride name, father of groom name, schedule items (json array)
 - Before/after photo slider
 
 **Functional**
-- RSVP → saves to rsvp_entries[] in instance data (no new endpoint)
-- Wish wall → saves to wish_entries[] in instance data (no new endpoint)
+- RSVP → POST /api/instances/by-domain/rsvp (public, no auth needed)
+- Wish wall → POST /api/instances/by-domain/wish (public, no auth needed)
 - Day program / schedule timeline
 - Dress code section
 - QR code to invitation URL

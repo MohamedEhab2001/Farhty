@@ -1,0 +1,16 @@
+<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Speech bubble -->
+  <rect x="8" y="10" width="54" height="42" rx="10" fill="#F8EDE3" stroke="#C9A96E" stroke-width="1.5"/>
+  <!-- Bubble tail -->
+  <path d="M20 52 L14 66 L32 56" fill="#F8EDE3" stroke="#C9A96E" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Text lines -->
+  <line x1="18" y1="26" x2="52" y2="26" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="18" y1="34" x2="46" y2="34" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="18" y1="42" x2="38" y2="42" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <!-- Small heart -->
+  <path d="M60 58 Q57 55 57 52.5 Q57 50 60 51.5 Q63 50 63 52.5 Q63 55 60 58Z" fill="#C9A96E" opacity="0.7"/>
+  <!-- Sparkles -->
+  <circle cx="66" cy="20" r="2" fill="#C9A96E" opacity="0.4"/>
+  <circle cx="70" cy="28" r="1.5" fill="#C9A96E" opacity="0.3"/>
+  <circle cx="66" cy="36" r="2" fill="#C9A96E" opacity="0.4"/>
+</svg>

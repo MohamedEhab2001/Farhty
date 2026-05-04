@@ -36,20 +36,19 @@ export function LoadingScreen({ bg = '#0d0b0e' }: LoadingScreenProps) {
         }
       `}</style>
       <div style={{ textAlign: 'center' }}>
-        <div
+        <img
+          src="/فرحتي بنفسجي.png"
+          alt="فرحتي"
           className="farhty-loading-logo"
           style={{
-            width: 72, height: 72, borderRadius: 18,
-            background: 'linear-gradient(135deg, #c8973a, #e8b857)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: 120,
+            height: 120,
+            objectFit: 'contain',
             margin: '0 auto 16px',
-            fontSize: 28, fontWeight: 900,
-            color: '#0d0b0e', fontFamily: 'Cairo, sans-serif',
+            display: 'block',
+            borderRadius: 18,
           }}
-        >ف</div>
-        <p style={{ color: '#c8973a', fontSize: 14, fontFamily: 'Cairo, sans-serif', letterSpacing: 2 }}>
-          فارهتي
-        </p>
+        />
       </div>
     </div>
   )

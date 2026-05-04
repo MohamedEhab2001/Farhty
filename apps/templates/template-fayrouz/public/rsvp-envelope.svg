@@ -1,0 +1,16 @@
+<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Envelope -->
+  <rect x="8" y="22" width="64" height="44" rx="4" fill="#F8EDE3" stroke="#C9A96E" stroke-width="1.5"/>
+  <!-- Envelope flap -->
+  <path d="M8 26 L40 50 L72 26" stroke="#C9A96E" stroke-width="1.5" fill="none"/>
+  <!-- Seal -->
+  <circle cx="40" cy="44" r="8" fill="#C9A96E" opacity="0.15" stroke="#C9A96E" stroke-width="1"/>
+  <!-- Heart seal -->
+  <path d="M40 48 Q36 44 36 41 Q36 38 40 40 Q44 38 44 41 Q44 44 40 48Z" fill="#C9A96E" opacity="0.8"/>
+  <!-- Wax drips -->
+  <circle cx="36" cy="50" r="2" fill="#C9A96E" opacity="0.3"/>
+  <circle cx="44" cy="50" r="1.5" fill="#C9A96E" opacity="0.3"/>
+  <!-- Stars -->
+  <path d="M20 18 L21 14 L22 18 L26 19 L22 20 L21 24 L20 20 L16 19Z" fill="#C9A96E" opacity="0.5"/>
+  <path d="M60 16 L61 13 L62 16 L65 17 L62 18 L61 21 L60 18 L57 17Z" fill="#C9A96E" opacity="0.5"/>
+</svg>

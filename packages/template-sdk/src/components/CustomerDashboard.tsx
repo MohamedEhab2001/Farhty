@@ -4,14 +4,31 @@ import { useTemplateFieldsWithSave } from '../hooks/useTemplateFields'
 import { TemplateField } from '../types'
 import { api } from '../services/api'
 
+type UploadStatus = 'idle' | 'uploading' | 'success' | 'error'
+
 export function CustomerDashboard() {
   const { instance, slug, fieldData, setFieldData } = useTemplateData()
   const { get, set, save } = useTemplateFieldsWithSave()
   const [open, setOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle')
+  const [uploadStates, setUploadStates] = useState<Record<string, UploadStatus>>({})
+  const [uploadErrors, setUploadErrors] = useState<Record<string, string>>({})
 
   if (!instance) return null
+
+  const setUploadState = (key: string, status: UploadStatus, errorMsg?: string) => {
+    setUploadStates(prev => ({ ...prev, [key]: status }))
+    if (status === 'error' && errorMsg) {
+      setUploadErrors(prev => ({ ...prev, [key]: errorMsg }))
+      setTimeout(() => {
+        setUploadStates(prev => ({ ...prev, [key]: 'idle' }))
+        setUploadErrors(prev => { const n = { ...prev }; delete n[key]; return n })
+      }, 5000)
+    } else if (status === 'success') {
+      setTimeout(() => setUploadStates(prev => ({ ...prev, [key]: 'idle' })), 3000)
+    }
+  }
 
   const handleSave = async () => {
     setIsSaving(true)
@@ -28,6 +45,7 @@ export function CustomerDashboard() {
   }
 
   const handleUpload = async (field: TemplateField, file: File) => {
+    setUploadState(field.key, 'uploading')
     try {
       const tokenKey = `farhty_token_${slug}`
       const token = localStorage.getItem(tokenKey)
@@ -36,14 +54,19 @@ export function CustomerDashboard() {
         { folder: field.cloudinaryFolder || `instances/${slug}` },
         { headers: { Authorization: `Bearer ${token}` } }
       )
-      const { signature, timestamp, apiKey, cloudName } = signRes.data
+      const { signature, timestamp, apiKey, cloudName, folder } = signRes.data
+
+      if (!cloudName) {
+        throw new Error('cloud_name is missing from sign response — server misconfigured')
+      }
+
       // Upload to Cloudinary
       const fd = new FormData()
       fd.append('file', file)
       fd.append('signature', signature)
       fd.append('timestamp', String(timestamp))
       fd.append('api_key', apiKey)
-      fd.append('folder', field.cloudinaryFolder || `instances/${slug}`)
+      fd.append('folder', folder || field.cloudinaryFolder || `instances/${slug}`)
       const upRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${field.type === 'audio' ? 'video' : 'image'}/upload`, {
         method: 'POST', body: fd
       })
@@ -52,8 +75,10 @@ export function CustomerDashboard() {
         throw new Error(upData.error.message || 'Upload rejected by Cloudinary')
       }
       set(field.key, upData.secure_url)
+      setUploadState(field.key, 'success')
     } catch (e) {
-      console.error('Upload failed', e)
+      const msg = e instanceof Error ? e.message : 'Upload failed'
+      setUploadState(field.key, 'error', msg)
     }
   }
 
@@ -93,6 +118,23 @@ export function CustomerDashboard() {
           transition: opacity 0.2s;
         }
         .farhty-save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .farhty-upload-btn {
+          display: block; width: 100%; padding: 8px; border-radius: 8px;
+          background: #2e2840; border: 1px dashed #c8973a; color: #e8b857;
+          font-family: Cairo, sans-serif; font-size: 12px;
+          cursor: pointer; text-align: center; transition: opacity 0.2s;
+        }
+        .farhty-upload-btn:disabled { opacity: 0.5; pointer-events: none; }
+        .farhty-upload-status {
+          font-size: 11px; margin-top: 4px; text-align: center;
+          font-family: Cairo, sans-serif;
+        }
+        .farhty-upload-error {
+          background: rgba(248,113,113,0.15); border: 1px solid #f87171;
+          border-radius: 6px; padding: 6px 8px; margin-top: 6px;
+          font-size: 11px; color: #f87171; font-family: Cairo, sans-serif;
+          word-break: break-word;
+        }
       `}</style>
 
       {/* Toggle button */}
@@ -102,7 +144,7 @@ export function CustomerDashboard() {
         onClick={() => setOpen(o => !o)}
         title="تعديل بياناتك"
       >
-        {open ? '✕' : '✏️'}
+        {open ? '\u2715' : '\u270F\uFE0F'}
       </button>
 
       {/* Panel */}
@@ -110,7 +152,7 @@ export function CustomerDashboard() {
         <div id="customer-dashboard-panel" className="farhty-dashboard-panel">
           <div style={{ padding: '16px 16px 0', borderBottom: '1px solid #2e2840', marginBottom: 12 }}>
             <p style={{ color: '#e8b857', fontWeight: 700, fontSize: 14, margin: '0 0 12px' }}>
-              ✏️ تعديل بياناتك
+              تعديل بياناتك
             </p>
           </div>
 
@@ -118,7 +160,14 @@ export function CustomerDashboard() {
             {instance.fields.map(field => (
               <div key={field.key} style={{ marginBottom: 14 }}>
                 <p className="farhty-field-label">{field.label}</p>
-                <FieldInput field={field} value={get(field.key)} onChange={v => set(field.key, v)} onUpload={handleUpload} />
+                <FieldInput
+                  field={field}
+                  value={get(field.key)}
+                  onChange={v => set(field.key, v)}
+                  onUpload={handleUpload}
+                  uploadStatus={uploadStates[field.key] || 'idle'}
+                  uploadError={uploadErrors[field.key]}
+                />
               </div>
             ))}
 
@@ -129,9 +178,9 @@ export function CustomerDashboard() {
               disabled={isSaving}
               style={{ marginTop: 8 }}
             >
-              {isSaving ? '⏳ جاري الحفظ...' :
-               saveStatus === 'saved' ? '✓ تم الحفظ!' :
-               saveStatus === 'error' ? '❌ فشل الحفظ' : 'حفظ التغييرات'}
+              {isSaving ? 'جاري الحفظ...' :
+               saveStatus === 'saved' ? 'تم الحفظ!' :
+               saveStatus === 'error' ? 'فشل الحفظ' : 'حفظ التغييرات'}
             </button>
           </div>
         </div>
@@ -149,9 +198,11 @@ interface FieldInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (v: any) => void
   onUpload: (field: TemplateField, file: File) => void
+  uploadStatus: UploadStatus
+  uploadError?: string
 }
 
-function FieldInput({ field, value, onChange, onUpload }: FieldInputProps) {
+function FieldInput({ field, value, onChange, onUpload, uploadStatus, uploadError }: FieldInputProps) {
   switch (field.type) {
     case 'text':
       return <input className="farhty-field-input" value={value || ''} onChange={e => onChange(e.target.value)} />
@@ -178,16 +229,29 @@ function FieldInput({ field, value, onChange, onUpload }: FieldInputProps) {
       )
 
     case 'image':
-    case 'audio':
+    case 'audio': {
+      const isUploading = uploadStatus === 'uploading'
       return (
         <div>
-          <input
-            type="file"
-            accept={field.type === 'image' ? 'image/*' : 'audio/*'}
-            onChange={e => { const f = e.target.files?.[0]; if (f) onUpload(field, f) }}
-            className="farhty-field-input"
-            style={{ padding: '6px 10px', fontSize: 12 }}
-          />
+          <label
+            className="farhty-upload-btn"
+            style={isUploading ? { opacity: 0.5, pointerEvents: 'none' } : {}}
+          >
+            {isUploading ? 'جاري الرفع...' : field.type === 'image' ? 'اختر صورة' : 'اختر ملف صوتي'}
+            <input
+              type="file"
+              accept={field.type === 'image' ? 'image/*' : 'audio/*'}
+              onChange={e => { const f = e.target.files?.[0]; if (f) onUpload(field, f) }}
+              style={{ display: 'none' }}
+              disabled={isUploading}
+            />
+          </label>
+          {uploadStatus === 'success' && (
+            <p className="farhty-upload-status" style={{ color: '#4ade80' }}>تم الرفع بنجاح</p>
+          )}
+          {uploadStatus === 'error' && uploadError && (
+            <div className="farhty-upload-error">{uploadError}</div>
+          )}
           {value && field.type === 'image' && (
             <img src={value} alt="" style={{ width: '100%', borderRadius: 8, marginTop: 8, maxHeight: 120, objectFit: 'cover' }} />
           )}
@@ -196,6 +260,7 @@ function FieldInput({ field, value, onChange, onUpload }: FieldInputProps) {
           )}
         </div>
       )
+    }
 
     case 'json':
       return (

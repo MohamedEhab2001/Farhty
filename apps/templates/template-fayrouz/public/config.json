@@ -1,0 +1,5 @@
+{
+  "slug": "testat",
+  "template": "template-fayrouz",
+  "apiBase": "http://localhost:3001"
+}

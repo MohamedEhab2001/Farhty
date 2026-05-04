@@ -1,0 +1,28 @@
+<svg viewBox="0 0 800 80" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Left vine -->
+  <path d="M0 40 Q50 20 100 40 Q150 60 200 40 Q250 20 300 40" stroke="#C9A96E" stroke-width="1.5" fill="none" opacity="0.8"/>
+  <!-- Right vine -->
+  <path d="M800 40 Q750 20 700 40 Q650 60 600 40 Q550 20 500 40" stroke="#C9A96E" stroke-width="1.5" fill="none" opacity="0.8"/>
+  <!-- Small leaves left -->
+  <ellipse cx="100" cy="32" rx="8" ry="4" fill="#C9A96E" opacity="0.5" transform="rotate(-20 100 32)"/>
+  <ellipse cx="150" cy="52" rx="8" ry="4" fill="#C9A96E" opacity="0.5" transform="rotate(20 150 52)"/>
+  <ellipse cx="200" cy="32" rx="8" ry="4" fill="#C9A96E" opacity="0.5" transform="rotate(-20 200 32)"/>
+  <ellipse cx="250" cy="52" rx="8" ry="4" fill="#C9A96E" opacity="0.5" transform="rotate(20 250 52)"/>
+  <!-- Small leaves right -->
+  <ellipse cx="700" cy="32" rx="8" ry="4" fill="#C9A96E" opacity="0.5" transform="rotate(20 700 32)"/>
+  <ellipse cx="650" cy="52" rx="8" ry="4" fill="#C9A96E" opacity="0.5" transform="rotate(-20 650 52)"/>
+  <ellipse cx="600" cy="32" rx="8" ry="4" fill="#C9A96E" opacity="0.5" transform="rotate(20 600 32)"/>
+  <ellipse cx="550" cy="52" rx="8" ry="4" fill="#C9A96E" opacity="0.5" transform="rotate(-20 550 52)"/>
+  <!-- Center rose -->
+  <circle cx="400" cy="40" r="16" fill="#F8EDE3" stroke="#C9A96E" stroke-width="1"/>
+  <path d="M400 28 Q408 34 408 40 Q408 50 400 52 Q392 50 392 40 Q392 34 400 28Z" fill="#E8C4A0" opacity="0.7"/>
+  <path d="M388 30 Q394 36 392 42 Q388 50 382 48 Q378 42 382 36 Q384 30 388 30Z" fill="#E8C4A0" opacity="0.6"/>
+  <path d="M412 30 Q406 36 408 42 Q412 50 418 48 Q422 42 418 36 Q416 30 412 30Z" fill="#E8C4A0" opacity="0.6"/>
+  <path d="M384 52 Q390 46 396 48 Q402 52 400 58 Q394 62 388 58 Q384 54 384 52Z" fill="#E8C4A0" opacity="0.5"/>
+  <path d="M416 52 Q410 46 404 48 Q398 52 400 58 Q406 62 412 58 Q416 54 416 52Z" fill="#E8C4A0" opacity="0.5"/>
+  <!-- Dots -->
+  <circle cx="340" cy="40" r="2.5" fill="#C9A96E" opacity="0.6"/>
+  <circle cx="460" cy="40" r="2.5" fill="#C9A96E" opacity="0.6"/>
+  <circle cx="320" cy="40" r="1.5" fill="#C9A96E" opacity="0.4"/>
+  <circle cx="480" cy="40" r="1.5" fill="#C9A96E" opacity="0.4"/>
+</svg>

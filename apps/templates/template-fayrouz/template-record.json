@@ -1,0 +1,100 @@
+{
+  "name": "فيروز",
+  "slug": "template-fayrouz",
+  "price": 399,
+  "description": "دعوة زفاف فاخرة بتصميم كلاسيكي رومانسي بألوان الذهب والعاج مع زخارف نباتية وتأثيرات سينمائية",
+  "language": "ar",
+  "features": {
+    "countdown": true,
+    "rsvp": true,
+    "wishWall": true,
+    "location": true,
+    "fluidCursor": true,
+    "rtl": true,
+    "pages": 1
+  },
+  "fields": [
+    {
+      "key": "groom_name",
+      "label": "اسم العريس",
+      "type": "text",
+      "defaultValue": "كريم",
+      "required": true
+    },
+    {
+      "key": "bride_name",
+      "label": "اسم العروسة",
+      "type": "text",
+      "defaultValue": "ليلى",
+      "required": true
+    },
+    {
+      "key": "wedding_date",
+      "label": "تاريخ الزفاف",
+      "type": "date",
+      "defaultValue": "",
+      "required": true
+    },
+    {
+      "key": "tagline",
+      "label": "عبارة ترحيبية",
+      "type": "text",
+      "defaultValue": "بداية قصة جديدة من الحب",
+      "required": false
+    },
+    {
+      "key": "hero_image",
+      "label": "صورة الغلاف",
+      "type": "image",
+      "defaultValue": "",
+      "cloudinaryFolder": "templates/fayrouz/hero",
+      "required": true
+    },
+    {
+      "key": "accent_color",
+      "label": "اللون الرئيسي",
+      "type": "color",
+      "defaultValue": "#C9A96E",
+      "required": false
+    },
+    {
+      "key": "venue_name",
+      "label": "اسم القاعة",
+      "type": "text",
+      "defaultValue": "قاعة الأفراح",
+      "required": false
+    },
+    {
+      "key": "venue_address",
+      "label": "عنوان القاعة",
+      "type": "text",
+      "defaultValue": "",
+      "required": false
+    },
+    {
+      "key": "map_url",
+      "label": "رابط خرائط جوجل (embed)",
+      "type": "text",
+      "defaultValue": "",
+      "required": false
+    },
+    {
+      "key": "rsvp_entries",
+      "label": "تأكيدات الحضور",
+      "type": "json",
+      "defaultValue": "[]",
+      "required": false
+    },
+    {
+      "key": "wish_entries",
+      "label": "التهاني",
+      "type": "json",
+      "defaultValue": "[]",
+      "required": false
+    }
+  ],
+  "previewImages": [],
+  "previewVideo": "",
+  "status": "draft",
+  "version": "1.0.0"
+}
