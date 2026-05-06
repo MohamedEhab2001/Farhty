@@ -1,6 +1,20 @@
 // ─── Field Types ──────────────────────────────────────────────────────────────
 
-export type FieldType = 'text' | 'image' | 'audio' | 'date' | 'color' | 'boolean' | 'json'
+export type FieldType =
+  | 'text'
+  | 'textarea'
+  | 'number'
+  | 'url'
+  | 'iframe'
+  | 'select'
+  | 'time'
+  | 'image'
+  | 'audio'
+  | 'date'
+  | 'color'
+  | 'boolean'
+  | 'json'
+  | 'array'
 
 export interface TemplateField {
   key: string
@@ -10,6 +24,13 @@ export interface TemplateField {
   defaultValue: any
   cloudinaryFolder?: string
   required: boolean
+  group?: string
+  placeholder?: string
+  hint?: string
+  options?: { label: string; value: string }[]
+  itemSchema?: { key: string; label: string; type: string; placeholder?: string }[]
+  min?: number | null
+  max?: number | null
 }
 
 // ─── Template Features ────────────────────────────────────────────────────────

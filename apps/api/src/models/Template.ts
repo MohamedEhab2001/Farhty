@@ -3,10 +3,17 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface ITemplateField {
   key: string;
   label: string;
-  type: 'text' | 'image' | 'audio' | 'date' | 'color' | 'boolean' | 'json';
+  type: 'text' | 'textarea' | 'number' | 'url' | 'iframe' | 'select' | 'time' | 'image' | 'audio' | 'date' | 'color' | 'boolean' | 'json' | 'array';
   defaultValue: unknown;
   cloudinaryFolder: string;
   required: boolean;
+  group: string;
+  placeholder: string;
+  hint: string;
+  options: { label: string; value: string }[];
+  itemSchema: { key: string; label: string; type: string; placeholder?: string }[];
+  min: number | null;
+  max: number | null;
 }
 
 export interface ITemplateFeatures {
@@ -40,12 +47,19 @@ const TemplateFieldSchema = new Schema<ITemplateField>(
     label: { type: String, required: true },
     type: {
       type: String,
-      enum: ['text', 'image', 'audio', 'date', 'color', 'boolean', 'json'],
+      enum: ['text', 'textarea', 'number', 'url', 'iframe', 'select', 'time', 'image', 'audio', 'date', 'color', 'boolean', 'json', 'array'],
       required: true,
     },
     defaultValue: { type: Schema.Types.Mixed },
     cloudinaryFolder: { type: String, default: '' },
     required: { type: Boolean, default: false },
+    group: { type: String, default: '' },
+    placeholder: { type: String, default: '' },
+    hint: { type: String, default: '' },
+    options: { type: [{ label: String, value: String }], default: [] },
+    itemSchema: { type: [{ key: String, label: String, type: String, placeholder: String }], default: [] },
+    min: { type: Number, default: null },
+    max: { type: Number, default: null },
   },
   { _id: false }
 );
