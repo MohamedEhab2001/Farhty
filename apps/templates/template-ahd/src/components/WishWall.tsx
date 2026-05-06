@@ -1,30 +1,39 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTemplateData, useTemplateFields } from '@farhty/template-sdk'
 
-interface WishEntry { name: string; message: string; timestamp: string }
+export interface WishEntry {
+  name: string
+  message: string
+  timestamp: string
+  visible?: boolean   // undefined / true = shown; false = hidden by admin
+}
 
 export default function WishWall() {
   const { slug } = useTemplateData()
   const { get } = useTemplateFields()
   const sectionRef = useRef<HTMLElement>(null)
-  const [visible, setVisible] = useState(false)
+  const [sectionVisible, setSectionVisible] = useState(false)
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  // optimistically shown right after submit (always visible locally)
   const [localWishes, setLocalWishes] = useState<WishEntry[]>([])
 
-  const existingWishes: WishEntry[] = (() => {
+  // Read stored wishes from instance field, keep only visible ones for guests
+  const storedWishes: WishEntry[] = (() => {
     const raw = get('wish_entries')
     if (Array.isArray(raw)) return raw
     if (typeof raw === 'string') { try { return JSON.parse(raw) } catch { return [] } }
     return []
   })()
 
-  const allWishes = [...localWishes, ...existingWishes]
+  // Guests see: stored wishes where visible !== false + their own just-submitted ones
+  const publicWishes = storedWishes.filter(w => w.visible !== false)
+  const allWishes = [...localWishes, ...publicWishes]
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true) },
+      ([entry]) => { if (entry.isIntersecting) setSectionVisible(true) },
       { threshold: 0.15 }
     )
     if (sectionRef.current) observer.observe(sectionRef.current)
@@ -39,13 +48,20 @@ export default function WishWall() {
       const config = await fetch('/config.json').then(r => r.json())
       const resolvedSlug = config.slug || window.location.hostname.split('.')[0]
       const apiBase = config.apiBase || 'http://localhost:3001'
+
       await fetch(`${apiBase}/api/instances/by-domain/wish`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug: resolvedSlug, name: name.trim(), message: message.trim() }),
       })
-      setLocalWishes(prev => [{ name: name.trim(), message: message.trim(), timestamp: new Date().toISOString() }, ...prev])
-      setName(''); setMessage('')
+
+      // Show immediately to this guest; visible defaults to true in backend
+      setLocalWishes(prev => [
+        { name: name.trim(), message: message.trim(), timestamp: new Date().toISOString(), visible: true },
+        ...prev,
+      ])
+      setName('')
+      setMessage('')
       setStatus('success')
       setTimeout(() => setStatus('idle'), 3000)
     } catch {
@@ -58,9 +74,14 @@ export default function WishWall() {
     <section ref={sectionRef} id="wish-wall" className="py-24 md:py-36 bg-ivory">
       <div className="max-w-3xl mx-auto px-6">
 
+        {/* Heading */}
         <div
           className="text-center mb-14"
-          style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(24px)', transition: 'all 1s cubic-bezier(0.22,1,0.36,1)' }}
+          style={{
+            opacity: sectionVisible ? 1 : 0,
+            transform: sectionVisible ? 'translateY(0)' : 'translateY(24px)',
+            transition: 'all 1s cubic-bezier(0.22,1,0.36,1)',
+          }}
         >
           <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
             اترك رسالة
@@ -71,14 +92,14 @@ export default function WishWall() {
           <div style={{ width: '40px', height: '1px', background: 'var(--gold)', margin: '0 auto' }} />
         </div>
 
-        {/* نموذج الأمنية */}
+        {/* Form */}
         <form
           onSubmit={submit}
           className="mb-16 pb-16"
           style={{
             borderBottom: '1px solid rgba(196,163,90,0.15)',
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(32px)',
+            opacity: sectionVisible ? 1 : 0,
+            transform: sectionVisible ? 'translateY(0)' : 'translateY(32px)',
             transition: 'all 1s cubic-bezier(0.22,1,0.36,1) 0.1s',
           }}
         >
@@ -87,17 +108,18 @@ export default function WishWall() {
               <label className="block font-tajawal font-light text-warm-gray mb-2" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
                 اسمك
               </label>
-              <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="أدخل اسمك" className="ahd-input" />
+              <input
+                type="text" value={name} onChange={e => setName(e.target.value)}
+                required placeholder="أدخل اسمك" className="ahd-input"
+              />
             </div>
             <div>
               <label className="block font-tajawal font-light text-warm-gray mb-2" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
                 رسالتك
               </label>
               <textarea
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                required rows={4}
-                placeholder="اكتب أمنيتك هنا..."
+                value={message} onChange={e => setMessage(e.target.value)}
+                required rows={4} placeholder="اكتب أمنيتك هنا..."
                 style={{
                   background: 'transparent', border: 'none',
                   borderBottom: '1px solid var(--warm-gray)', borderRadius: 0,
@@ -131,17 +153,17 @@ export default function WishWall() {
           </div>
         </form>
 
-        {/* بطاقات الأمنيات */}
+        {/* Wish cards */}
         {allWishes.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {allWishes.map((wish, i) => (
               <div
-                key={`${wish.name}-${wish.timestamp}-${i}`}
+                key={`${wish.name}-${wish.timestamp ?? i}-${i}`}
                 style={{
                   background: 'white', padding: '2rem',
                   boxShadow: '0 1px 16px rgba(0,0,0,0.05)',
-                  opacity: visible ? 1 : 0,
-                  transform: visible ? 'translateY(0)' : 'translateY(24px)',
+                  opacity: sectionVisible ? 1 : 0,
+                  transform: sectionVisible ? 'translateY(0)' : 'translateY(24px)',
                   transition: `all 0.9s cubic-bezier(0.22,1,0.36,1) ${i * 0.08}s`,
                 }}
               >

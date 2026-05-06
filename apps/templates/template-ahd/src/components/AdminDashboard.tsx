@@ -99,10 +99,40 @@ export default function AdminDashboard() {
     }
   }
 
-  const rsvpEntries = parseImages(get('rsvp_entries')) as unknown as { name: string; attending: boolean; guests: number }[]
-  const wishEntries = parseImages(get('wish_entries')) as unknown as { name: string; message: string }[]
+  // parse helpers
+  const parseJson = (raw: unknown) => {
+    if (Array.isArray(raw)) return raw
+    if (typeof raw === 'string') { try { return JSON.parse(raw) } catch { return [] } }
+    return []
+  }
+
+  const rsvpEntries: { name: string; attending: boolean; guests: number }[] = parseJson(get('rsvp_entries'))
+  const wishEntries: { name: string; message: string; timestamp?: string; visible?: boolean }[] = parseJson(get('wish_entries'))
   const storyImages  = parseImages(get('story_images'))
   const galleryImages = parseImages(get('gallery_images'))
+
+  // stats
+  const attending = rsvpEntries.filter(e => e.attending)
+  const totalGuests = attending.reduce((sum, e) => sum + (e.guests || 0), 0)
+
+  // toggle wish visibility and immediately save
+  const toggleWishVisible = async (index: number) => {
+    const updated = wishEntries.map((w, i) =>
+      i === index ? { ...w, visible: w.visible === false ? true : false } : w
+    )
+    set('wish_entries', updated)
+    setSaving(true)
+    try {
+      await save()
+      setSaveStatus('saved')
+      setTimeout(() => setSaveStatus('idle'), 1500)
+    } catch {
+      setSaveStatus('error')
+      setTimeout(() => setSaveStatus('idle'), 3000)
+    } finally {
+      setSaving(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-ivory" style={{ fontFamily: 'Tajawal, sans-serif', direction: 'rtl' }}>
@@ -244,49 +274,116 @@ export default function AdminDashboard() {
           </Field>
         </Section>
 
-        {/* ─── تأكيدات الحضور (للقراءة فقط) ─── */}
-        {rsvpEntries.length > 0 && (
-          <Section title={`تأكيدات الحضور (${rsvpEntries.length})`}>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', fontSize: '0.85rem', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid rgba(196,163,90,0.2)' }}>
-                    {['الاسم', 'الحالة', 'العدد'].map(h => (
-                      <th key={h} style={{ padding: '8px 0', textAlign: 'right', color: '#8A8078', fontWeight: 300, fontSize: '0.65rem' }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rsvpEntries.map((entry, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid rgba(196,163,90,0.08)' }}>
-                      <td style={{ padding: '10px 0' }}>{entry.name}</td>
-                      <td style={{ padding: '10px 0' }}>
-                        <span style={{ padding: '2px 10px', borderRadius: '999px', fontSize: '0.65rem', background: entry.attending ? '#D4EDDA' : '#F8D7DA', color: entry.attending ? '#155724' : '#721C24' }}>
-                          {entry.attending ? 'حاضر' : 'معتذر'}
-                        </span>
-                      </td>
-                      <td style={{ padding: '10px 0' }}>{entry.guests || 0}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Section>
-        )}
+        {/* ─── تأكيدات الحضور ─── */}
+        <Section title={`تأكيدات الحضور (${rsvpEntries.length})`}>
+          {rsvpEntries.length === 0 ? (
+            <p style={{ fontSize: '0.8rem', color: '#8A8078', textAlign: 'center' }}>لا توجد ردود بعد</p>
+          ) : (
+            <>
+              {/* ملخص سريع */}
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                {[
+                  { label: 'إجمالي الردود', value: rsvpEntries.length, color: '#1E2B3A' },
+                  { label: 'سيحضرون', value: attending.length, color: '#155724' },
+                  { label: 'اعتذروا', value: rsvpEntries.length - attending.length, color: '#721C24' },
+                  { label: 'إجمالي الضيوف', value: totalGuests, color: '#C4A35A' },
+                ].map(s => (
+                  <div key={s.label} style={{ flex: '1 1 100px', background: '#F8F4EC', padding: '0.75rem 1rem', textAlign: 'center' }}>
+                    <p style={{ fontFamily: 'Amiri, serif', fontSize: '1.5rem', color: s.color, lineHeight: 1 }}>{s.value}</p>
+                    <p style={{ fontSize: '0.62rem', color: '#8A8078', marginTop: '0.25rem' }}>{s.label}</p>
+                  </div>
+                ))}
+              </div>
 
-        {/* ─── الأمنيات (للقراءة فقط) ─── */}
-        {wishEntries.length > 0 && (
-          <Section title={`الأمنيات (${wishEntries.length})`}>
+              {/* جدول */}
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', fontSize: '0.85rem', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid rgba(196,163,90,0.2)' }}>
+                      {['الاسم', 'الحالة', 'عدد الضيوف'].map(h => (
+                        <th key={h} style={{ padding: '8px 0', textAlign: 'right', color: '#8A8078', fontWeight: 300, fontSize: '0.65rem' }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rsvpEntries.map((entry, i) => (
+                      <tr key={i} style={{ borderBottom: '1px solid rgba(196,163,90,0.08)' }}>
+                        <td style={{ padding: '10px 0' }}>{entry.name}</td>
+                        <td style={{ padding: '10px 0' }}>
+                          <span style={{ padding: '2px 10px', borderRadius: '999px', fontSize: '0.65rem', background: entry.attending ? '#D4EDDA' : '#F8D7DA', color: entry.attending ? '#155724' : '#721C24' }}>
+                            {entry.attending ? 'حاضر' : 'معتذر'}
+                          </span>
+                        </td>
+                        <td style={{ padding: '10px 0' }}>{entry.attending ? (entry.guests || 0) : '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </Section>
+
+        {/* ─── الأمنيات مع تحكم في الظهور ─── */}
+        <Section title={`الأمنيات (${wishEntries.length}) — ${wishEntries.filter(w => w.visible !== false).length} ظاهرة`}>
+          {wishEntries.length === 0 ? (
+            <p style={{ fontSize: '0.8rem', color: '#8A8078', textAlign: 'center' }}>لا توجد أمنيات بعد</p>
+          ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {wishEntries.map((wish, i) => (
-                <div key={i} style={{ padding: '1rem', background: 'white', boxShadow: '0 1px 8px rgba(0,0,0,0.05)' }}>
-                  <p style={{ fontSize: '0.85rem', color: '#3C3C3C', lineHeight: 1.8, marginBottom: '0.4rem' }}>{wish.message}</p>
-                  <p style={{ fontSize: '0.65rem', color: '#C4A35A' }}>— {wish.name}</p>
-                </div>
-              ))}
+              {wishEntries.map((wish, i) => {
+                const isVisible = wish.visible !== false
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      display: 'flex', alignItems: 'flex-start', gap: '0.75rem',
+                      padding: '1rem', background: isVisible ? 'white' : '#F8F4EC',
+                      boxShadow: '0 1px 8px rgba(0,0,0,0.05)',
+                      opacity: isVisible ? 1 : 0.55,
+                      transition: 'opacity 0.3s ease',
+                    }}
+                  >
+                    {/* زر التبديل */}
+                    <button
+                      onClick={() => toggleWishVisible(i)}
+                      title={isVisible ? 'إخفاء عن الضيوف' : 'إظهار للضيوف'}
+                      style={{
+                        flexShrink: 0, width: '32px', height: '32px',
+                        borderRadius: '50%', border: `1px solid ${isVisible ? '#C4A35A' : '#8A8078'}`,
+                        background: 'transparent', cursor: 'pointer',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {isVisible ? (
+                        // عين مفتوحة
+                        <svg viewBox="0 0 20 20" fill="none" style={{ width: '14px', height: '14px' }}>
+                          <path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6z" stroke="#C4A35A" strokeWidth="1.2"/>
+                          <circle cx="10" cy="10" r="2" stroke="#C4A35A" strokeWidth="1.2"/>
+                        </svg>
+                      ) : (
+                        // عين مغلقة
+                        <svg viewBox="0 0 20 20" fill="none" style={{ width: '14px', height: '14px' }}>
+                          <path d="M3 3l14 14M8.5 8.5A2 2 0 0012 12m-6.5-5.5C4.2 7.7 2 10 2 10s3 6 8 6c1.5 0 2.9-.4 4-.9" stroke="#8A8078" strokeWidth="1.2" strokeLinecap="round"/>
+                          <path d="M14 13.5C15.7 12.2 18 10 18 10s-3-6-8-6c-.7 0-1.4.1-2 .3" stroke="#8A8078" strokeWidth="1.2" strokeLinecap="round"/>
+                        </svg>
+                      )}
+                    </button>
+
+                    {/* المحتوى */}
+                    <div style={{ flex: 1 }}>
+                      <p style={{ fontSize: '0.85rem', color: '#3C3C3C', lineHeight: 1.8, marginBottom: '0.3rem' }}>{wish.message}</p>
+                      <p style={{ fontSize: '0.65rem', color: '#C4A35A' }}>— {wish.name}</p>
+                      {!isVisible && (
+                        <p style={{ fontSize: '0.6rem', color: '#8A8078', marginTop: '0.3rem' }}>مخفية عن الضيوف</p>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
-          </Section>
-        )}
+          )}
+        </Section>
 
         {/* ─── حفظ ─── */}
         <button

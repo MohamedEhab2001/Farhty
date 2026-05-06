@@ -145,6 +145,20 @@
       "type": "text",
       "defaultValue": "",
       "required": false
+    },
+    {
+      "key": "rsvp_entries",
+      "label": "تأكيدات الحضور",
+      "type": "json",
+      "defaultValue": "[]",
+      "required": false
+    },
+    {
+      "key": "wish_entries",
+      "label": "التهاني، والأمنيات",
+      "type": "json",
+      "defaultValue": "[]",
+      "required": false
     }
   ],
   "previewImages": [],
