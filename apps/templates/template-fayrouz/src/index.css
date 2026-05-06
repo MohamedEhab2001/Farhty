@@ -47,3 +47,61 @@ body {
 .linen-texture {
   background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3h1v1H1V3zm2-2h1v1H3V1z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
 }
+
+/* Shimmer animation for gold accents */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    #C9A96E 0%,
+    #E8D5A3 25%,
+    #F0E0B8 50%,
+    #E8D5A3 75%,
+    #C9A96E 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(-8px); }
+  50% { transform: translateY(8px); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(-5px) rotate(-2deg); }
+  50% { transform: translateY(5px) rotate(2deg); }
+}
+
+/* Petal falling */
+@keyframes petalFall {
+  0% {
+    opacity: 0;
+    transform: translateY(-10vh) rotate(0deg) translateX(0);
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(360deg) translateX(80px);
+  }
+}
+
+.petal {
+  animation: petalFall var(--duration, 8s) var(--delay, 0s) linear infinite;
+  opacity: 0;
+}
+
+/* Gentle pulse for decorative elements */
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}

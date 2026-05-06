@@ -146,8 +146,16 @@ export default function AdminDashboard() {
           <Field label="العنوان">
             <TextInput value={get('venue_address') ?? ''} onChange={v => set('venue_address', v)} placeholder="القاهرة، مصر" />
           </Field>
-          <Field label="رابط خرائط جوجل (embed)">
-            <TextInput value={get('map_url') ?? ''} onChange={v => set('map_url', v)} placeholder="https://www.google.com/maps/embed?..." dir="ltr" />
+          <Field label="رابط خريطة القاعة (embed)" hint="انسخ رابط التضمين من خرائط جوجل (Share → Embed a map → Copy HTML → extract the src URL)">
+            <TextInput value={get('venue_map_url') ?? ''} onChange={v => set('venue_map_url', v)} placeholder="https://www.google.com/maps/embed?..." dir="ltr" />
+            {get('venue_map_url') && (
+              <div className="mt-3 rounded-xl overflow-hidden border border-gold/20">
+                <iframe src={get('venue_map_url')} width="100%" height="200" style={{ border: 0, display: 'block' }} loading="lazy" />
+              </div>
+            )}
+          </Field>
+          <Field label="رابط الاتجاهات" hint="رابط خرائط جوجل لتوجيه الضيوف مباشرة">
+            <TextInput value={get('venue_directions_url') ?? ''} onChange={v => set('venue_directions_url', v)} placeholder="https://maps.google.com/..." dir="ltr" />
           </Field>
         </Section>
 
@@ -224,11 +232,12 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   )
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <div>
       <label className="block text-sm text-espresso/70 mb-1.5 font-medium">{label}</label>
       {children}
+      {hint && <p className="text-xs text-espresso/40 mt-1.5">{hint}</p>}
     </div>
   )
 }

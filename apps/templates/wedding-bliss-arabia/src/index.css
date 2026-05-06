@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Reem+Kufi:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: oklch(0.74 0.13 80);
+  --gold-deep: oklch(0.58 0.14 70);
+  --emerald: oklch(0.32 0.07 155);
+  --emerald-deep: oklch(0.22 0.06 155);
+  --emerald-darkest: oklch(0.18 0.05 155);
+  --ivory: #F5F0E8;
+  --gradient-gold: linear-gradient(135deg, oklch(0.78 0.14 80), oklch(0.6 0.15 65));
+  --gradient-emerald: linear-gradient(160deg, oklch(0.28 0.06 155), oklch(0.18 0.05 155));
+  --shadow-gold: 0 0 60px oklch(0.74 0.13 80 / 0.35);
+  --shadow-elegant: 0 30px 80px -30px oklch(0.22 0.06 155 / 0.45);
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes ping-slow {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.animate-ping-slow {
+  animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}

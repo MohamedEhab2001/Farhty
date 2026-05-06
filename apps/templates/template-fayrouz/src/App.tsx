@@ -6,14 +6,13 @@ import LocationSection from './components/LocationSection'
 import RSVPSection from './components/RSVPSection'
 import WishingWall from './components/WishingWall'
 import FluidCursor from './components/FluidCursor'
-import useScrollReveal from './hooks/useScrollReveal'
+import FallingPetals from './components/FallingPetals'
+import { motion } from 'framer-motion'
 
 export default function App() {
   const { instance, isLoading, isAuthenticated } = useTemplateData()
   const { get } = useTemplateFields()
   const isAdminRoute = window.location.pathname === '/admin'
-
-  useScrollReveal()
 
   // 1. Always show loading screen first
   if (isLoading) return <LoadingScreen bg="#FAF5EE" />
@@ -29,6 +28,8 @@ export default function App() {
     <div className="min-h-screen bg-ivory">
       {instance?.isPreview && <PreviewBanner templateName="فيروز" />}
 
+      <FallingPetals />
+
       <HeroSection />
 
       {instance?.features.countdown && <CountdownSection />}
@@ -40,9 +41,18 @@ export default function App() {
       {instance?.features.wishWall && <WishingWall />}
 
       {/* Footer */}
-      <footer className="py-8 text-center bg-mahogany text-cream/60">
-        <p className="font-naskh text-sm">
-          صُمّمت بكل حب بواسطة <span className="text-gold font-bold">فرحتي</span>
+      <footer className="relative py-10 text-center overflow-hidden"
+        style={{ background: 'linear-gradient(180deg, #4A2A18, #3D2117)' }}>
+        {/* Subtle top glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[60px] opacity-10"
+          style={{ background: 'radial-gradient(ellipse, #C9A96E, transparent 70%)' }} />
+
+        <motion.div
+          className="w-24 h-px mx-auto mb-4"
+          style={{ background: 'linear-gradient(90deg, transparent, #C9A96E40, transparent)' }}
+        />
+        <p className="font-naskh text-sm text-cream/40">
+          صُمّمت بكل حب بواسطة <span className="gold-shimmer font-bold">فرحتي</span>
         </p>
       </footer>
 

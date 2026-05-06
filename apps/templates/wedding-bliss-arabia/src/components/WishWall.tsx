@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useTemplateData, useTemplateFields } from '@farhty/template-sdk'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 
@@ -8,7 +8,7 @@ interface WishEntry {
   timestamp: string
 }
 
-export default function WishingWall() {
+export default function WishWall() {
   const { slug } = useTemplateData()
   const { get } = useTemplateFields()
   const [name, setName] = useState('')
@@ -57,58 +57,49 @@ export default function WishingWall() {
   }
 
   return (
-    <section ref={ref} className="relative py-20 md:py-28 bg-gradient-to-b from-ivory via-cream/50 to-ivory overflow-hidden">
-      {/* Floating dove */}
-      <motion.img
-        src="/dove.svg"
-        alt=""
-        className="absolute top-8 left-8 w-20 md:w-28 opacity-30 pointer-events-none"
-        animate={{ y: [-8, 8, -8], rotate: [-2, 2, -2] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      <div className="max-w-3xl mx-auto px-4 relative z-10">
+    <section ref={ref} className="py-24 px-6 relative overflow-hidden" style={{ background: 'oklch(0.22 0.06 155 / 0.4)' }}>
+      <div className="max-w-3xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-10">
-          <motion.img
-            src="/wishing-wall-icon.svg"
-            alt=""
-            className="w-14 h-14 mx-auto mb-4 opacity-70"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={inView ? { opacity: 0.7, scale: 1 } : {}}
-            transition={{ duration: 0.6, type: 'spring' }}
-          />
-          <motion.h2
-            className="font-amiri text-espresso mb-2"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}
+          <motion.p
+            dir="rtl"
+            className="font-arabic text-2xl text-gold mb-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+          >
+            حائط الأمنيات
+          </motion.p>
+          <motion.h3
+            className="font-serif text-4xl md:text-5xl mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
           >
-            حائط الأمنيات
-          </motion.h2>
+            Wish Wall
+          </motion.h3>
           <motion.p
-            className="font-naskh text-espresso/40"
+            className="font-serif text-ivory/50 text-sm"
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.3 }}
           >
-            اتركوا لنا كلمة من القلب
+            Leave a message from the heart
           </motion.p>
           <motion.div
             className="mt-4 mx-auto w-48 h-px"
-            style={{ background: 'linear-gradient(90deg, transparent, #C9A96E40, transparent)' }}
+            style={{ background: 'linear-gradient(90deg, transparent, oklch(0.74 0.13 80 / 0.4), transparent)' }}
             initial={{ scaleX: 0 }}
             animate={inView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
           />
         </div>
 
-        {/* Input form */}
+        {/* Form */}
         <motion.form
           onSubmit={submit}
-          className="bg-gradient-to-b from-cream to-ivory/80 rounded-2xl p-6 border border-gold/15
-                     shadow-lg mb-10 backdrop-blur-sm"
+          className="border border-gold/20 backdrop-blur-sm rounded-sm p-6 md:p-8 mb-10"
+          style={{ background: 'oklch(0.18 0.05 155 / 0.6)' }}
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.2 }}
@@ -118,51 +109,44 @@ export default function WishingWall() {
               type="text"
               value={name}
               onChange={e => setName(e.target.value)}
-              placeholder="اسمك"
+              placeholder="Your name"
               required
-              className="w-full px-4 py-3 rounded-xl border border-gold/20 bg-ivory/70 font-naskh
-                         text-espresso outline-none focus:border-gold focus:ring-2 focus:ring-gold/10
-                         transition-all duration-200"
+              className="w-full px-4 py-3 bg-transparent border border-gold/30 text-ivory font-serif
+                         outline-none focus:border-gold transition-colors placeholder:text-ivory/30"
             />
           </div>
           <div className="mb-4">
             <textarea
               value={message}
               onChange={e => setMessage(e.target.value)}
-              placeholder="اكتب أمنيتك هنا..."
+              placeholder="Write your wish..."
               required
               rows={4}
-              className="w-full px-4 py-3 rounded-xl border border-gold/20 bg-ivory/70 font-naskh
-                         text-espresso outline-none focus:border-gold focus:ring-2 focus:ring-gold/10
-                         transition-all duration-200 resize-none"
-              style={{
-                backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, #C9A96E15 31px, #C9A96E15 32px)',
-                lineHeight: '32px',
-                paddingTop: '8px',
-              }}
+              className="w-full px-4 py-3 bg-transparent border border-gold/30 text-ivory font-serif
+                         outline-none focus:border-gold transition-colors placeholder:text-ivory/30 resize-none"
             />
           </div>
           <motion.button
             type="submit"
             disabled={status === 'submitting' || !name.trim() || !message.trim()}
-            className="w-full py-3 rounded-xl text-cream font-naskh font-semibold
-                       disabled:opacity-50 transition-all duration-300 shadow-md hover:shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #C9A96E, #B8944F)' }}
+            className="w-full py-3 text-sm tracking-[0.3em] uppercase font-serif text-emerald-deep
+                       disabled:opacity-50 transition-all"
+            style={{ background: 'var(--gradient-gold)' }}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
           >
             {status === 'submitting' ? (
               <span className="flex items-center justify-center gap-2">
                 <motion.span
-                  className="w-4 h-4 border-2 border-cream/30 border-t-cream rounded-full inline-block"
+                  className="w-4 h-4 border-2 border-emerald-deep/30 border-t-emerald-deep rounded-full inline-block"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                 />
-                جاري الإرسال...
+                Sending...
               </span>
             ) :
-             status === 'success' ? 'تم الإرسال بنجاح!' :
-             status === 'error' ? 'حدث خطأ' : 'أرسل أمنيتك'}
+             status === 'success' ? 'Sent successfully!' :
+             status === 'error' ? 'Error — try again' : 'Send your wish'}
           </motion.button>
         </motion.form>
 
@@ -173,22 +157,21 @@ export default function WishingWall() {
               {allWishes.map((wish, i) => (
                 <motion.div
                   key={`${wish.name}-${wish.timestamp}-${i}`}
-                  className="bg-gradient-to-br from-cream to-ivory rounded-xl p-5 border border-gold/15
-                             shadow-sm hover:shadow-md transition-shadow duration-300 relative group"
+                  className="border border-gold/15 p-5 backdrop-blur-sm relative group"
+                  style={{ background: 'oklch(0.18 0.05 155 / 0.4)' }}
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.5, delay: i * 0.08 }}
                 >
-                  {/* Gold corner accent */}
-                  <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-gold/25 rounded-tr-xl
-                                  group-hover:border-gold/40 transition-colors duration-300" />
-                  <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-gold/25 rounded-bl-xl
-                                  group-hover:border-gold/40 transition-colors duration-300" />
+                  <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-gold/20
+                                  group-hover:border-gold/40 transition-colors" />
+                  <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-gold/20
+                                  group-hover:border-gold/40 transition-colors" />
 
-                  <p className="font-naskh text-espresso/70 text-sm leading-relaxed mb-3">
+                  <p className="font-serif text-ivory/70 text-sm leading-relaxed mb-3 italic">
                     &ldquo;{wish.message}&rdquo;
                   </p>
-                  <p className="font-naskh text-gold/70 text-xs font-semibold">— {wish.name}</p>
+                  <p className="text-gold/70 text-xs tracking-[0.2em] uppercase">— {wish.name}</p>
                 </motion.div>
               ))}
             </div>

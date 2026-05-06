@@ -19,28 +19,32 @@
       "label": "اسم العريس",
       "type": "text",
       "defaultValue": "كريم",
-      "required": true
+      "required": true,
+      "group": "بيانات العروسين"
     },
     {
       "key": "bride_name",
       "label": "اسم العروسة",
       "type": "text",
       "defaultValue": "ليلى",
-      "required": true
+      "required": true,
+      "group": "بيانات العروسين"
     },
     {
       "key": "wedding_date",
       "label": "تاريخ الزفاف",
       "type": "date",
       "defaultValue": "",
-      "required": true
+      "required": true,
+      "group": "بيانات العروسين"
     },
     {
       "key": "tagline",
       "label": "عبارة ترحيبية",
       "type": "text",
       "defaultValue": "بداية قصة جديدة من الحب",
-      "required": false
+      "required": false,
+      "group": "بيانات العروسين"
     },
     {
       "key": "hero_image",
@@ -48,49 +52,68 @@
       "type": "image",
       "defaultValue": "",
       "cloudinaryFolder": "templates/fayrouz/hero",
-      "required": true
+      "required": true,
+      "group": "الصور والوسائط"
     },
     {
       "key": "accent_color",
       "label": "اللون الرئيسي",
       "type": "color",
       "defaultValue": "#C9A96E",
-      "required": false
+      "required": false,
+      "group": "الإعدادات"
     },
     {
       "key": "venue_name",
       "label": "اسم القاعة",
       "type": "text",
       "defaultValue": "قاعة الأفراح",
-      "required": false
+      "required": false,
+      "group": "تفاصيل الحفل"
     },
     {
       "key": "venue_address",
       "label": "عنوان القاعة",
       "type": "text",
       "defaultValue": "",
-      "required": false
+      "required": false,
+      "group": "تفاصيل الحفل"
     },
     {
-      "key": "map_url",
-      "label": "رابط خرائط جوجل (embed)",
-      "type": "text",
+      "key": "venue_map_url",
+      "label": "رابط خريطة القاعة",
+      "type": "iframe",
       "defaultValue": "",
-      "required": false
+      "required": false,
+      "group": "تفاصيل الحفل",
+      "placeholder": "https://www.google.com/maps/embed?...",
+      "hint": "انسخ رابط التضمين من خرائط جوجل (Share → Embed a map → Copy HTML → extract the src URL)"
+    },
+    {
+      "key": "venue_directions_url",
+      "label": "رابط الاتجاهات",
+      "type": "url",
+      "defaultValue": "",
+      "required": false,
+      "group": "تفاصيل الحفل",
+      "placeholder": "https://maps.google.com/...",
+      "hint": "رابط خرائط جوجل لتوجيه الضيوف مباشرة"
     },
     {
       "key": "rsvp_entries",
       "label": "تأكيدات الحضور",
       "type": "json",
       "defaultValue": "[]",
-      "required": false
+      "required": false,
+      "group": "الردود"
     },
     {
       "key": "wish_entries",
       "label": "التهاني",
       "type": "json",
       "defaultValue": "[]",
-      "required": false
+      "required": false,
+      "group": "الردود"
     }
   ],
   "previewImages": [],

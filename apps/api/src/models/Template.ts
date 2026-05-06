@@ -56,8 +56,14 @@ const TemplateFieldSchema = new Schema<ITemplateField>(
     group: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     hint: { type: String, default: '' },
-    options: { type: [{ label: String, value: String }], default: [] },
-    itemSchema: { type: [{ key: String, label: String, type: String, placeholder: String }], default: [] },
+    options: {
+      type: [new Schema({ label: String, value: String }, { _id: false })],
+      default: [],
+    },
+    itemSchema: {
+      type: [new Schema({ key: String, label: String, type: { type: String }, placeholder: String }, { _id: false })],
+      default: [],
+    },
     min: { type: Number, default: null },
     max: { type: Number, default: null },
   },

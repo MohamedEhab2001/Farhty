@@ -1,47 +1,55 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useTemplateFields } from '@farhty/template-sdk'
+import { motion, useInView } from 'framer-motion'
 
 export default function LocationSection() {
   const { get } = useTemplateFields()
-  const [visible, setVisible] = useState(false)
   const ref = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true) },
-      { threshold: 0.15 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
+  const inView = useInView(ref, { once: true, margin: '-50px' })
 
   const venueName = get('venue_name') ?? 'قاعة الأفراح'
   const venueAddress = get('venue_address') ?? 'العنوان'
-  const mapUrl = get('map_url') ?? ''
+  const mapUrl = get('venue_map_url') ?? ''
+  const directionsUrl = get('venue_directions_url') ?? ''
 
   return (
-    <section ref={ref} className="relative py-20 md:py-28 bg-ivory">
+    <section ref={ref} className="relative py-20 md:py-28 bg-gradient-to-b from-ivory via-cream to-ivory">
       {/* Floral divider top */}
-      <div className="flex justify-center mb-10 opacity-60">
+      <motion.div
+        className="flex justify-center mb-10"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={inView ? { opacity: 0.5, scale: 1 } : {}}
+        transition={{ duration: 0.8 }}
+      >
         <img src="/floral-divider.svg" alt="" className="w-72 md:w-96 h-auto" />
-      </div>
+      </motion.div>
 
       <div className="max-w-3xl mx-auto px-4 text-center">
-        <h2
-          className="font-amiri text-espresso mb-8"
+        <motion.h2
+          className="font-amiri text-espresso mb-3"
           style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
         >
           مكان الاحتفال
-        </h2>
+        </motion.h2>
+
+        <motion.div
+          className="w-16 h-px mx-auto mb-10"
+          style={{ background: 'linear-gradient(90deg, transparent, #C9A96E, transparent)' }}
+          initial={{ scaleX: 0 }}
+          animate={inView ? { scaleX: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        />
 
         {/* Map embed */}
         {mapUrl && (
-          <div
-            className="rounded-2xl overflow-hidden border-2 border-gold/40 shadow-lg mx-auto transition-all duration-800"
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'scale(1)' : 'scale(0.95)',
-            }}
+          <motion.div
+            className="rounded-2xl overflow-hidden border border-gold/30 shadow-xl mx-auto"
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
             <iframe
               src={mapUrl}
@@ -53,33 +61,40 @@ export default function LocationSection() {
               referrerPolicy="no-referrer-when-downgrade"
               className="h-[300px] md:h-[480px]"
             />
-          </div>
+          </motion.div>
         )}
 
         {/* Venue info */}
-        <div
-          className="mt-8 transition-all duration-700"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(30px)',
-            transitionDelay: '300ms',
-          }}
+        <motion.div
+          className="mt-8"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.4 }}
         >
           <h3 className="font-amiri text-2xl text-espresso mb-2">{venueName}</h3>
-          <p className="font-naskh text-espresso/60 mb-6">{venueAddress}</p>
+          <p className="font-naskh text-espresso/50 mb-6">{venueAddress}</p>
 
-          {mapUrl && (
-            <a
-              href={mapUrl.includes('embed') ? mapUrl.replace('/embed', '/place') : mapUrl}
+          {directionsUrl && (
+            <motion.a
+              href={directionsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-3 rounded-xl bg-gold text-cream font-naskh font-semibold
-                         hover:bg-gold/90 transition-colors shadow-md"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-naskh font-semibold
+                         text-cream shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: 'linear-gradient(135deg, #C9A96E, #B8944F)',
+              }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
             >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
               فتح في خرائط جوجل
-            </a>
+            </motion.a>
           )}
-        </div>
+        </motion.div>
       </div>
 
       {/* Bottom divider */}
