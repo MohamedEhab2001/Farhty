@@ -80,7 +80,7 @@ export default function OurStorySection() {
                       style={{ width: '100%', aspectRatio: i === 1 ? '4/3' : '3/4', objectFit: 'cover', display: 'block' }}
                     />
                   ) : (
-                    <div style={{ width: '100%', aspectRatio: i === 1 ? '4/3' : '3/4', background: ('color' in photo ? photo.color : '#F0E8D5') }} />
+                    <div style={{ width: '100%', aspectRatio: i === 1 ? '4/3' : '3/4', background: ('color' in photo ? (photo.color as string) : '#F0E8D5') }} />
                   )}
                 </div>
               ))}
