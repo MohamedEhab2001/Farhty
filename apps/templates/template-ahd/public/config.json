@@ -1,0 +1,5 @@
+{
+  "slug": "ahd",
+  "template": "ahd",
+  "apiBase": "http://localhost:3001"
+}

@@ -1,0 +1,154 @@
+{
+  "name": "عهد",
+  "slug": "template-ahd",
+  "price": 399,
+  "description": "دعوة زفاف بتصميم Editorial راقٍ — أبيض عاجي نظيف، أرقام سيريفية كبيرة، ولا شيء يزاحم جمال اللحظة",
+  "language": "en",
+  "features": {
+    "countdown": true,
+    "ourStory": true,
+    "eventDetails": true,
+    "rsvp": true,
+    "wishWall": true,
+    "gallery": true,
+    "shareButton": true,
+    "venueMap": true,
+    "rtl": false,
+    "pages": 1
+  },
+  "fields": [
+    {
+      "key": "bride_name",
+      "label": "Bride Name",
+      "type": "text",
+      "defaultValue": "Layla",
+      "required": true
+    },
+    {
+      "key": "groom_name",
+      "label": "Groom Name",
+      "type": "text",
+      "defaultValue": "Karim",
+      "required": true
+    },
+    {
+      "key": "wedding_date",
+      "label": "Wedding Date",
+      "type": "date",
+      "defaultValue": "",
+      "required": true
+    },
+    {
+      "key": "wedding_time",
+      "label": "Wedding Time",
+      "type": "text",
+      "defaultValue": "6:00 PM",
+      "required": false
+    },
+    {
+      "key": "hero_image",
+      "label": "Hero Portrait Photo",
+      "type": "image",
+      "defaultValue": "",
+      "cloudinaryFolder": "templates/ahd/hero",
+      "required": true
+    },
+    {
+      "key": "accent_color",
+      "label": "Accent Color",
+      "type": "color",
+      "defaultValue": "#C4A35A",
+      "required": false
+    },
+    {
+      "key": "tagline",
+      "label": "Italic Label Above Names",
+      "type": "text",
+      "defaultValue": "Together Forever",
+      "required": false
+    },
+    {
+      "key": "ceremony_venue",
+      "label": "Ceremony Venue Name",
+      "type": "text",
+      "defaultValue": "St. Mary's Cathedral",
+      "required": false
+    },
+    {
+      "key": "ceremony_time",
+      "label": "Ceremony Time",
+      "type": "text",
+      "defaultValue": "5:00 PM",
+      "required": false
+    },
+    {
+      "key": "ceremony_address",
+      "label": "Ceremony Address",
+      "type": "text",
+      "defaultValue": "123 Church Street, Cairo",
+      "required": false
+    },
+    {
+      "key": "reception_venue",
+      "label": "Reception Venue Name",
+      "type": "text",
+      "defaultValue": "The Grand Ballroom",
+      "required": false
+    },
+    {
+      "key": "reception_time",
+      "label": "Reception Time",
+      "type": "text",
+      "defaultValue": "7:00 PM",
+      "required": false
+    },
+    {
+      "key": "reception_address",
+      "label": "Reception Address",
+      "type": "text",
+      "defaultValue": "456 Garden Avenue, Cairo",
+      "required": false
+    },
+    {
+      "key": "story_text",
+      "label": "Our Story Text",
+      "type": "text",
+      "defaultValue": "From the moment we met, we knew this was something rare and beautiful. Through every season, every challenge, and every quiet moment in between — we chose each other. Today, we celebrate the beginning of forever.",
+      "required": false
+    },
+    {
+      "key": "story_images",
+      "label": "Our Story Photos (JSON array of URLs)",
+      "type": "json",
+      "defaultValue": "[]",
+      "cloudinaryFolder": "templates/ahd/story",
+      "required": false
+    },
+    {
+      "key": "gallery_images",
+      "label": "Gallery Images (array of URLs)",
+      "type": "json",
+      "defaultValue": "[]",
+      "cloudinaryFolder": "templates/ahd/gallery",
+      "required": false
+    },
+    {
+      "key": "map_embed_url",
+      "label": "Google Maps Embed URL (iframe src)",
+      "type": "text",
+      "defaultValue": "",
+      "required": false
+    },
+    {
+      "key": "map_location_url",
+      "label": "Google Maps Directions Link",
+      "type": "text",
+      "defaultValue": "",
+      "required": false
+    }
+  ],
+  "previewImages": [],
+  "previewVideo": "",
+  "status": "draft",
+  "version": "1.0.0"
+}

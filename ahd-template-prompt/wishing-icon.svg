@@ -1,0 +1,23 @@
+<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Left page -->
+  <path d="M8 12 Q8 7 14 8 L48 10 L48 70 L14 68 Q8 68 8 62Z" stroke="#C4954A" stroke-width="0.9" fill="none"/>
+  <!-- Right page -->
+  <path d="M52 10 L86 8 Q92 7 92 12 L92 62 Q92 68 86 68 L52 70Z" stroke="#C4954A" stroke-width="0.9" fill="none"/>
+  <!-- Spine shadow line -->
+  <line x1="50" y1="8" x2="50" y2="70" stroke="#C4954A" stroke-width="1.2" opacity="0.5"/>
+  <!-- Left page lines -->
+  <line x1="18" y1="24" x2="44" y2="24" stroke="#C4954A" stroke-width="0.5" opacity="0.35"/>
+  <line x1="18" y1="32" x2="44" y2="32" stroke="#C4954A" stroke-width="0.5" opacity="0.3"/>
+  <line x1="18" y1="40" x2="44" y2="40" stroke="#C4954A" stroke-width="0.5" opacity="0.25"/>
+  <line x1="18" y1="48" x2="38" y2="48" stroke="#C4954A" stroke-width="0.5" opacity="0.2"/>
+  <!-- Right page lines -->
+  <line x1="56" y1="24" x2="82" y2="24" stroke="#C4954A" stroke-width="0.5" opacity="0.35"/>
+  <line x1="56" y1="32" x2="82" y2="32" stroke="#C4954A" stroke-width="0.5" opacity="0.3"/>
+  <line x1="56" y1="40" x2="82" y2="40" stroke="#C4954A" stroke-width="0.5" opacity="0.25"/>
+  <line x1="56" y1="48" x2="76" y2="48" stroke="#C4954A" stroke-width="0.5" opacity="0.2"/>
+  <!-- Small heart on right page -->
+  <path d="M69 58 Q65 54 65 51.5 Q65 49 69 50.5 Q73 49 73 51.5 Q73 54 69 58Z"
+    fill="#C4954A" opacity="0.55"/>
+  <!-- Quote mark on left page -->
+  <text x="22" y="22" font-family="serif" font-size="14" fill="#C4954A" opacity="0.4">"</text>
+</svg>

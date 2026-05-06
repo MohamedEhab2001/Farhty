@@ -1,0 +1,7 @@
+<svg viewBox="0 0 40 38" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 34 Q6 24 4 14 Q2 5 11 3 Q16 2 20 10 Q24 2 29 3 Q38 5 36 14 Q34 24 20 34Z"
+    fill="#C4954A" opacity="0.82"/>
+  <path d="M20 28 Q10 20 9 13 Q8 8 14 7 Q17 6 20 13 Q12 8 12 14 Q12 20 20 28Z"
+    fill="#E8CC8A" opacity="0.22"/>
+  <ellipse cx="15" cy="10" rx="3" ry="2" fill="#FAF6EF" opacity="0.18" transform="rotate(-25 15 10)"/>
+</svg>

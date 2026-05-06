@@ -1,0 +1,18 @@
+<svg viewBox="0 0 500 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Left line -->
+  <line x1="0" y1="12" x2="220" y2="12" stroke="#C4954A" stroke-width="0.7" opacity="0.55"/>
+  <!-- Right line -->
+  <line x1="280" y1="12" x2="500" y2="12" stroke="#C4954A" stroke-width="0.7" opacity="0.55"/>
+  <!-- Center diamond -->
+  <rect x="236" y="6" width="12" height="12" transform="rotate(45 242 12)" fill="#C4954A" opacity="0.85"/>
+  <!-- Inner diamond highlight -->
+  <rect x="239" y="9" width="6" height="6" transform="rotate(45 242 12)" fill="#E8CC8A" opacity="0.4"/>
+  <!-- Flanking small diamonds -->
+  <rect x="256" y="9" width="6" height="6" transform="rotate(45 259 12)" stroke="#C4954A" stroke-width="0.7" fill="none" opacity="0.45"/>
+  <rect x="222" y="9" width="6" height="6" transform="rotate(45 225 12)" stroke="#C4954A" stroke-width="0.7" fill="none" opacity="0.45"/>
+  <!-- Tick dots -->
+  <circle cx="210" cy="12" r="1.2" fill="#C4954A" opacity="0.35"/>
+  <circle cx="290" cy="12" r="1.2" fill="#C4954A" opacity="0.35"/>
+  <circle cx="198" cy="12" r="0.8" fill="#C4954A" opacity="0.2"/>
+  <circle cx="302" cy="12" r="0.8" fill="#C4954A" opacity="0.2"/>
+</svg>

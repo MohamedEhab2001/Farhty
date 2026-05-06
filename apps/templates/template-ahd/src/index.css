@@ -1,0 +1,230 @@
+/* ────────────────────────────────────────────────────────────
+   Ahd — Editorial Ivory Wedding Template
+   Google Fonts: Cormorant Garamond (display) + Jost (body)
+   ──────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400;500&family=Italiana&family=Jost:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design Tokens ── */
+:root {
+  --ivory:        #FDFAF4;
+  --warm-white:   #F8F4EC;
+  --champagne:    #F5E6C8;
+  --gold:         #C4A35A;
+  --gold-light:   #D4B870;
+  --gold-dark:    #9E7C38;
+  --navy:         #1E2B3A;
+  --charcoal:     #3C3C3C;
+  --warm-gray:    #8A8078;
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  background-color: var(--ivory);
+  color: var(--charcoal);
+  direction: ltr;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--ivory); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+/* ── Typography Helpers ── */
+.font-display {
+  font-family: 'Cormorant Garamond', serif;
+}
+.font-sc {
+  font-family: 'Cormorant SC', serif;
+}
+.font-italiana {
+  font-family: 'Italiana', serif;
+}
+.font-body {
+  font-family: 'Jost', sans-serif;
+}
+
+/* ── Gold line divider ── */
+.gold-line {
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  width: 100%;
+}
+
+/* ── Reveal animation ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Parallax hero image ── */
+.parallax-container {
+  overflow: hidden;
+  position: relative;
+}
+.parallax-img {
+  will-change: transform;
+  transform-origin: center center;
+}
+
+/* ── RSVP borderless inputs ── */
+.ahd-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--warm-gray);
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  padding: 10px 0;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+  color: var(--charcoal);
+  transition: border-color 0.3s ease;
+}
+.ahd-input:focus {
+  border-bottom-color: var(--gold);
+}
+.ahd-input::placeholder {
+  color: var(--warm-gray);
+  opacity: 0.7;
+}
+
+/* ── Story polaroid photos ── */
+.polaroid {
+  background: white;
+  padding: 10px 10px 28px 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+
+/* ── Gallery hover effect ── */
+.gallery-item {
+  overflow: hidden;
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+}
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid transparent;
+  border-radius: 3px;
+  transition: border-color 0.3s ease;
+  pointer-events: none;
+}
+.gallery-item:hover img {
+  transform: scale(1.04);
+}
+.gallery-item:hover::after {
+  border-color: var(--gold);
+}
+
+/* ── Botanical SVG watermark on event cards ── */
+.event-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 24px rgba(196,163,90,0.08), 0 1px 4px rgba(0,0,0,0.04);
+}
+.event-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cellipse cx='100' cy='100' rx='60' ry='90' fill='none' stroke='%23C4A35A' stroke-width='0.8' opacity='0.18'/%3E%3Cpath d='M100 10 Q120 55 100 100 Q80 55 100 10' fill='%23C4A35A' opacity='0.07'/%3E%3Cpath d='M100 190 Q120 145 100 100 Q80 145 100 190' fill='%23C4A35A' opacity='0.07'/%3E%3Cpath d='M10 100 Q55 80 100 100 Q55 120 10 100' fill='%23C4A35A' opacity='0.07'/%3E%3Cpath d='M190 100 Q145 80 100 100 Q145 120 190 100' fill='%23C4A35A' opacity='0.07'/%3E%3C/svg%3E");
+  background-size: 160px;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ── RSVP section gold leaf pattern ── */
+.rsvp-bg {
+  background-color: var(--ivory);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 5 C35 15 40 20 30 30 C20 20 25 15 30 5Z' fill='%23C4A35A' opacity='0.08'/%3E%3Cpath d='M30 55 C35 45 40 40 30 30 C20 40 25 45 30 55Z' fill='%23C4A35A' opacity='0.06'/%3E%3Cpath d='M5 30 C15 25 20 20 30 30 C20 40 15 35 5 30Z' fill='%23C4A35A' opacity='0.06'/%3E%3Cpath d='M55 30 C45 25 40 20 30 30 C40 40 45 35 55 30Z' fill='%23C4A35A' opacity='0.06'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+/* ── Countdown boxes ── */
+.countdown-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 2rem;
+}
+
+/* ── Toast notification ── */
+.ahd-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: var(--navy);
+  color: var(--champagne);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 2rem;
+  border-radius: 999px;
+  z-index: 9999;
+  animation: toastIn 0.4s ease, toastOut 0.4s ease 2.2s forwards;
+  white-space: nowrap;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@keyframes toastOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ── Botanical divider SVG animation ── */
+@keyframes drawLine {
+  from { stroke-dashoffset: 1200; }
+  to   { stroke-dashoffset: 0; }
+}
+.botanical-line {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  transition: stroke-dashoffset 2s ease;
+}
+.botanical-line.drawn {
+  stroke-dashoffset: 0;
+}
