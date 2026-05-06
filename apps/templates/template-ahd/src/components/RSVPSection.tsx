@@ -5,7 +5,6 @@ export default function RSVPSection() {
   const { slug } = useTemplateData()
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
-
   const [name, setName] = useState('')
   const [guests, setGuests] = useState(1)
   const [attending, setAttending] = useState<boolean | null>(null)
@@ -26,23 +25,15 @@ export default function RSVPSection() {
     e.preventDefault()
     if (!name.trim() || attending === null) return
     setStatus('submitting')
-
     try {
       const config = await fetch('/config.json').then(r => r.json())
       const resolvedSlug = config.slug || window.location.hostname.split('.')[0]
       const apiBase = config.apiBase || 'http://localhost:3001'
-
       await fetch(`${apiBase}/api/instances/by-domain/rsvp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          slug: resolvedSlug,
-          name: name.trim(),
-          attending,
-          guests: attending ? guests : 0,
-        }),
+        body: JSON.stringify({ slug: resolvedSlug, name: name.trim(), attending, guests: attending ? guests : 0 }),
       })
-
       localStorage.setItem(`farhty_rsvp_submitted_${resolvedSlug}`, 'true')
       setStatus('success')
     } catch {
@@ -52,14 +43,9 @@ export default function RSVPSection() {
   }
 
   return (
-    <section
-      ref={sectionRef}
-      id="rsvp"
-      className="rsvp-bg py-24 md:py-36"
-    >
+    <section ref={sectionRef} id="rsvp" className="rsvp-bg py-24 md:py-36">
       <div className="max-w-xl mx-auto px-6">
 
-        {/* Heading */}
         <div
           className="text-center mb-14"
           style={{
@@ -68,189 +54,100 @@ export default function RSVPSection() {
             transition: 'all 1s cubic-bezier(0.22,1,0.36,1)',
           }}
         >
-          <p
-            className="font-body uppercase tracking-[0.3em] text-warm-gray mb-3"
-            style={{ fontSize: '0.62rem' }}
-          >
-            Kindly Reply By
+          <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
+            يُرجى الرد بحلول الموعد المحدد
           </p>
-          <h2
-            className="font-display italic font-light text-charcoal mb-4"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}
-          >
-            Will You Join Us?
+          <h2 className="font-amiri italic font-light text-charcoal mb-4" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
+            هل ستحضر معنا؟
           </h2>
-          <div
-            style={{
-              width: '40px',
-              height: '1px',
-              background: 'var(--gold)',
-              margin: '0 auto',
-            }}
-          />
+          <div style={{ width: '40px', height: '1px', background: 'var(--gold)', margin: '0 auto' }} />
         </div>
 
-        {/* Form / Success */}
-        <div
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'all 1s cubic-bezier(0.22,1,0.36,1) 0.15s',
-          }}
-        >
+        <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(32px)', transition: 'all 1s cubic-bezier(0.22,1,0.36,1) 0.15s' }}>
           {alreadySubmitted || status === 'success' ? (
             <div className="text-center py-12">
-              <div
-                className="mx-auto mb-6 flex items-center justify-center"
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  border: '1px solid var(--gold)',
-                  borderRadius: '50%',
-                }}
-              >
+              <div className="mx-auto mb-6 flex items-center justify-center" style={{ width: '56px', height: '56px', border: '1px solid var(--gold)', borderRadius: '50%' }}>
                 <svg viewBox="0 0 24 24" fill="none" style={{ width: '22px', height: '22px' }}>
-                  <path
-                    d="M5 13l4 4L19 7"
-                    stroke="#C4A35A"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <path d="M5 13l4 4L19 7" stroke="#C4A35A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <p
-                className="font-display italic font-light text-charcoal"
-                style={{ fontSize: '1.5rem' }}
-              >
-                Thank you.
-              </p>
-              <p
-                className="font-body font-light text-warm-gray mt-2"
-                style={{ fontSize: '0.85rem', letterSpacing: '0.08em' }}
-              >
-                Your response has been recorded.
-              </p>
+              <p className="font-amiri italic font-light text-charcoal" style={{ fontSize: '1.5rem' }}>شكرًا لك.</p>
+              <p className="font-tajawal font-light text-warm-gray mt-2" style={{ fontSize: '0.85rem' }}>تم تسجيل ردك بنجاح.</p>
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-10">
 
-              {/* Full Name */}
               <div>
-                <label
-                  className="block font-body uppercase tracking-[0.2em] text-warm-gray mb-2"
-                  style={{ fontSize: '0.6rem' }}
-                >
-                  Full Name
+                <label className="block font-tajawal font-light text-warm-gray mb-2" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
+                  الاسم الكامل
                 </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  required
-                  placeholder="Your name"
-                  className="ahd-input"
-                />
+                <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="أدخل اسمك" className="ahd-input" />
               </div>
 
-              {/* Attendance */}
               <div>
-                <label
-                  className="block font-body uppercase tracking-[0.2em] text-warm-gray mb-4"
-                  style={{ fontSize: '0.6rem' }}
-                >
-                  Attendance
+                <label className="block font-tajawal font-light text-warm-gray mb-4" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
+                  الحضور
                 </label>
                 <div className="flex gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setAttending(true)}
-                    className="flex-1 py-3 font-body font-light text-sm tracking-widest uppercase transition-all duration-300"
-                    style={{
-                      border: attending === true
-                        ? '1px solid var(--gold)'
-                        : '1px solid #D5C9B8',
-                      color: attending === true ? 'var(--gold)' : 'var(--warm-gray)',
-                      background: attending === true ? 'rgba(196,163,90,0.05)' : 'transparent',
-                      letterSpacing: '0.15em',
-                      fontSize: '0.7rem',
-                    }}
-                  >
-                    Joyfully Accept
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setAttending(false)}
-                    className="flex-1 py-3 font-body font-light text-sm tracking-widest uppercase transition-all duration-300"
-                    style={{
-                      border: attending === false
-                        ? '1px solid var(--charcoal)'
-                        : '1px solid #D5C9B8',
-                      color: attending === false ? 'var(--charcoal)' : 'var(--warm-gray)',
-                      background: 'transparent',
-                      letterSpacing: '0.15em',
-                      fontSize: '0.7rem',
-                    }}
-                  >
-                    Regretfully Decline
-                  </button>
+                  {[
+                    { val: true,  label: 'بكل سرور' },
+                    { val: false, label: 'مع الأسف' },
+                  ].map(opt => (
+                    <button
+                      key={String(opt.val)}
+                      type="button"
+                      onClick={() => setAttending(opt.val)}
+                      className="flex-1 py-3 font-tajawal font-light text-sm uppercase transition-all duration-300"
+                      style={{
+                        border: attending === opt.val
+                          ? `1px solid ${opt.val ? 'var(--gold)' : 'var(--charcoal)'}`
+                          : '1px solid #D5C9B8',
+                        color: attending === opt.val
+                          ? (opt.val ? 'var(--gold)' : 'var(--charcoal)')
+                          : 'var(--warm-gray)',
+                        background: attending === opt.val && opt.val ? 'rgba(196,163,90,0.05)' : 'transparent',
+                        fontSize: '0.8rem',
+                        letterSpacing: '0.05em',
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Number of guests — only if attending */}
               {attending === true && (
                 <div>
-                  <label
-                    className="block font-body uppercase tracking-[0.2em] text-warm-gray mb-2"
-                    style={{ fontSize: '0.6rem' }}
-                  >
-                    Number of Guests
+                  <label className="block font-tajawal font-light text-warm-gray mb-2" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
+                    عدد الحضور
                   </label>
-                  <select
-                    value={guests}
-                    onChange={e => setGuests(Number(e.target.value))}
-                    className="ahd-input"
-                    style={{ cursor: 'pointer' }}
-                  >
+                  <select value={guests} onChange={e => setGuests(Number(e.target.value))} className="ahd-input" style={{ cursor: 'pointer' }}>
                     {[1, 2, 3, 4, 5].map(n => (
-                      <option key={n} value={n}>{n} {n === 1 ? 'Guest' : 'Guests'}</option>
+                      <option key={n} value={n}>{n} {n === 1 ? 'ضيف' : 'ضيوف'}</option>
                     ))}
                   </select>
                 </div>
               )}
 
-              {/* Submit */}
               <div className="pt-2">
                 <button
                   type="submit"
                   disabled={status === 'submitting' || !name.trim() || attending === null}
                   style={{
-                    display: 'block',
-                    width: '100%',
-                    padding: '1rem 2rem',
-                    borderRadius: '999px',
-                    background: 'var(--navy)',
-                    color: '#F5E6C8',
-                    fontFamily: 'Jost, sans-serif',
-                    fontWeight: 300,
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.25em',
-                    textTransform: 'uppercase',
-                    border: 'none',
+                    display: 'block', width: '100%', padding: '1rem 2rem',
+                    borderRadius: '999px', background: 'var(--navy)',
+                    color: '#F5E6C8', fontFamily: 'Tajawal, sans-serif',
+                    fontWeight: 300, fontSize: '0.9rem', border: 'none',
                     cursor: status === 'submitting' ? 'not-allowed' : 'pointer',
                     opacity: status === 'submitting' || !name.trim() || attending === null ? 0.5 : 1,
                     transition: 'opacity 0.3s ease',
                   }}
                 >
-                  {status === 'submitting' ? 'Sending...' : 'Send Reply'}
+                  {status === 'submitting' ? 'جاري الإرسال...' : 'إرسال الرد'}
                 </button>
-
                 {status === 'error' && (
-                  <p
-                    className="text-center mt-4 font-body font-light text-warm-gray"
-                    style={{ fontSize: '0.8rem' }}
-                  >
-                    Something went wrong. Please try again.
+                  <p className="text-center mt-4 font-tajawal font-light text-warm-gray" style={{ fontSize: '0.8rem' }}>
+                    حدث خطأ، حاول مرة أخرى.
                   </p>
                 )}
               </div>

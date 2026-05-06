@@ -17,10 +17,10 @@ export default {
         'warm-gray': '#8A8078',
       },
       fontFamily: {
+        amiri:    ['Amiri', 'serif'],
+        tajawal:  ['Tajawal', 'sans-serif'],
         cormorant: ['"Cormorant Garamond"', 'serif'],
         'cormorant-sc': ['"Cormorant SC"', 'serif'],
-        jost: ['Jost', 'sans-serif'],
-        italiana: ['Italiana', 'serif'],
       },
     },
   },

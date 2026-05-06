@@ -3,7 +3,7 @@
   "slug": "template-ahd",
   "price": 399,
   "description": "دعوة زفاف بتصميم Editorial راقٍ — أبيض عاجي نظيف، أرقام سيريفية كبيرة، ولا شيء يزاحم جمال اللحظة",
-  "language": "en",
+  "language": "ar",
   "features": {
     "countdown": true,
     "ourStory": true,
@@ -13,7 +13,7 @@
     "gallery": true,
     "shareButton": true,
     "venueMap": true,
-    "rtl": false,
+    "rtl": true,
     "pages": 1
   },
   "fields": [
@@ -21,14 +21,14 @@
       "key": "bride_name",
       "label": "Bride Name",
       "type": "text",
-      "defaultValue": "Layla",
+      "defaultValue": "ليلى",
       "required": true
     },
     {
       "key": "groom_name",
       "label": "Groom Name",
       "type": "text",
-      "defaultValue": "Karim",
+      "defaultValue": "كريم",
       "required": true
     },
     {
@@ -42,7 +42,7 @@
       "key": "wedding_time",
       "label": "Wedding Time",
       "type": "text",
-      "defaultValue": "6:00 PM",
+      "defaultValue": "٦:٠٠ مساءً",
       "required": false
     },
     {
@@ -64,56 +64,56 @@
       "key": "tagline",
       "label": "Italic Label Above Names",
       "type": "text",
-      "defaultValue": "Together Forever",
+      "defaultValue": "معًا إلى الأبد",
       "required": false
     },
     {
       "key": "ceremony_venue",
       "label": "Ceremony Venue Name",
       "type": "text",
-      "defaultValue": "St. Mary's Cathedral",
+      "defaultValue": "كنيسة القديسة مريم",
       "required": false
     },
     {
       "key": "ceremony_time",
       "label": "Ceremony Time",
       "type": "text",
-      "defaultValue": "5:00 PM",
+      "defaultValue": "٥:٠٠ مساءً",
       "required": false
     },
     {
       "key": "ceremony_address",
       "label": "Ceremony Address",
       "type": "text",
-      "defaultValue": "123 Church Street, Cairo",
+      "defaultValue": "شارع الكنيسة ١٢٣، القاهرة",
       "required": false
     },
     {
       "key": "reception_venue",
       "label": "Reception Venue Name",
       "type": "text",
-      "defaultValue": "The Grand Ballroom",
+      "defaultValue": "قاعة الأفراح الكبرى",
       "required": false
     },
     {
       "key": "reception_time",
       "label": "Reception Time",
       "type": "text",
-      "defaultValue": "7:00 PM",
+      "defaultValue": "٧:٠٠ مساءً",
       "required": false
     },
     {
       "key": "reception_address",
       "label": "Reception Address",
       "type": "text",
-      "defaultValue": "456 Garden Avenue, Cairo",
+      "defaultValue": "شارع الحديقة ٤٥٦، القاهرة",
       "required": false
     },
     {
       "key": "story_text",
       "label": "Our Story Text",
       "type": "text",
-      "defaultValue": "From the moment we met, we knew this was something rare and beautiful. Through every season, every challenge, and every quiet moment in between — we chose each other. Today, we celebrate the beginning of forever.",
+      "defaultValue": "منذ اللحظة التي التقينا فيها، أدركنا أن هذا شيء نادر وجميل. عبر كل الفصول، وكل التحديات، وكل لحظة هادئة بينهما — اخترنا بعضنا. اليوم، نحتفل ببداية الأبد.",
       "required": false
     },
     {

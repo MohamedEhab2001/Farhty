@@ -3,52 +3,23 @@ import { useTemplateFields } from '@farhty/template-sdk'
 
 function CeremonyIcon() {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ width: '32px', height: '32px' }}
-    >
-      {/* Arch / church outline */}
-      <path
-        d="M10 40 L10 24 Q10 10 24 10 Q38 10 38 24 L38 40"
-        stroke="#C4A35A"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-      />
-      <line x1="6" y1="40" x2="42" y2="40" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round" />
-      <line x1="24" y1="4" x2="24" y2="12" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round" />
-      <line x1="20" y1="8" x2="28" y2="8" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round" />
-      <rect x="19" y="28" width="10" height="12" rx="1" stroke="#C4A35A" strokeWidth="1" />
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '32px', height: '32px' }}>
+      <path d="M10 40 L10 24 Q10 10 24 10 Q38 10 38 24 L38 40" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="6" y1="40" x2="42" y2="40" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="24" y1="4" x2="24" y2="12" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="20" y1="8" x2="28" y2="8" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
+      <rect x="19" y="28" width="10" height="12" rx="1" stroke="#C4A35A" strokeWidth="1"/>
     </svg>
   )
 }
 
 function ReceptionIcon() {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ width: '32px', height: '32px' }}
-    >
-      {/* Decorative arch / ornamental gate */}
-      <path
-        d="M8 42 L8 20 Q8 8 24 8 Q40 8 40 20 L40 42"
-        stroke="#C4A35A"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-      />
-      <line x1="4" y1="42" x2="44" y2="42" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round" />
-      {/* Small inner arch */}
-      <path
-        d="M16 42 L16 26 Q16 18 24 18 Q32 18 32 26 L32 42"
-        stroke="#C4A35A"
-        strokeWidth="0.8"
-        strokeLinecap="round"
-      />
-      {/* Top ornament */}
-      <circle cx="24" cy="8" r="2.5" stroke="#C4A35A" strokeWidth="1" />
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '32px', height: '32px' }}>
+      <path d="M8 42 L8 20 Q8 8 24 8 Q40 8 40 20 L40 42" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="4" y1="42" x2="44" y2="42" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M16 42 L16 26 Q16 18 24 18 Q32 18 32 26 L32 42" stroke="#C4A35A" strokeWidth="0.8" strokeLinecap="round"/>
+      <circle cx="24" cy="8" r="2.5" stroke="#C4A35A" strokeWidth="1"/>
     </svg>
   )
 }
@@ -58,13 +29,12 @@ export default function EventDetailsSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
 
-  const ceremonyVenue   = get('ceremony_venue')   ?? 'St. Mary\'s Cathedral'
-  const ceremonyTime    = get('ceremony_time')    ?? '5:00 PM'
-  const ceremonyAddress = get('ceremony_address') ?? '123 Church Street, Cairo'
-
-  const receptionVenue   = get('reception_venue')   ?? 'The Grand Ballroom'
-  const receptionTime    = get('reception_time')    ?? '7:00 PM'
-  const receptionAddress = get('reception_address') ?? '456 Garden Avenue, Cairo'
+  const ceremonyVenue   = get('ceremony_venue')   ?? 'كنيسة القديسة مريم'
+  const ceremonyTime    = get('ceremony_time')    ?? '٥:٠٠ مساءً'
+  const ceremonyAddress = get('ceremony_address') ?? 'شارع الكنيسة ١٢٣، القاهرة'
+  const receptionVenue  = get('reception_venue')  ?? 'قاعة الأفراح الكبرى'
+  const receptionTime   = get('reception_time')   ?? '٧:٠٠ مساءً'
+  const receptionAddress= get('reception_address') ?? 'شارع الحديقة ٤٥٦، القاهرة'
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -76,31 +46,14 @@ export default function EventDetailsSection() {
   }, [])
 
   const cards = [
-    {
-      icon: <CeremonyIcon />,
-      label: 'Ceremony',
-      time: ceremonyTime,
-      venue: ceremonyVenue,
-      address: ceremonyAddress,
-    },
-    {
-      icon: <ReceptionIcon />,
-      label: 'Reception',
-      time: receptionTime,
-      venue: receptionVenue,
-      address: receptionAddress,
-    },
+    { icon: <CeremonyIcon />,  label: 'حفل الزواج',     time: ceremonyTime,   venue: ceremonyVenue,   address: ceremonyAddress },
+    { icon: <ReceptionIcon />, label: 'حفل الاستقبال',  time: receptionTime,  venue: receptionVenue,  address: receptionAddress },
   ]
 
   return (
-    <section
-      ref={sectionRef}
-      id="event-details"
-      className="py-24 md:py-36 bg-ivory"
-    >
+    <section ref={sectionRef} id="event-details" className="py-24 md:py-36 bg-ivory">
       <div className="max-w-4xl mx-auto px-6">
 
-        {/* Heading */}
         <div
           className="text-center mb-16"
           style={{
@@ -109,21 +62,14 @@ export default function EventDetailsSection() {
             transition: 'all 1s cubic-bezier(0.22,1,0.36,1)',
           }}
         >
-          <p
-            className="font-body uppercase tracking-[0.3em] text-warm-gray mb-3"
-            style={{ fontSize: '0.62rem' }}
-          >
-            Join Us
+          <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
+            انضموا إلينا
           </p>
-          <h2
-            className="font-display italic font-light text-charcoal"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}
-          >
-            The Details
+          <h2 className="font-amiri italic font-light text-charcoal" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
+            تفاصيل الحفل
           </h2>
         </div>
 
-        {/* Cards row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {cards.map((card, i) => (
             <div
@@ -135,51 +81,18 @@ export default function EventDetailsSection() {
                 transition: `all 1s cubic-bezier(0.22,1,0.36,1) ${0.15 + i * 0.18}s`,
               }}
             >
-              {/* Icon */}
-              <div className="flex justify-center mb-6">
-                {card.icon}
-              </div>
-
-              {/* Label */}
-              <p
-                className="font-body uppercase tracking-[0.3em] text-warm-gray mb-4"
-                style={{ fontSize: '0.6rem' }}
-              >
+              <div className="flex justify-center mb-6">{card.icon}</div>
+              <p className="font-tajawal font-light text-warm-gray mb-4" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
                 {card.label}
               </p>
-
-              {/* Time */}
-              <p
-                className="font-display italic font-light text-gold mb-3"
-                style={{ fontSize: '1.4rem' }}
-              >
+              <p className="font-amiri italic font-light text-gold mb-3" style={{ fontSize: '1.4rem' }}>
                 {card.time}
               </p>
-
-              {/* Venue name */}
-              <h3
-                className="font-sc tracking-wide text-charcoal mb-3"
-                style={{ fontSize: '1.1rem', fontWeight: 400 }}
-              >
+              <h3 className="font-amiri text-charcoal mb-3" style={{ fontSize: '1.1rem', fontWeight: 400 }}>
                 {card.venue}
               </h3>
-
-              {/* Thin gold divider */}
-              <div
-                className="mx-auto mb-4"
-                style={{
-                  width: '32px',
-                  height: '1px',
-                  background: 'var(--gold)',
-                  opacity: 0.5,
-                }}
-              />
-
-              {/* Address */}
-              <p
-                className="font-body font-light text-warm-gray"
-                style={{ fontSize: '0.82rem', lineHeight: 1.7 }}
-              >
+              <div className="mx-auto mb-4" style={{ width: '32px', height: '1px', background: 'var(--gold)', opacity: 0.5 }} />
+              <p className="font-tajawal font-light text-warm-gray" style={{ fontSize: '0.82rem', lineHeight: 1.7 }}>
                 {card.address}
               </p>
             </div>
