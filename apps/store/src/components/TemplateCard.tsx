@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Template } from '../hooks/useTemplates'
 
@@ -25,6 +26,13 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
   const activeFeatures = Object.entries(FEATURE_ICONS).filter(
     ([key]) => template.features?.[key as keyof typeof template.features]
   )
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [isHovered, setIsHovered] = useState(false)
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+  }
 
   return (
     <motion.div
@@ -32,39 +40,56 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -4 }}
-      className="bg-[#fff7fa] shadow-sm border border-[#ebdce3]/50 rounded-3xl overflow-hidden card-glow transition-all duration-300 group flex flex-col"
+      whileHover={{ y: -6 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative bg-[#fff7fa] border border-[#ebdce3]/50 rounded-2xl overflow-hidden group flex flex-col transition-shadow duration-300"
+      style={{
+        boxShadow: isHovered
+          ? `0 0 0 1px rgba(166,107,150,0.15), 0 12px 48px rgba(166,107,150,0.12)`
+          : `0 1px 3px rgba(61,44,56,0.04), 0 4px 16px rgba(166,107,150,0.06)`,
+      }}
+      dir="rtl"
     >
-      {/* Image */}
+      {isHovered && (
+        <div
+          className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            background: `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, rgba(166,107,150,0.06), transparent 60%)`,
+            zIndex: 1,
+          }}
+        />
+      )}
+
       <div className="relative aspect-[9/16] max-h-80 overflow-hidden bg-[#fdfbf7]">
         {hasImage ? (
           <img
             src={template.previewImages[0]}
             alt={template.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <div className="text-center">
-              <div className="text-6xl mb-3">💍</div>
+              <div className="text-5xl mb-3">💍</div>
               <p className="text-[#8c7a87] text-sm">{template.name}</p>
             </div>
           </div>
         )}
 
-        {/* Language badge */}
         <div className="absolute top-3 right-3">
-          <span className="bg-[#a66b96] text-[#fdfbf7] text-xs font-bold px-3 py-1 rounded-full">
+          <span className="bg-[#a66b96]/90 backdrop-blur-sm text-[#fdfbf7] text-xs font-semibold px-3 py-1 rounded-lg">
             {LANGUAGE_LABELS[template.language] || template.language}
           </span>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-5 flex flex-col flex-1" dir="rtl">
+      <div className="p-5 flex flex-col flex-1 relative z-10">
         <div className="flex items-start justify-between mb-3">
-          <h3 className="text-xl font-bold text-[#3d2c38]">{template.name}</h3>
-          <span className="text-[#d49bbd] font-bold text-lg whitespace-nowrap mr-2">
+          <h3 className="text-lg font-bold text-[#3d2c38]">{template.name}</h3>
+          <span className="text-[#a66b96] font-bold text-lg whitespace-nowrap mr-2 font-variant-numeric tabular-nums" style={{ fontVariantNumeric: 'tabular-nums' }}>
             {template.price} ج
           </span>
         </div>
@@ -75,13 +100,12 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
           </p>
         )}
 
-        {/* Feature badges */}
         {activeFeatures.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-5">
             {activeFeatures.map(([key, { icon, label }]) => (
               <span
                 key={key}
-                className="bg-[#fdfbf7] shadow-sm border border-[#ebdce3]/50 text-[#8c7a87] text-xs px-2 py-1 rounded-lg flex items-center gap-1"
+                className="bg-[#fdfbf7] border border-[#ebdce3]/60 text-[#8c7a87] text-xs px-2.5 py-1 rounded-md flex items-center gap-1"
               >
                 <span>{icon}</span>
                 <span>{label}</span>
@@ -90,21 +114,20 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
           </div>
         )}
 
-        {/* Actions */}
-        <div className="flex gap-3 mt-auto">
+        <div className="flex gap-3 mt-auto pt-2">
           <a
             href={previewUrl}
             target="_blank"
             rel="noopener noreferrer"
             id={`preview-btn-${template.slug}`}
-            className="flex-1 py-2.5 rounded-xl shadow-sm border border-[#ebdce3]/50 text-[#8c7a87] text-sm font-medium text-center hover:border-[#a66b96] hover:text-[#a66b96] transition-all duration-200"
+            className="flex-1 py-2.5 rounded-xl border border-[#ebdce3]/60 text-[#8c7a87] text-sm font-medium text-center hover:border-[#a66b96] hover:text-[#a66b96] hover:bg-[#fef8fc] active:scale-[0.98] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2"
           >
             معاينة مباشرة
           </a>
           <button
             id={`buy-btn-${template.slug}`}
             onClick={() => onBuy(template)}
-            className="flex-1 py-2.5 rounded-xl bg-gradient-to-l from-[#a66b96] to-[#d49bbd] text-[#fdfbf7] text-sm font-bold hover:from-[#d49bbd] hover:to-[#a66b96] transition-all duration-200 active:scale-95"
+            className="flex-1 py-2.5 rounded-xl bg-[#a66b96] text-[#fdfbf7] text-sm font-bold hover:bg-[#955d85] active:scale-[0.98] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2"
           >
             اطلب الآن
           </button>

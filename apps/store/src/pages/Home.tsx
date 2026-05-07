@@ -19,7 +19,7 @@ export default function Home() {
     <div dir="rtl">
       <Navbar />
 
-      <main className="flex flex-col gap-12 pb-24">
+      <main id="main-content" className="flex flex-col gap-16 md:gap-24 pb-24">
         <Hero />
         <TemplatesGrid onBuy={setSelectedTemplate} />
         <HowItWorks />

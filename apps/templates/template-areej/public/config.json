@@ -1,0 +1,5 @@
+{
+  "slug": "areej",
+  "template": "template-areej",
+  "apiBase": "http://localhost:3001"
+}

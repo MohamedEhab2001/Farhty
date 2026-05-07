@@ -8,7 +8,7 @@ const FAQS = [
   },
   {
     q: 'هل يمكنني تعديل البيانات بنفسي؟',
-    a: 'نعم! الدعوة تحتوي على لوحة تحكم بسيطة تمكنك من تغيير الأسماء والتاريخ والصور بنفسك في أي وقت.',
+    a: 'نعم. الدعوة تحتوي على لوحة تحكم بسيطة تمكنك من تغيير الأسماء والتاريخ والصور بنفسك في أي وقت.',
   },
   {
     q: 'ما هي طرق الدفع المتاحة؟',
@@ -20,11 +20,11 @@ const FAQS = [
   },
   {
     q: 'هل يمكنني مشاركة الدعوة على واتساب؟',
-    a: 'بالطبع! الدعوة رابط إلكتروني يمكن مشاركته بسهولة على واتساب وجميع منصات التواصل الاجتماعي.',
+    a: 'بالطبع. الدعوة رابط إلكتروني يمكن مشاركته بسهولة على واتساب وجميع منصات التواصل الاجتماعي.',
   },
   {
-    q: 'ما هو سياسة الاسترداد؟',
-    a: 'نضمن استرداد المبلغ كاملاً خلال 24 ساعة إذا لم تكن راضياً عن الخدمة لأي سبب.',
+    q: 'ما هي سياسة الاسترداد؟',
+    a: 'نضمن استرداد المبلغ كاملاً خلال 24 ساعة إذا لم تكوني راضية عن الخدمة لأي سبب.',
   },
 ]
 
@@ -32,39 +32,42 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section id="faq" className="py-24 px-4">
-      <div className="max-w-3xl mx-auto">
+    <section id="faq" className="py-20 sm:py-28 px-4">
+      <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
-          <span className="text-[#a66b96] text-sm font-semibold tracking-widest uppercase mb-4 block">الأسئلة الشائعة</span>
+          <span className="section-label mb-4 block">الأسئلة الشائعة</span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d2c38]">كل ما تريد معرفته</h2>
         </motion.div>
 
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {FAQS.map((faq, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="bg-[#fff7fa] shadow-sm border border-[#ebdce3]/50 rounded-2xl overflow-hidden"
+              className={`rounded-xl overflow-hidden transition-colors duration-200 ${open === i ? 'bg-[#fff7fa] border border-[#a66b9620]' : 'bg-transparent border border-transparent'}`}
             >
               <button
                 id={`faq-btn-${i}`}
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full px-6 py-5 flex items-center justify-between text-right"
+                className="w-full px-5 py-4 flex items-center justify-between text-right gap-4 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2 rounded-xl"
               >
-                <span className="text-[#3d2c38] font-semibold">{faq.q}</span>
+                <span className="text-[#3d2c38] font-semibold text-sm sm:text-[15px]">{faq.q}</span>
                 <motion.span
                   animate={{ rotate: open === i ? 180 : 0 }}
-                  className="text-[#a66b96] text-xl mr-4 flex-shrink-0"
+                  transition={{ duration: 0.2 }}
+                  className="text-[#a66b96] text-sm flex-shrink-0"
                 >
-                  ▾
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 6L8 10L12 6" />
+                  </svg>
                 </motion.span>
               </button>
 
@@ -76,7 +79,7 @@ export default function FAQ() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.25 }}
                   >
-                    <p className="px-6 pb-5 text-[#8c7a87] leading-relaxed">{faq.a}</p>
+                    <p className="px-5 pb-4 text-[#8c7a87] text-sm leading-relaxed">{faq.a}</p>
                   </motion.div>
                 )}
               </AnimatePresence>

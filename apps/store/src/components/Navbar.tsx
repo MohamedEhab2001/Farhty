@@ -11,42 +11,51 @@ export default function Navbar() {
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="fixed top-0 inset-x-0 z-40 bg-[#fdfbf7]/80 backdrop-blur-xl border-b border-[#ebdce3]"
+      className="fixed top-0 inset-x-0 z-40 bg-[#fdfbf7]/80 backdrop-blur-xl border-b border-[#ebdce3]/60"
       dir="rtl"
+      role="navigation"
+      aria-label="التنقل الرئيسي"
     >
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <img src="/فرحتي بنفسجي.png" alt="فرحتي" className="h-10 w-auto" />
-        </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+        <a href="#" className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2 rounded-sm">
+          <img src="/فرحتي بنفسجي.png" alt="فرحتي" className="h-9 w-auto" />
+        </a>
 
-        {/* Nav links — desktop */}
-        <div className="hidden md:flex items-center gap-6">
-          <button onClick={() => scrollTo('templates')} className="text-[#8c7a87] hover:text-[#a66b96] text-sm transition-colors">
+        <div className="hidden md:flex items-center gap-8">
+          <button
+            onClick={() => scrollTo('templates')}
+            className="text-[#8c7a87] hover:text-[#3d2c38] text-sm font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-4 rounded-sm"
+          >
             القوالب
           </button>
-          <button onClick={() => scrollTo('how-it-works')} className="text-[#8c7a87] hover:text-[#a66b96] text-sm transition-colors">
+          <button
+            onClick={() => scrollTo('how-it-works')}
+            className="text-[#8c7a87] hover:text-[#3d2c38] text-sm font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-4 rounded-sm"
+          >
             كيف يعمل
           </button>
-          <button onClick={() => scrollTo('testimonials')} className="text-[#8c7a87] hover:text-[#a66b96] text-sm transition-colors">
+          <button
+            onClick={() => scrollTo('testimonials')}
+            className="text-[#8c7a87] hover:text-[#3d2c38] text-sm font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-4 rounded-sm"
+          >
             آراء العملاء
           </button>
         </div>
 
-        {/* CTA */}
         <div className="flex items-center gap-3">
           <a
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:flex items-center gap-2 text-sm text-[#8c7a87] hover:text-[#a66b96] transition-colors"
+            aria-label="تواصل عبر واتساب"
+            className="hidden sm:flex items-center gap-2 text-sm text-[#8c7a87] hover:text-[#a66b96] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-4 rounded-sm"
           >
             <IconWhatsApp size={20} />
           </a>
           <button
             id="navbar-cta-btn"
             onClick={() => scrollTo('templates')}
-            className="px-5 py-2 rounded-xl bg-gradient-to-l from-[#a66b96] to-[#d49bbd] text-[#fdfbf7] font-bold text-sm hover:from-[#d49bbd] hover:to-[#a66b96] transition-all duration-200 active:scale-95"
+            className="px-5 py-2 rounded-xl bg-[#a66b96] text-[#fdfbf7] font-semibold text-sm hover:bg-[#955d85] active:scale-[0.97] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-3"
           >
             اطلب الآن
           </button>

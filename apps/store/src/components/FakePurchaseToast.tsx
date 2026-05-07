@@ -60,7 +60,7 @@ export default function FakePurchaseToast() {
           dir="rtl"
         >
           <div className="flex items-center gap-3 bg-[#fff7fa] border border-[#a66b9640] rounded-2xl px-4 py-3 shadow-2xl">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#a66b96] to-[#d49bbd] flex items-center justify-center text-[#fdfbf7] font-bold text-sm flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#a66b96] to-[#d49bbd] flex items-center justify-center text-[#fdfbf7] font-bold text-sm flex-shrink-0">
               {current.name[0]}
             </div>
             <div className="min-w-0">

@@ -4,63 +4,64 @@ import { IconTemplate, IconChat, IconShare } from './BrandIcons'
 const STEPS = [
   {
     num: '١',
-    icon: <IconTemplate size={36} className="text-[#a66b96]" />,
-    title: 'اختار قالبك المفضل',
-    desc: 'تصفّح قوالبنا الفاخرة واختر التصميم الذي يعكس ذوقك وشخصيتك',
+    icon: <IconTemplate size={28} className="text-[#a66b96]" />,
+    title: 'اختاري قالبك',
+    desc: 'تصفّحي القوالب واختاري التصميم الذي يعكس ذوقك',
   },
   {
     num: '٢',
-    icon: <IconChat size={36} className="text-[#a66b96]" />,
-    title: 'تواصل معنا على واتساب',
-    desc: 'راسلنا لتأكيد الطلب وسداد المبلغ بإحدى طرق الدفع المتاحة',
+    icon: <IconChat size={28} className="text-[#a66b96]" />,
+    title: 'تواصلي معنا',
+    desc: 'راسلينا على واتساب لتأكيد الطلب وسداد المبلغ',
   },
   {
     num: '٣',
-    icon: <IconShare size={36} className="text-[#a66b96]" />,
-    title: 'ادخل بياناتك وشارك دعوتك',
-    desc: 'احصل على رابط دعوتك الخاصة واملأ بياناتك وشاركها مع ضيوفك فوراً',
+    icon: <IconShare size={28} className="text-[#a66b96]" />,
+    title: 'شاركي دعوتك',
+    desc: 'احصلي على الرابط وادخلي بياناتك وشاركيها مع ضيوفك فوراً',
   },
 ]
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 px-4">
-      <div className="max-w-5xl mx-auto">
+    <section id="how-it-works" className="py-20 sm:py-28 px-4 bg-[#fef8fc]">
+      <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
-          <span className="text-[#a66b96] text-sm font-semibold tracking-widest uppercase mb-4 block">خطوات بسيطة</span>
+          <span className="section-label mb-4 block">خطوات بسيطة</span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d2c38]">
             كيف يعمل فرحتي؟
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          {/* Connecting line */}
-          <div className="hidden md:block absolute top-12 right-[16.66%] left-[16.66%] h-px bg-gradient-to-l from-transparent via-[#a66b9640] to-transparent" />
-
+        <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-8 md:gap-6 relative">
           {STEPS.map((step, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              className="text-center relative"
+              transition={{ delay: i * 0.12 }}
+              className="flex-1 text-center md:text-center relative"
             >
-              <div className="relative inline-block mb-6">
-                <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-[#a66b9620] to-[#d49bbd20] border border-[#a66b9630] flex items-center justify-center text-4xl animate-float" style={{ animationDelay: `${i * 0.5}s` }}>
+              <div className="flex flex-col items-center">
+                <div className="relative w-16 h-16 rounded-2xl bg-white border border-[#ebdce3]/60 shadow-[0_2px_12px_rgba(166,107,150,0.08)] flex items-center justify-center mb-5">
                   {step.icon}
+                  <div className="absolute -top-2 -right-2 w-5 h-5 rounded-md bg-[#a66b96] flex items-center justify-center text-[#fdfbf7] text-[10px] font-bold">
+                    {step.num}
+                  </div>
                 </div>
-                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gradient-to-br from-[#a66b96] to-[#d49bbd] flex items-center justify-center text-[#fdfbf7] text-xs font-bold">
-                  {step.num}
-                </div>
+                <h3 className="text-base font-bold text-[#3d2c38] mb-2">{step.title}</h3>
+                <p className="text-[#8c7a87] text-sm leading-relaxed max-w-[220px]">{step.desc}</p>
               </div>
-              <h3 className="text-lg font-bold text-[#3d2c38] mb-3">{step.title}</h3>
-              <p className="text-[#8c7a87] text-sm leading-relaxed">{step.desc}</p>
+
+              {i < STEPS.length - 1 && (
+                <div className="hidden md:block absolute top-8 left-[calc(50%+44px)] w-[calc(50%-20px)] border-t border-dashed border-[#d49bbd]/40" />
+              )}
             </motion.div>
           ))}
         </div>
