@@ -1,0 +1,5 @@
+{
+    "slug": "asala",
+    "template": "template-asala",
+    "apiBase": "http://localhost:3001"
+}

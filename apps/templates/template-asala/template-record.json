@@ -1,0 +1,206 @@
+{
+  "name": "أصالة",
+  "slug": "template-asala",
+  "price": 349,
+  "description": "دعوة زفاف فاخرة بطابع بورغاندي وذهبي مع ستارة افتتاحية وعداد تنازلي وتأكيد حضور",
+  "language": "ar",
+  "features": {
+    "rtl": true,
+    "pages": 1,
+    "curtainIntro": true,
+    "coupleBubbles": true,
+    "story": true,
+    "countdown": true,
+    "venueMap": true,
+    "rsvp": true,
+    "wishWall": true
+  },
+  "fields": [
+    {
+      "key": "bride_name",
+      "label": "اسم العروسة",
+      "type": "text",
+      "defaultValue": "ليلى",
+      "required": true,
+      "group": "بيانات العروسين",
+      "placeholder": "مثال: ليلى"
+    },
+    {
+      "key": "groom_name",
+      "label": "اسم العريس",
+      "type": "text",
+      "defaultValue": "أحمد",
+      "required": true,
+      "group": "بيانات العروسين",
+      "placeholder": "مثال: أحمد"
+    },
+    {
+      "key": "wedding_date",
+      "label": "تاريخ الزفاف",
+      "type": "date",
+      "defaultValue": "",
+      "required": true,
+      "group": "بيانات العروسين",
+      "hint": "يُستخدم في العداد التنازلي وعنوان قسم الموعد"
+    },
+    {
+      "key": "wedding_time",
+      "label": "وقت بدء الحفل",
+      "type": "text",
+      "defaultValue": "الثامنة مساءً",
+      "required": false,
+      "group": "بيانات العروسين",
+      "placeholder": "مثال: الثامنة مساءً"
+    },
+    {
+      "key": "father_bride_name",
+      "label": "اسم والد العروسة",
+      "type": "text",
+      "defaultValue": "السيد محمود الحسيني",
+      "required": false,
+      "group": "بيانات العروسين",
+      "placeholder": "مثال: السيد محمود الحسيني",
+      "hint": "يظهر في قسم بطاقة الدعوة الرسمية"
+    },
+    {
+      "key": "father_groom_name",
+      "label": "اسم والد العريس",
+      "type": "text",
+      "defaultValue": "السيد كريم منصور",
+      "required": false,
+      "group": "بيانات العروسين",
+      "placeholder": "مثال: السيد كريم منصور",
+      "hint": "يظهر في قسم بطاقة الدعوة الرسمية"
+    },
+    {
+      "key": "welcome_message",
+      "label": "رسالة الترحيب",
+      "type": "textarea",
+      "defaultValue": "نشارككم لحظة كتبها القلب قبل الورق، ونزفّ إليكم دعوتنا لحضور حفل قراننا.",
+      "required": false,
+      "group": "النصوص",
+      "placeholder": "اكتب رسالة ترحيب مميزة...",
+      "hint": "تظهر أسفل أسماء العروسين في القسم الرئيسي"
+    },
+    {
+      "key": "bubble_messages",
+      "label": "رسائل فقاعات الحوار",
+      "type": "array",
+      "defaultValue": [
+        { "id": "hero",       "speaker": "bride", "text": "أهلًا بكم في رحلة فرحنا… أنا ليلى." },
+        { "id": "invitation", "speaker": "groom", "text": "يشرّفنا حضوركم في أجمل ليالي العمر، أنا أحمد." },
+        { "id": "story",      "speaker": "bride", "text": "كل قصة حب تبدأ بنظرة… وقصتنا بدأت بابتسامة." },
+        { "id": "countdown",  "speaker": "groom", "text": "قلوبنا تعدّ الأيام معكم حتى يحلّ الفرح." },
+        { "id": "venue",      "speaker": "bride", "text": "ننتظركم في المكان الذي اخترناه بكل حب." },
+        { "id": "rsvp",       "speaker": "groom", "text": "حضوركم هو أغلى هدية… أكّدوا لنا تشرّفكم." },
+        { "id": "wishwall",   "speaker": "bride", "text": "اتركوا لنا كلمة من القلب… تسعدنا كثيرًا." }
+      ],
+      "required": false,
+      "group": "فقاعات الحوار",
+      "hint": "رسالة تظهر في فقاعة الحوار عند التمرير لكل قسم — القسم يجب أن يطابق: hero | invitation | story | countdown | venue | rsvp",
+      "itemSchema": [
+        { "key": "id",      "label": "القسم",      "type": "text", "placeholder": "hero | invitation | story | countdown | venue | rsvp" },
+        { "key": "speaker", "label": "المتحدث",    "type": "text", "placeholder": "bride أو groom" },
+        { "key": "text",    "label": "نص الرسالة", "type": "text", "placeholder": "اكتب الرسالة هنا..." }
+      ]
+    },
+    {
+      "key": "story_items",
+      "label": "محطات قصة الحب",
+      "type": "array",
+      "defaultValue": [
+        { "year": "٢٠٢١", "title": "اللقاء الأول", "text": "نظرة في حفل صديق… غيّرت مسار حياتنا." },
+        { "year": "٢٠٢٣", "title": "الخطوبة", "text": "تحت ضوء القمر، قلنا نعم لرحلة العمر." },
+        { "year": "٢٠٢٥", "title": "الزفاف", "text": "اليوم الذي ننتظره… ونريدكم فيه." }
+      ],
+      "required": false,
+      "group": "قصة الحب",
+      "hint": "أضف أو عدّل محطات قصتكم — السنة والعنوان والوصف",
+      "itemSchema": [
+        { "key": "year", "label": "السنة", "type": "text", "placeholder": "مثال: ٢٠٢٣" },
+        { "key": "title", "label": "عنوان المحطة", "type": "text", "placeholder": "مثال: الخطوبة" },
+        { "key": "text", "label": "وصف المحطة", "type": "text", "placeholder": "مثال: تحت ضوء القمر قلنا نعم…" }
+      ]
+    },
+    {
+      "key": "venue_name",
+      "label": "اسم القاعة",
+      "type": "text",
+      "defaultValue": "قاعة الماسة الكبرى — القاهرة",
+      "required": false,
+      "group": "تفاصيل الحفل",
+      "placeholder": "مثال: قاعة الماسة الكبرى — القاهرة"
+    },
+    {
+      "key": "venue_description",
+      "label": "وصف القاعة",
+      "type": "textarea",
+      "defaultValue": "قاعة فاخرة بإطلالة آسرة وقوشة من الذهب والورود.",
+      "required": false,
+      "group": "تفاصيل الحفل",
+      "placeholder": "صِف القاعة وما يميزها..."
+    },
+    {
+      "key": "venue_map_url",
+      "label": "رابط خريطة القاعة",
+      "type": "iframe",
+      "defaultValue": "",
+      "required": false,
+      "group": "تفاصيل الحفل",
+      "placeholder": "https://www.google.com/maps/embed?pb=...",
+      "hint": "من خرائط جوجل: Share ← Embed a map ← انسخ قيمة src من كود الـ HTML"
+    },
+    {
+      "key": "hero_image",
+      "label": "صورة العروسين (الغلاف)",
+      "type": "image",
+      "defaultValue": "",
+      "cloudinaryFolder": "templates/asala/hero",
+      "required": true,
+      "group": "الصور والوسائط",
+      "hint": "تظهر داخل الإطار الدائري في القسم الرئيسي"
+    },
+    {
+      "key": "bride_image",
+      "label": "صورة العروسة (الفقاعات)",
+      "type": "image",
+      "defaultValue": "",
+      "cloudinaryFolder": "templates/asala/bride",
+      "required": false,
+      "group": "الصور والوسائط",
+      "hint": "تظهر في فقاعات الحوار في أسفل الشاشة"
+    },
+    {
+      "key": "groom_image",
+      "label": "صورة العريس (الفقاعات)",
+      "type": "image",
+      "defaultValue": "",
+      "cloudinaryFolder": "templates/asala/groom",
+      "required": false,
+      "group": "الصور والوسائط",
+      "hint": "تظهر في فقاعات الحوار في أسفل الشاشة"
+    },
+    {
+      "key": "accent_color",
+      "label": "اللون الرئيسي",
+      "type": "color",
+      "defaultValue": "#C9A96E",
+      "required": false,
+      "group": "الإعدادات",
+      "hint": "اللون الذهبي المستخدم في التمييزات والزخارف"
+    },
+    {
+      "key": "wish_entries",
+      "label": "التهاني والأمنيات",
+      "type": "json",
+      "defaultValue": "[]",
+      "required": false,
+      "group": "الردود",
+      "hint": "يُحدَّث تلقائيًا عند إرسال الضيوف لأمنياتهم — للقراءة فقط"
+    }
+  ],
+  "previewImages": [],
+  "previewVideo": "",
+  "status": "draft",
+  "version": "1.0.0"
+}

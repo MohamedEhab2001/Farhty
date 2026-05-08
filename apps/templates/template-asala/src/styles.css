@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Tajawal:wght@300;400;500;700&display=swap');
+@import "tailwindcss" source(none);
+@source "../src";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-burgundy: var(--burgundy);
+  --color-ivory: var(--ivory);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --font-display: var(--font-display);
+  --font-arabic: var(--font-arabic);
+  --font-body: var(--font-body);
+}
+
+:root {
+  /* Luxury palette — burgundy, gold, ivory */
+  --background: oklch(0.16 0.02 25);
+  --foreground: oklch(0.96 0.02 80);
+  --card: oklch(0.20 0.04 25);
+  --card-foreground: oklch(0.96 0.02 80);
+  --primary: oklch(0.78 0.13 80);
+  --primary-foreground: oklch(0.18 0.02 25);
+  --secondary: oklch(0.30 0.10 20);
+  --secondary-foreground: oklch(0.96 0.02 80);
+  --muted: oklch(0.25 0.03 25);
+  --muted-foreground: oklch(0.78 0.04 70);
+  --accent: oklch(0.85 0.14 78);
+  --accent-foreground: oklch(0.18 0.02 25);
+
+  --gold: oklch(0.82 0.14 82);
+  --gold-soft: oklch(0.90 0.08 85);
+  --burgundy: oklch(0.32 0.12 18);
+  --ivory: oklch(0.96 0.02 85);
+
+  --border: oklch(0.78 0.13 80 / 0.25);
+  --ring: oklch(0.78 0.13 80);
+
+  --font-display: 'Cormorant Garamond', serif;
+  --font-arabic: 'Amiri', serif;
+  --font-body: 'Tajawal', sans-serif;
+
+  --gradient-gold: linear-gradient(135deg, oklch(0.88 0.12 85), oklch(0.72 0.16 75));
+  --gradient-curtain: linear-gradient(180deg, oklch(0.28 0.18 22) 0%, oklch(0.18 0.14 20) 50%, oklch(0.10 0.10 18) 100%);
+  --shadow-gold: 0 10px 40px -10px oklch(0.78 0.13 80 / 0.5);
+  --shadow-deep: 0 30px 80px -20px oklch(0 0 0 / 0.6);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { direction: rtl; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-arabic { font-family: var(--font-arabic); }
+  .font-body { font-family: var(--font-body); }
+
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .bg-gradient-gold { background: var(--gradient-gold); }
+  .bg-gradient-curtain { background: var(--gradient-curtain); }
+  .shadow-gold { box-shadow: var(--shadow-gold); }
+  .shadow-deep { box-shadow: var(--shadow-deep); }
+
+  .curtain-velvet {
+    background:
+      repeating-linear-gradient(
+        90deg,
+        oklch(0.10 0.10 18 / 0.4) 0px,
+        transparent 8px,
+        oklch(0.95 0.05 30 / 0.08) 14px,
+        transparent 22px,
+        oklch(0.10 0.10 18 / 0.5) 30px
+      ),
+      var(--gradient-curtain);
+  }
+
+  .ornament-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+  }
+
+  .glass-card {
+    background: oklch(0.18 0.02 25 / 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid oklch(0.78 0.13 80 / 0.2);
+  }
+
+  @keyframes petal-fall {
+    0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.8; }
+    100% { transform: translateY(110vh) translateX(40px) rotate(360deg); opacity: 0; }
+  }
+  .animate-petal { animation: petal-fall linear infinite; }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.6; }
+    50%       { opacity: 1; }
+  }
+  .animate-shimmer { animation: shimmer 3s ease-in-out infinite; }
+}
