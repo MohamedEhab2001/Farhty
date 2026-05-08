@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(pnpm --filter @farhty/template-asala install)",
+      "Bash(pnpm --filter @farhty/template-asala build)"
     ]
   }
 }
