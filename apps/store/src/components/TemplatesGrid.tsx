@@ -46,7 +46,7 @@ export default function TemplatesGrid({ onBuy }: TemplatesGridProps) {
         >
           <span className="section-label mb-4 block">القوالب</span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d2c38] mb-4">
-            اختاري قالبك المفضل
+            اختر قالبك المفضل
           </h2>
           <p className="text-[#8c7a87] max-w-md mx-auto leading-relaxed">
             قوالب دعوات رقمية تفاعلية بتصاميم فاخرة وقابلة للتخصيص الكامل

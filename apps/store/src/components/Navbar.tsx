@@ -1,9 +1,14 @@
+import { Link } from 'react-router-dom'
 import { WHATSAPP_NUMBER } from '../api/client'
 import { motion } from 'framer-motion'
 import { IconWhatsApp } from './BrandIcons'
 
 export default function Navbar() {
   const scrollTo = (id: string) => {
+    if (window.location.pathname !== '/') {
+      window.location.href = `/#${id}`
+      return
+    }
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -17,9 +22,9 @@ export default function Navbar() {
       aria-label="التنقل الرئيسي"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2 rounded-sm">
+        <Link to="/" className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2 rounded-sm">
           <img src="/فرحتي بنفسجي.png" alt="فرحتي" className="h-9 w-auto" />
-        </a>
+        </Link>
 
         <div className="hidden md:flex items-center gap-8">
           <button
@@ -63,4 +68,4 @@ export default function Navbar() {
       </div>
     </motion.nav>
   )
-}
+}

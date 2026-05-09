@@ -7,8 +7,8 @@ function getTimeLeft(dateStr: string): TimeLeft {
   const target = new Date(dateStr).getTime()
   const diff = Math.max(0, target - Date.now())
   return {
-    days:    Math.floor(diff / (1000 * 60 * 60 * 24)),
-    hours:   Math.floor((diff / (1000 * 60 * 60)) % 24),
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
     minutes: Math.floor((diff / (1000 * 60)) % 60),
     seconds: Math.floor((diff / 1000) % 60),
   }
@@ -39,10 +39,10 @@ export default function CountdownSection() {
   }, [weddingDate])
 
   const units = [
-    { label: 'ثانية',  value: pad(timeLeft.seconds) },
-    { label: 'دقيقة',  value: pad(timeLeft.minutes) },
-    { label: 'ساعة',   value: pad(timeLeft.hours) },
-    { label: 'يوم',    value: pad(timeLeft.days) },
+    { label: 'ثانية', value: pad(timeLeft.seconds) },
+    { label: 'دقيقة', value: pad(timeLeft.minutes) },
+    { label: 'ساعة', value: pad(timeLeft.hours) },
+    { label: 'يوم', value: pad(timeLeft.days) },
   ]
 
   return (
@@ -70,7 +70,7 @@ export default function CountdownSection() {
               transition: 'all 1s cubic-bezier(0.22,1,0.36,1) 0.1s',
             }}
           >
-            يوم زفافنا
+            بانتظار فرحتنا
           </h2>
         </div>
 

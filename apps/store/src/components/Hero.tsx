@@ -64,7 +64,7 @@ export default function Hero() {
           transition={{ delay: 0.4 }}
           className="text-[#8c7a87] text-base sm:text-lg md:text-xl max-w-xl sm:mx-auto leading-relaxed mb-10"
         >
-          تصاميم رومانسية ناعمة بتفاصيل تخطف الأنظار، ودعوة تفاعلية تشاركينها مع أحبابك بلمسة زر
+          تصاميم رومانسية ناعمة بتفاصيل تخطف الأنظار، ودعوة تفاعلية تشاركها مع أحبابك بلمسة زر
         </motion.p>
 
         <motion.div
@@ -78,7 +78,7 @@ export default function Hero() {
             onClick={scrollToTemplates}
             className="btn-primary w-full sm:w-auto"
           >
-            استعرضي القوالب الآن
+            استعرض القوالب الآن
             <IconDiamond size={18} />
           </button>
           <a
@@ -89,7 +89,7 @@ export default function Hero() {
             className="btn-ghost w-full sm:w-auto"
           >
             <IconWhatsApp size={20} />
-            تحدثي معنا
+            تحدث معنا
           </a>
         </motion.div>
       </div>
