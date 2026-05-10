@@ -93,7 +93,7 @@ export default function WishWall({ initialWishes }: Props) {
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm tracking-[0.1em] transition-transform hover:scale-105 disabled:opacity-50"
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full px-7 py-3 text-sm tracking-[0.1em] transition-transform hover:scale-105 disabled:opacity-50"
             style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-gold)', color: 'var(--cream)', fontFamily: 'Tajawal, sans-serif', fontWeight: 500 }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

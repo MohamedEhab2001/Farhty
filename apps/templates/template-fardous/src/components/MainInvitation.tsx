@@ -63,7 +63,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.2 }}
-      className="relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col items-center px-6 py-16"
+      className="relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col items-center px-4 py-10 sm:px-6 sm:py-14 md:py-16"
     >
       {/* Mute button */}
       {instance?.features?.music !== false && (
@@ -80,7 +80,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
 
       {/* Frame */}
       <div
-        className="relative w-full rounded-[2rem] px-6 py-14 backdrop-blur-sm md:px-14 md:py-20"
+        className="relative w-full rounded-[1.5rem] sm:rounded-[2rem] px-4 py-10 sm:px-6 sm:py-14 backdrop-blur-sm md:px-14 md:py-20"
         style={{ border: '1px solid rgba(184,150,46,0.4)', background: 'rgba(247,243,233,0.6)', boxShadow: '0 30px 80px -30px rgba(139,110,26,0.35)' }}
       >
         <CornerOrnament className="absolute -right-3 -top-3" />
@@ -126,18 +126,18 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           </p>
 
           {/* Names */}
-          <h1 className="mt-8 text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
+          <h1 className="mt-8 text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
             {brideName}
           </h1>
-          <p className="my-3 text-4xl text-gold-gradient" style={{ fontFamily: 'Amiri, serif' }}>﴾ ﷽ ﴿</p>
-          <h1 className="text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
+          <p className="my-3 text-3xl sm:text-4xl text-gold-gradient" style={{ fontFamily: 'Amiri, serif' }}>﴾ ﷽ ﴿</p>
+          <h1 className="text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
             {groomName}
           </h1>
 
           <Divider />
 
           {/* Details grid */}
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-5 md:gap-8 md:grid-cols-3">
             <DetailBlock
               icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>}
               label="التاريخ"

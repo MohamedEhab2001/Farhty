@@ -37,20 +37,20 @@ export default function Countdown({ weddingDate, weddingTime }: Props) {
       <p className="text-sm tracking-[0.15em]" style={{ color: 'rgba(26,64,48,0.7)', fontFamily: 'Tajawal, sans-serif' }}>
         العداد التنازلي لليوم المبارك
       </p>
-      <div className="mt-6 grid grid-cols-4 gap-3 md:gap-5">
+      <div className="mt-6 grid grid-cols-4 gap-1.5 sm:gap-3 md:gap-5">
         {UNITS.map((u) => (
           <div
             key={u.key}
-            className="flex flex-col items-center rounded-2xl px-2 py-5 backdrop-blur-sm"
+            className="flex flex-col items-center rounded-xl md:rounded-2xl px-1 py-3 sm:px-2 sm:py-4 md:py-5 backdrop-blur-sm"
             style={{ border: '1px solid rgba(184,150,46,0.4)', background: 'rgba(247,243,233,0.7)', boxShadow: 'var(--shadow-gold)' }}
           >
             <span
-              className="text-3xl md:text-5xl tabular-nums text-gold-gradient"
+              className="text-xl sm:text-3xl md:text-5xl tabular-nums text-gold-gradient"
               style={{ fontFamily: 'Amiri, serif', fontWeight: 700 }}
             >
               {String(values[u.key]).padStart(2, '0')}
             </span>
-            <span className="mt-2 text-[11px] md:text-xs" style={{ color: 'rgba(26,64,48,0.7)', fontFamily: 'Tajawal, sans-serif' }}>
+            <span className="mt-1 text-[8px] sm:text-[10px] md:text-xs" style={{ color: 'rgba(26,64,48,0.7)', fontFamily: 'Tajawal, sans-serif' }}>
               {u.label}
             </span>
           </div>

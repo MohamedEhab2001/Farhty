@@ -65,7 +65,7 @@ export default function CoverScreen({ onOpen, get }: Props) {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1.2, delay: 1.05 }}
-        className="mt-3 text-sm tracking-[0.25em]"
+        className="mt-3 text-sm tracking-[0.1em] sm:tracking-[0.25em]"
         style={{ color: 'rgba(26,64,48,0.7)', fontFamily: 'Tajawal, sans-serif' }}
       >
         يُشرّفنا حضوركم لحفل {eventType}
@@ -86,7 +86,7 @@ export default function CoverScreen({ onOpen, get }: Props) {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1.2, delay: 1.6 }}
         onClick={onOpen}
-        className="group relative mt-14 inline-flex items-center gap-3 rounded-full px-10 py-4 text-base tracking-[0.15em] transition-transform hover:scale-105"
+        className="group relative mt-10 sm:mt-14 inline-flex items-center gap-3 rounded-full px-7 py-4 sm:px-10 text-base tracking-[0.1em] sm:tracking-[0.15em] transition-transform hover:scale-105"
         style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-gold)', color: 'var(--cream)', fontFamily: 'Tajawal, sans-serif', fontWeight: 500 }}
       >
         <span className="absolute inset-0 rounded-full border" style={{ borderColor: 'rgba(247,243,233,0.4)' }} />
