@@ -4,11 +4,10 @@ import { useTemplateFields } from '@farhty/template-sdk'
 function CeremonyIcon() {
   return (
     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '32px', height: '32px' }}>
-      <path d="M10 40 L10 24 Q10 10 24 10 Q38 10 38 24 L38 40" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
-      <line x1="6" y1="40" x2="42" y2="40" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
-      <line x1="24" y1="4" x2="24" y2="12" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
-      <line x1="20" y1="8" x2="28" y2="8" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
-      <rect x="19" y="28" width="10" height="12" rx="1" stroke="#C4A35A" strokeWidth="1"/>
+      <path d="M10 40 L10 24 Q10 10 24 10 Q38 10 38 24 L38 40" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round" />
+      <line x1="6" y1="40" x2="42" y2="40" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round" />
+      <path d="M24 10 C24 10 23 8.5 21.5 8.5 C20 8.5 19 9.5 19 11 C19 13.5 24 16 24 16 C24 16 29 13.5 29 11 C29 9.5 28 8.5 26.5 8.5 C25 8.5 24 10 24 10" fill="#C4A35A" />
+      <rect x="19" y="28" width="10" height="12" rx="1" stroke="#C4A35A" strokeWidth="1" />
     </svg>
   )
 }
@@ -16,10 +15,10 @@ function CeremonyIcon() {
 function ReceptionIcon() {
   return (
     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '32px', height: '32px' }}>
-      <path d="M8 42 L8 20 Q8 8 24 8 Q40 8 40 20 L40 42" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
-      <line x1="4" y1="42" x2="44" y2="42" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
-      <path d="M16 42 L16 26 Q16 18 24 18 Q32 18 32 26 L32 42" stroke="#C4A35A" strokeWidth="0.8" strokeLinecap="round"/>
-      <circle cx="24" cy="8" r="2.5" stroke="#C4A35A" strokeWidth="1"/>
+      <path d="M8 42 L8 20 Q8 8 24 8 Q40 8 40 20 L40 42" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round" />
+      <line x1="4" y1="42" x2="44" y2="42" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round" />
+      <path d="M16 42 L16 26 Q16 18 24 18 Q32 18 32 26 L32 42" stroke="#C4A35A" strokeWidth="0.8" strokeLinecap="round" />
+      <circle cx="24" cy="8" r="2.5" stroke="#C4A35A" strokeWidth="1" />
     </svg>
   )
 }
@@ -29,12 +28,12 @@ export default function EventDetailsSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
 
-  const ceremonyVenue   = get('ceremony_venue')   ?? 'كنيسة القديسة مريم'
-  const ceremonyTime    = get('ceremony_time')    ?? '٥:٠٠ مساءً'
-  const ceremonyAddress = get('ceremony_address') ?? 'شارع الكنيسة ١٢٣، القاهرة'
-  const receptionVenue  = get('reception_venue')  ?? 'قاعة الأفراح الكبرى'
-  const receptionTime   = get('reception_time')   ?? '٧:٠٠ مساءً'
-  const receptionAddress= get('reception_address') ?? 'شارع الحديقة ٤٥٦، القاهرة'
+  const ceremonyVenue = get('ceremony_venue') ?? 'قاعة القصر الملكي'
+  const ceremonyTime = get('ceremony_time') ?? '٥:٠٠ مساءً'
+  const ceremonyAddress = get('ceremony_address') ?? 'شارع النيل ٤٥٦، الزمالك، القاهرة'
+  const receptionVenue = get('reception_venue') ?? 'قاعة الأفراح الكبرى'
+  const receptionTime = get('reception_time') ?? '٧:٠٠ مساءً'
+  const receptionAddress = get('reception_address') ?? 'شارع الحديقة ٤٥٦، القاهرة'
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,8 +45,8 @@ export default function EventDetailsSection() {
   }, [])
 
   const cards = [
-    { icon: <CeremonyIcon />,  label: 'حفل الزواج',     time: ceremonyTime,   venue: ceremonyVenue,   address: ceremonyAddress },
-    { icon: <ReceptionIcon />, label: 'حفل الاستقبال',  time: receptionTime,  venue: receptionVenue,  address: receptionAddress },
+    { icon: <CeremonyIcon />, label: 'حفل الزواج', time: ceremonyTime, venue: ceremonyVenue, address: ceremonyAddress },
+    { icon: <ReceptionIcon />, label: 'حفل الحناء', time: receptionTime, venue: receptionVenue, address: receptionAddress },
   ]
 
   return (

@@ -84,11 +84,9 @@ export default function WishWall() {
           }}
         >
           <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
-            اترك رسالة
-          </p>
+            دفتر التهانى          </p>
           <h2 className="font-amiri italic font-light text-charcoal mb-4" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-            تهانٍ وأمنيات
-          </h2>
+            أرسل تهنئتك          </h2>
           <div style={{ width: '40px', height: '1px', background: 'var(--gold)', margin: '0 auto' }} />
         </div>
 
@@ -147,9 +145,9 @@ export default function WishWall() {
               }}
             >
               {status === 'submitting' ? 'جاري الإرسال...'
-               : status === 'success'  ? 'تم الإرسال ✓'
-               : status === 'error'    ? 'خطأ — حاول مرة أخرى'
-               : 'أرسل أمنيتك'}
+                : status === 'success' ? 'تم الإرسال ✓'
+                  : status === 'error' ? 'خطأ — حاول مرة أخرى'
+                    : 'أرسل أمنيتك'}
             </button>
           </div>
         </form>
@@ -182,7 +180,7 @@ export default function WishWall() {
 
         {allWishes.length === 0 && (
           <p className="text-center font-tajawal font-light text-warm-gray" style={{ fontSize: '0.85rem', opacity: 0.6 }}>
-            كن أول من يترك أمنية.
+            كن أول من يترك تهنئة.
           </p>
         )}
 

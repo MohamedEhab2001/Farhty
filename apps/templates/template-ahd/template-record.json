@@ -71,7 +71,7 @@
       "key": "ceremony_venue",
       "label": "Ceremony Venue Name",
       "type": "text",
-      "defaultValue": "كنيسة القديسة مريم",
+      "defaultValue": "قاعة القصر الملكي",
       "required": false
     },
     {
@@ -85,7 +85,7 @@
       "key": "ceremony_address",
       "label": "Ceremony Address",
       "type": "text",
-      "defaultValue": "شارع الكنيسة ١٢٣، القاهرة",
+      "defaultValue": "شارع النيل ٤٥٦، الزمالك، القاهرة",
       "required": false
     },
     {

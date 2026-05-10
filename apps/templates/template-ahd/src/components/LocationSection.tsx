@@ -6,10 +6,10 @@ export default function LocationSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
 
-  const mapEmbedUrl    = get('map_embed_url')     as string | undefined
-  const mapLocationUrl = get('map_location_url')  as string | undefined
-  const venueName      = get('reception_venue')   ?? 'قاعة الأفراح'
-  const venueAddress   = get('reception_address') ?? ''
+  const mapEmbedUrl = get('map_embed_url') as string | undefined
+  const mapLocationUrl = get('map_location_url') as string | undefined
+  const venueName = get('ceremony_venue') ?? 'قاعة الأفراح'
+  const venueAddress = get('ceremony_address') ?? ''
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -30,8 +30,8 @@ export default function LocationSection() {
           className="text-center mb-12"
           style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(24px)', transition: 'all 1s cubic-bezier(0.22,1,0.36,1)' }}
         >
-          <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
-            اعثر علينا
+          <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '2rem', letterSpacing: '0.1em' }}>
+            المكان
           </p>
           <h2 className="font-amiri italic font-light text-charcoal mb-3" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
             {venueName}
@@ -78,17 +78,17 @@ export default function LocationSection() {
                 transition: 'background 0.3s ease, color 0.3s ease',
               }}
               onMouseEnter={e => {
-                ;(e.currentTarget as HTMLAnchorElement).style.background = '#C4A35A'
-                ;(e.currentTarget as HTMLAnchorElement).style.color = '#FDFAF4'
+                ; (e.currentTarget as HTMLAnchorElement).style.background = '#C4A35A'
+                  ; (e.currentTarget as HTMLAnchorElement).style.color = '#FDFAF4'
               }}
               onMouseLeave={e => {
-                ;(e.currentTarget as HTMLAnchorElement).style.background = 'transparent'
-                ;(e.currentTarget as HTMLAnchorElement).style.color = '#C4A35A'
+                ; (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'
+                  ; (e.currentTarget as HTMLAnchorElement).style.color = '#C4A35A'
               }}
             >
               <svg viewBox="0 0 20 20" fill="none" style={{ width: '14px', height: '14px' }}>
-                <path d="M10 2C7.24 2 5 4.24 5 7c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="10" cy="7" r="1.5" stroke="currentColor" strokeWidth="1.2"/>
+                <path d="M10 2C7.24 2 5 4.24 5 7c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="10" cy="7" r="1.5" stroke="currentColor" strokeWidth="1.2" />
               </svg>
               احصل على الاتجاهات
             </a>

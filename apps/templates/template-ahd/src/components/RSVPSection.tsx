@@ -54,9 +54,9 @@ export default function RSVPSection() {
             transition: 'all 1s cubic-bezier(0.22,1,0.36,1)',
           }}
         >
-          <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
+          {/* <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
             يُرجى الرد بحلول الموعد المحدد
-          </p>
+          </p> */}
           <h2 className="font-amiri italic font-light text-charcoal mb-4" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
             هل ستحضر معنا؟
           </h2>
@@ -68,7 +68,7 @@ export default function RSVPSection() {
             <div className="text-center py-12">
               <div className="mx-auto mb-6 flex items-center justify-center" style={{ width: '56px', height: '56px', border: '1px solid var(--gold)', borderRadius: '50%' }}>
                 <svg viewBox="0 0 24 24" fill="none" style={{ width: '22px', height: '22px' }}>
-                  <path d="M5 13l4 4L19 7" stroke="#C4A35A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M5 13l4 4L19 7" stroke="#C4A35A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
               <p className="font-amiri italic font-light text-charcoal" style={{ fontSize: '1.5rem' }}>شكرًا لك.</p>
@@ -90,7 +90,7 @@ export default function RSVPSection() {
                 </label>
                 <div className="flex gap-4">
                   {[
-                    { val: true,  label: 'بكل سرور' },
+                    { val: true, label: 'بكل سرور' },
                     { val: false, label: 'مع الأسف' },
                   ].map(opt => (
                     <button

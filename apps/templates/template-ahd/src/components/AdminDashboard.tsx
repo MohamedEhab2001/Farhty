@@ -108,7 +108,7 @@ export default function AdminDashboard() {
 
   const rsvpEntries: { name: string; attending: boolean; guests: number }[] = parseJson(get('rsvp_entries'))
   const wishEntries: { name: string; message: string; timestamp?: string; visible?: boolean }[] = parseJson(get('wish_entries'))
-  const storyImages  = parseImages(get('story_images'))
+  const storyImages = parseImages(get('story_images'))
   const galleryImages = parseImages(get('gallery_images'))
 
   // stats
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
               onUpload={f => handleUpload('hero_image', f, 'templates/ahd/hero')}
             />
           </Field>
-          <Field label="اللون الرئيسي">
+          {/* <Field label="اللون الرئيسي">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <input
                 type="color"
@@ -188,18 +188,18 @@ export default function AdminDashboard() {
                 {get('accent_color') ?? '#C4A35A'}
               </span>
             </div>
-          </Field>
+          </Field> */}
         </Section>
 
         {/* ─── حفل الزواج ─── */}
         <Section title="حفل الزواج">
-          <Field label="اسم القاعة"><TextInput value={get('ceremony_venue') ?? ''} onChange={v => set('ceremony_venue', v)} placeholder="كنيسة القديسة مريم" /></Field>
+          <Field label="اسم القاعة"><TextInput value={get('ceremony_venue') ?? ''} onChange={v => set('ceremony_venue', v)} placeholder="قاعة القصر الملكي" /></Field>
           <Field label="الوقت"><TextInput value={get('ceremony_time') ?? ''} onChange={v => set('ceremony_time', v)} placeholder="٥:٠٠ مساءً" /></Field>
-          <Field label="العنوان"><TextInput value={get('ceremony_address') ?? ''} onChange={v => set('ceremony_address', v)} placeholder="شارع الكنيسة ١٢٣، القاهرة" /></Field>
+          <Field label="العنوان"><TextInput value={get('ceremony_address') ?? ''} onChange={v => set('ceremony_address', v)} placeholder="شارع النيل ٤٥٦، الزمالك، القاهرة" /></Field>
         </Section>
 
         {/* ─── حفل الاستقبال ─── */}
-        <Section title="حفل الاستقبال">
+        <Section title="حفل الحناء">
           <Field label="اسم القاعة"><TextInput value={get('reception_venue') ?? ''} onChange={v => set('reception_venue', v)} placeholder="قاعة الأفراح الكبرى" /></Field>
           <Field label="الوقت"><TextInput value={get('reception_time') ?? ''} onChange={v => set('reception_time', v)} placeholder="٧:٠٠ مساءً" /></Field>
           <Field label="العنوان"><TextInput value={get('reception_address') ?? ''} onChange={v => set('reception_address', v)} placeholder="شارع الحديقة ٤٥٦، القاهرة" /></Field>
@@ -358,14 +358,14 @@ export default function AdminDashboard() {
                       {isVisible ? (
                         // عين مفتوحة
                         <svg viewBox="0 0 20 20" fill="none" style={{ width: '14px', height: '14px' }}>
-                          <path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6z" stroke="#C4A35A" strokeWidth="1.2"/>
-                          <circle cx="10" cy="10" r="2" stroke="#C4A35A" strokeWidth="1.2"/>
+                          <path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6z" stroke="#C4A35A" strokeWidth="1.2" />
+                          <circle cx="10" cy="10" r="2" stroke="#C4A35A" strokeWidth="1.2" />
                         </svg>
                       ) : (
                         // عين مغلقة
                         <svg viewBox="0 0 20 20" fill="none" style={{ width: '14px', height: '14px' }}>
-                          <path d="M3 3l14 14M8.5 8.5A2 2 0 0012 12m-6.5-5.5C4.2 7.7 2 10 2 10s3 6 8 6c1.5 0 2.9-.4 4-.9" stroke="#8A8078" strokeWidth="1.2" strokeLinecap="round"/>
-                          <path d="M14 13.5C15.7 12.2 18 10 18 10s-3-6-8-6c-.7 0-1.4.1-2 .3" stroke="#8A8078" strokeWidth="1.2" strokeLinecap="round"/>
+                          <path d="M3 3l14 14M8.5 8.5A2 2 0 0012 12m-6.5-5.5C4.2 7.7 2 10 2 10s3 6 8 6c1.5 0 2.9-.4 4-.9" stroke="#8A8078" strokeWidth="1.2" strokeLinecap="round" />
+                          <path d="M14 13.5C15.7 12.2 18 10 18 10s-3-6-8-6c-.7 0-1.4.1-2 .3" stroke="#8A8078" strokeWidth="1.2" strokeLinecap="round" />
                         </svg>
                       )}
                     </button>
@@ -398,9 +398,9 @@ export default function AdminDashboard() {
           }}
         >
           {saving ? 'جاري الحفظ...'
-           : saveStatus === 'saved' ? 'تم الحفظ!'
-           : saveStatus === 'error' ? 'خطأ — حاول مرة أخرى'
-           : 'حفظ التغييرات'}
+            : saveStatus === 'saved' ? 'تم الحفظ!'
+              : saveStatus === 'error' ? 'خطأ — حاول مرة أخرى'
+                : 'حفظ التغييرات'}
         </button>
 
       </div>
@@ -501,7 +501,7 @@ function ArrayImageUpload({ images, uploadStatus, uploadError, onUpload, onRemov
         opacity: isUploading ? 0.5 : 1,
       }}>
         <svg viewBox="0 0 20 20" fill="none" style={{ width: '16px', height: '16px' }}>
-          <path d="M10 4v12M4 10h12" stroke="#C4A35A" strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M10 4v12M4 10h12" stroke="#C4A35A" strokeWidth="1.4" strokeLinecap="round" />
         </svg>
         {isUploading ? 'جاري رفع الصورة...' : 'أضف صورة'}
         <input
