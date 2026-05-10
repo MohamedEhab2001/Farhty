@@ -4,7 +4,7 @@ import { Invitation } from './components/Invitation'
 
 export default function App() {
   const { instance, isLoading, isAuthenticated } = useTemplateData()
-  const isAdminRoute = window.location.pathname === '/admin'
+  const isAdminRoute = window.location.pathname === '/admin' || window.location.pathname === '/admin/'
 
   if (isLoading) return <LoadingScreen bg="oklch(0.16 0.02 25)" />
 

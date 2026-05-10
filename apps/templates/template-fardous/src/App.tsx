@@ -11,7 +11,7 @@ const DEFAULT_AUDIO = 'https://everyayah.com/data/Alafasy_128kbps/030021.mp3'
 export default function App() {
   const { instance, isLoading, isAuthenticated } = useTemplateData()
   const { get } = useTemplateFields()
-  const isAdminRoute = window.location.pathname === '/admin'
+  const isAdminRoute = window.location.pathname === '/admin' || window.location.pathname === '/admin/'
 
   const [opened, setOpened] = useState(false)
   const [muted, setMuted] = useState(false)

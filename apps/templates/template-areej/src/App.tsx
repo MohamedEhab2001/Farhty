@@ -40,7 +40,7 @@ const defaultFeatures = {
 export default function App() {
   const { instance, isLoading, isAuthenticated } = useTemplateData()
   const { get } = useTemplateFields()
-  const isAdminRoute = window.location.pathname === '/admin'
+  const isAdminRoute = window.location.pathname === '/admin' || window.location.pathname === '/admin/'
 
   const [envelopeOpened, setEnvelopeOpened] = useState(() => {
     return sessionStorage.getItem('areej_envelope_opened') === 'true'

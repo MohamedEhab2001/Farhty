@@ -21,7 +21,7 @@ import Footer from './components/Footer'
 export default function App() {
   const { instance, isLoading, isAuthenticated } = useTemplateData()
   const { get } = useTemplateFields()
-  const isAdminRoute = window.location.pathname === '/admin'
+  const isAdminRoute = window.location.pathname === '/admin' || window.location.pathname === '/admin/'
 
   if (isLoading) return <LoadingScreen bg="#FDFAF4" />
 

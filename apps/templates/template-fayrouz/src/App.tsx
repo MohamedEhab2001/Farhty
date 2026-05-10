@@ -12,7 +12,7 @@ import { motion } from 'framer-motion'
 export default function App() {
   const { instance, isLoading, isAuthenticated } = useTemplateData()
   const { get } = useTemplateFields()
-  const isAdminRoute = window.location.pathname === '/admin'
+  const isAdminRoute = window.location.pathname === '/admin' || window.location.pathname === '/admin/'
 
   // 1. Always show loading screen first
   if (isLoading) return <LoadingScreen bg="#FAF5EE" />
