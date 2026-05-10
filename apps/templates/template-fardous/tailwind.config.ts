@@ -14,9 +14,9 @@ export default {
         'emerald-deep': '#1A4030',
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'serif'],
+        display: ['Amiri', '"Reem Kufi"', 'serif'],
         arabic:  ['Amiri', '"Reem Kufi"', 'serif'],
-        body:    ['"Cormorant Garamond"', 'serif'],
+        body:    ['Tajawal', 'sans-serif'],
       },
       keyframes: {
         shimmer:    { '0%,100%': { opacity: '0.6' }, '50%': { opacity: '1' } },

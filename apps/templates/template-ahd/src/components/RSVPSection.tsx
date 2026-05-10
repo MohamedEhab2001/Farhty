@@ -97,7 +97,7 @@ export default function RSVPSection() {
                       key={String(opt.val)}
                       type="button"
                       onClick={() => setAttending(opt.val)}
-                      className="flex-1 py-3 font-tajawal font-light text-sm uppercase transition-all duration-300"
+                      className="flex-1 py-3 font-tajawal font-light text-sm uppercase transition-all duration-300 min-h-[48px]"
                       style={{
                         border: attending === opt.val
                           ? `1px solid ${opt.val ? 'var(--gold)' : 'var(--charcoal)'}`

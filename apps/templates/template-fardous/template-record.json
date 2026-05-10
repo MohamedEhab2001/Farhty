@@ -2,166 +2,158 @@
   "name": "فردوس",
   "slug": "template-fardous",
   "price": 499,
-  "description": "دعوة زفاف إسلامية فاخرة بتصميم ذهبي زمردي — آيات قرآنية، تلاوة صوتية، عداد تنازلي، وجدار أمنيات",
-  "language": "en",
+  "description": "دعوة زفاف إسلامية فاخرة بتصميم ذهبي زمردي — آيات قرآنية، تلاوة قرآنية، عداد تنازلي، وجدار أمنيات",
+  "language": "ar",
   "features": {
     "music": true,
     "countdown": true,
     "venueMap": true,
     "wishWall": true,
-    "rtl": false,
+    "rtl": true,
     "pages": 1
   },
   "fields": [
     {
       "key": "bride_name",
-      "label": "Bride's Name",
+      "label": "اسم العروسة",
       "type": "text",
-      "defaultValue": "Noor",
+      "defaultValue": "نور",
       "required": true,
-      "group": "The Couple"
+      "group": "بيانات الزوجين"
     },
     {
       "key": "groom_name",
-      "label": "Groom's Name",
+      "label": "اسم العريس",
       "type": "text",
-      "defaultValue": "Yusuf",
+      "defaultValue": "يوسف",
       "required": true,
-      "group": "The Couple"
+      "group": "بيانات الزوجين"
     },
     {
       "key": "family_bride",
-      "label": "Bride's Family Name",
+      "label": "عائلة العروسة",
       "type": "text",
-      "defaultValue": "Al-Hassan",
+      "defaultValue": "آل الحسن",
       "required": false,
-      "group": "The Couple"
+      "group": "بيانات الزوجين"
     },
     {
       "key": "family_groom",
-      "label": "Groom's Family Name",
+      "label": "عائلة العريس",
       "type": "text",
-      "defaultValue": "Al-Rahman",
+      "defaultValue": "آل الرحمان",
       "required": false,
-      "group": "The Couple"
+      "group": "بيانات الزوجين"
     },
     {
       "key": "event_type",
-      "label": "Event Type",
+      "label": "نوع الحفل",
       "type": "text",
-      "defaultValue": "Walīmah",
+      "defaultValue": "وليمة",
       "required": false,
-      "group": "The Couple",
-      "placeholder": "Walīmah / Wedding Reception"
+      "group": "بيانات الزوجين",
+      "placeholder": "وليمة / حفل زفاف"
     },
     {
       "key": "wedding_date",
-      "label": "Wedding Date",
+      "label": "تاريخ الزفاف",
       "type": "date",
       "defaultValue": "",
       "required": true,
-      "group": "The Couple"
+      "group": "بيانات الزوجين"
     },
     {
       "key": "wedding_time",
-      "label": "Wedding Time",
+      "label": "وقت الحفل",
       "type": "time",
       "defaultValue": "19:30",
       "required": false,
-      "group": "The Couple"
+      "group": "بيانات الزوجين"
     },
     {
       "key": "quran_verse_ar",
-      "label": "Quran Verse (Arabic)",
+      "label": "نص الآية القرآنية",
       "type": "textarea",
       "defaultValue": "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً",
       "required": false,
-      "group": "Content"
-    },
-    {
-      "key": "quran_verse_en",
-      "label": "Quran Verse (English Translation)",
-      "type": "textarea",
-      "defaultValue": "\"And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquillity with them, and He has put love and mercy between you.\"",
-      "required": false,
-      "group": "Content"
+      "group": "المحتوى"
     },
     {
       "key": "quran_verse_ref",
-      "label": "Verse Reference",
+      "label": "مرجع الآية",
       "type": "text",
-      "defaultValue": "— Surah Ar-Rūm 30:21",
+      "defaultValue": "— سورة الروم ٣٠:٢١",
       "required": false,
-      "group": "Content"
+      "group": "المحتوى"
     },
     {
       "key": "venue_name",
-      "label": "Venue Name",
+      "label": "اسم القاعة",
       "type": "text",
-      "defaultValue": "Al-Andalus Hall",
+      "defaultValue": "قاعة الأندلس",
       "required": false,
-      "group": "Venue"
+      "group": "مكان الحفل"
     },
     {
       "key": "venue_address",
-      "label": "Venue Address",
+      "label": "عنوان القاعة",
       "type": "text",
-      "defaultValue": "Heliopolis, Cairo · Egypt",
+      "defaultValue": "مصر الجديدة، القاهرة",
       "required": false,
-      "group": "Venue"
+      "group": "مكان الحفل"
     },
     {
       "key": "venue_map_url",
-      "label": "Google Maps Embed URL",
+      "label": "رابط تضمين خرائط جوجل",
       "type": "iframe",
       "defaultValue": "",
       "required": false,
-      "group": "Venue",
+      "group": "مكان الحفل",
       "placeholder": "https://www.google.com/maps/embed?pb=...",
-      "hint": "Share → Embed a map → copy the src URL from the iframe HTML"
+      "hint": "خرائط جوجل ← مشاركة ← تضمين خريطة ← انسخ قيمة الـ src من الـ iframe"
     },
     {
       "key": "venue_map_link",
-      "label": "Google Maps Directions Link",
+      "label": "رابط الاتجاهات",
       "type": "url",
       "defaultValue": "",
       "required": false,
-      "group": "Venue",
+      "group": "مكان الحفل",
       "placeholder": "https://maps.google.com/?q=..."
     },
     {
       "key": "hero_image",
-      "label": "Hero / Background Image",
+      "label": "صورة الغلاف / الخلفية",
       "type": "image",
       "defaultValue": "",
       "cloudinaryFolder": "templates/fardous/hero",
       "required": false,
-      "group": "Media"
+      "group": "الوسائط"
     },
     {
       "key": "audio_url",
-      "label": "Quran Recitation URL (MP3)",
+      "label": "رابط تلاوة القرآن (MP3)",
       "type": "url",
       "defaultValue": "https://everyayah.com/data/Alafasy_128kbps/030021.mp3",
       "required": false,
-      "group": "Media",
-      "hint": "Direct URL to an MP3 file. Default: Mishary Alafasy reciting Ar-Rum 30:21"
+      "group": "الوسائط",
+      "hint": "رابط مباشر لملف MP3 — الافتراضي: تلاوة المشاري العفاسي لسورة الروم آية ٢١"
     },
     {
       "key": "accent_color",
-      "label": "Accent Color",
+      "label": "اللون الرئيسي",
       "type": "color",
       "defaultValue": "#B8962E",
       "required": false,
-      "group": "Settings"
+      "group": "الإعدادات"
     },
     {
       "key": "wish_entries",
-      "label": "Wish Wall Entries",
+      "label": "أمنيات جدار الأمنيات",
       "type": "json",
       "defaultValue": "[]",
       "required": false,
-      "group": "Responses"
+      "group": "الردود"
     }
   ],
   "previewImages": [],

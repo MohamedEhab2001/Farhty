@@ -138,9 +138,9 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* ── الجوال: الصورة فوق ٤٥٪، النص تحت ── */}
+      {/* ── الجوال: الصورة فوق ٤٢٪، النص تحت ── */}
       <div className="flex flex-col md:hidden w-full h-full">
-        <div className="parallax-container" style={{ height: '45%' }}>
+        <div className="parallax-container" style={{ height: '42%' }}>
           {heroImage ? (
             <img src={heroImage} alt="صورة العروسين" className="w-full h-full object-cover object-top" />
           ) : (
@@ -150,7 +150,7 @@ export default function HeroSection() {
           )}
         </div>
 
-        <div className="flex-1 flex items-center justify-center bg-ivory px-8">
+        <div className="flex-1 flex items-center justify-center bg-ivory px-5 sm:px-8">
           <div className="text-center w-full">
             <p className="font-amiri italic font-light text-warm-gray text-base mb-4">{tagline}</p>
             <span className="gold-line block mb-5" />

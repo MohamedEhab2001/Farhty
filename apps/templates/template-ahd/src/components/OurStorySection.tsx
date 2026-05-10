@@ -51,7 +51,7 @@ export default function OurStorySection() {
               transition: 'all 1.1s cubic-bezier(0.22,1,0.36,1)',
             }}
           >
-            <div className="relative" style={{ minHeight: '480px' }}>
+            <div className="relative" style={{ minHeight: 'clamp(320px, 85vw, 480px)' }}>
               {photos.map((photo, i) => (
                 <div
                   key={i}

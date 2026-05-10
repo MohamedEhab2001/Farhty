@@ -55,8 +55,7 @@ export default function LocationSection() {
           <iframe
             src={mapEmbedUrl}
             width="100%"
-            height="420"
-            style={{ border: 0, display: 'block' }}
+            style={{ border: 0, display: 'block', height: 'clamp(220px, 55vw, 420px)' }}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

@@ -83,14 +83,13 @@ export default function GallerySection() {
           </h2>
         </div>
 
-        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <div>{col1.map((src, r) => renderItem(src, 0, r))}</div>
           <div>{col2.map((src, r) => renderItem(src, 1, r))}</div>
           <div className="hidden md:block">{col3.map((src, r) => renderItem(src, 2, r))}</div>
         </div>
 
       </div>
-      <style>{`@media(max-width:767px){#gallery .grid{grid-template-columns:repeat(2,1fr)!important}}`}</style>
     </section>
   )
 }

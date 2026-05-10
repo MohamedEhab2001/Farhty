@@ -135,6 +135,7 @@ export default function WishWall() {
             <button
               type="submit"
               disabled={status === 'submitting' || !name.trim() || !message.trim()}
+              className="w-full sm:w-auto"
               style={{
                 padding: '0.9rem 2.5rem', borderRadius: '999px',
                 background: 'var(--navy)', color: '#F5E6C8',

@@ -74,7 +74,7 @@ export default function EventDetailsSection() {
           {cards.map((card, i) => (
             <div
               key={card.label}
-              className="event-card p-10 md:p-12 text-center"
+              className="event-card p-7 sm:p-10 md:p-12 text-center"
               style={{
                 opacity: visible ? 1 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(40px)',

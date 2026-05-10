@@ -87,7 +87,7 @@ export default function CountdownSection() {
             >
               <span
                 className="font-amiri font-light text-charcoal leading-none tabular-nums"
-                style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}
+                style={{ fontSize: 'clamp(1.8rem, 8vw, 6rem)' }}
               >
                 {unit.value}
               </span>
