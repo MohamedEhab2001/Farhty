@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import { Template } from '../hooks/useTemplates'
 
 interface TemplateCardProps {
@@ -35,39 +34,29 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -6 }}
+    <div
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative bg-[#fff7fa] border border-[#ebdce3]/50 rounded-2xl overflow-hidden group flex flex-col transition-shadow duration-300"
-      style={{
-        boxShadow: isHovered
-          ? `0 0 0 1px rgba(166,107,150,0.15), 0 12px 48px rgba(166,107,150,0.12)`
-          : `0 1px 3px rgba(61,44,56,0.04), 0 4px 16px rgba(166,107,150,0.06)`,
-      }}
+      className="card-luxe overflow-hidden group glint flex flex-col relative"
       dir="rtl"
     >
       {isHovered && (
         <div
-          className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="pointer-events-none absolute -inset-px rounded-[1.25rem] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           style={{
-            background: `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, rgba(166,107,150,0.06), transparent 60%)`,
+            background: `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, rgba(166,107,150,0.08), transparent 60%)`,
             zIndex: 1,
           }}
         />
       )}
 
-      <div className="relative aspect-[9/16] max-h-80 overflow-hidden bg-[#fdfbf7]">
+      <div className="relative aspect-[9/16] max-h-80 overflow-hidden bg-[#fdfbf7] img-zoom">
         {hasImage ? (
           <img
             src={template.previewImages[0]}
             alt={template.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover"
             loading="lazy"
           />
         ) : (
@@ -78,18 +67,33 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
             </div>
           </div>
         )}
+        <div className="ornament-corner" />
 
         <div className="absolute top-3 right-3">
           <span className="bg-[#a66b96]/90 backdrop-blur-sm text-[#fdfbf7] text-xs font-semibold px-3 py-1 rounded-lg">
             {LANGUAGE_LABELS[template.language] || template.language}
           </span>
         </div>
+
+        {/* Hover overlay */}
+        <div className="absolute inset-0 grid place-items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'rgba(149, 93, 133, 0.55)' }}>
+          <a
+            href={previewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost-luxe !bg-white !text-[#955d85] !border-white text-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" /><circle cx="12" cy="12" r="3" /></svg>
+            معاينة مباشرة
+          </a>
+        </div>
       </div>
 
       <div className="p-5 flex flex-col flex-1 relative z-10">
         <div className="flex items-start justify-between mb-3">
-          <h3 className="text-lg font-bold text-[#3d2c38]">{template.name}</h3>
-          <span className="text-[#a66b96] font-bold text-lg whitespace-nowrap mr-2 font-variant-numeric tabular-nums" style={{ fontVariantNumeric: 'tabular-nums' }}>
+          <h3 className="text-xl text-[#3d2c38]" style={{ fontFamily: "'Alexandria', sans-serif" }}>{template.name}</h3>
+          <span className="text-[#a66b96] font-bold text-lg whitespace-nowrap mr-2" style={{ fontVariantNumeric: 'tabular-nums' }}>
             {template.price} ج
           </span>
         </div>
@@ -100,19 +104,19 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
           </p>
         )}
 
-        {activeFeatures.length > 0 && (
+        {/* {activeFeatures.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-5">
             {activeFeatures.map(([key, { icon, label }]) => (
               <span
                 key={key}
-                className="bg-[#fdfbf7] border border-[#ebdce3]/60 text-[#8c7a87] text-xs px-2.5 py-1 rounded-md flex items-center gap-1"
+                className="bg-[#fdfbf7] border border-[#ebdce3]/60 text-[#8c7a87] text-xs px-2.5 py-1 rounded-full flex items-center gap-1"
               >
                 <span>{icon}</span>
                 <span>{label}</span>
               </span>
             ))}
           </div>
-        )}
+        )} */}
 
         <div className="flex gap-3 mt-auto pt-2">
           <a
@@ -122,7 +126,7 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
             id={`preview-btn-${template.slug}`}
             className="flex-1 py-2.5 rounded-xl border border-[#ebdce3]/60 text-[#8c7a87] text-sm font-medium text-center hover:border-[#a66b96] hover:text-[#a66b96] hover:bg-[#fef8fc] active:scale-[0.98] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2"
           >
-            معاينة مباشرة
+            معاينة
           </a>
           <button
             id={`buy-btn-${template.slug}`}
@@ -133,6 +137,6 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
           </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }

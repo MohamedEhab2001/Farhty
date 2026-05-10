@@ -1,11 +1,16 @@
 import { Router, Request, Response, IRouter } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
+import path from 'path';
 import { Instance } from '../models/Instance';
 import { Template } from '../models/Template';
 import { adminAuth } from '../middleware/adminAuth';
 import { instanceAuth, InstanceRequest } from '../middleware/instanceAuth';
 import { deployInstance } from '../services/deploy.service';
+
+const execFileAsync = promisify(execFile);
 
 const BCRYPT_ROUNDS = 12;
 
@@ -252,11 +257,24 @@ adminInstanceRouter.patch('/:id/password', adminAuth, async (req: Request, res: 
 // DELETE /api/admin/instances/:id
 adminInstanceRouter.delete('/:id', adminAuth, async (req: Request, res: Response): Promise<void> => {
   try {
-    const instance = await Instance.findByIdAndDelete(req.params.id);
+    const instance = await Instance.findById(req.params.id);
     if (!instance) {
       res.status(404).json({ error: 'Instance not found' });
       return;
     }
+
+    // Run cleanup script before removing from DB so we have the slug
+    const scriptPath = path.resolve(__dirname, '../../../../remove-instance.sh');
+    try {
+      const { stdout, stderr } = await execFileAsync('bash', [scriptPath, instance.slug]);
+      if (stdout) console.log('[remove-instance]', stdout.trim());
+      if (stderr) console.warn('[remove-instance]', stderr.trim());
+    } catch (scriptErr) {
+      // Log but don't block deletion — files may not exist in dev
+      console.error('[remove-instance] script error:', scriptErr);
+    }
+
+    await instance.deleteOne();
     res.json({ message: 'Instance deleted' });
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Unknown error';

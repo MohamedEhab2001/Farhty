@@ -10,6 +10,8 @@ import Footer from '../components/Footer'
 import BuyModal from '../components/BuyModal'
 import FakePurchaseToast from '../components/FakePurchaseToast'
 import StickyMobileCTA from '../components/StickyMobileCTA'
+import { CtaBanner } from '../components/CtaBanner'
+import { CursorGlow } from '../components/CursorGlow'
 import { Template } from '../hooks/useTemplates'
 
 export default function Home() {
@@ -17,22 +19,24 @@ export default function Home() {
 
   return (
     <div dir="rtl">
+      <CursorGlow />
       <Navbar />
 
-      <main id="main-content" className="flex flex-col gap-16 md:gap-24 pb-24">
+      <main id="main-content" className="flex flex-col pb-24">
         <Hero />
         <TemplatesGrid onBuy={setSelectedTemplate} />
         <HowItWorks />
         <Testimonials />
         <TrustBadges />
         <FAQ />
+        <CtaBanner />
       </main>
 
       <Footer />
 
       {/* Floating UI */}
       <BuyModal template={selectedTemplate} onClose={() => setSelectedTemplate(null)} />
-      <FakePurchaseToast />
+      {/* <FakePurchaseToast /> */}
       <StickyMobileCTA />
     </div>
   )

@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion'
 import { useTemplates } from '../hooks/useTemplates'
 import { Template } from '../hooks/useTemplates'
 import TemplateCard from './TemplateCard'
+import { Reveal } from './Reveal'
 import { IconTemplate } from './BrandIcons'
 
 interface TemplatesGridProps {
@@ -10,8 +10,8 @@ interface TemplatesGridProps {
 
 function SkeletonCard() {
   return (
-    <div className="bg-[#fff7fa] border border-[#ebdce3]/40 rounded-2xl overflow-hidden" dir="rtl">
-      <div className="aspect-[9/16] max-h-80 bg-[#fdfbf7] animate-pulse" />
+    <div className="card-luxe overflow-hidden" dir="rtl">
+      <div className="aspect-[9/16] max-h-80 bg-[#f2e0ef]/30 animate-pulse rounded-t-xl" />
       <div className="p-5 space-y-3">
         <div className="flex justify-between items-start">
           <div className="h-5 w-24 bg-[#ebdce3]/40 rounded animate-pulse" />
@@ -36,34 +36,30 @@ export default function TemplatesGrid({ onBuy }: TemplatesGridProps) {
   const { templates, loading, error } = useTemplates()
 
   return (
-    <section id="templates" className="py-20 sm:py-28 px-4">
+    <section id="templates" className="py-20 sm:py-28 px-4 scroll-mt-24">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <span className="section-label mb-4 block">القوالب</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#3d2c38] mb-4">
-            اختر قالبك المفضل
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
+          <span className="eyebrow">القوالب</span>
+          <h2 className="text-4xl md:text-5xl mt-5 text-[#3d2c38]">
+            اختر قالبك <span className="italic text-[#955d85]">المفضل</span>
           </h2>
-          <p className="text-[#8c7a87] max-w-md mx-auto leading-relaxed">
-            قوالب دعوات رقمية تفاعلية بتصاميم فاخرة وقابلة للتخصيص الكامل
+          <div className="divider-ornament my-5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" /></svg>
+          </div>
+          <p className="text-[#8c7a87]">
+            قوالب دعوات رقمية تفاعلية بتصاميم فاخرة وقابلة للتخصيص الكامل — كل تفصيل مصنوع بعناية.
           </p>
-        </motion.div>
+        </Reveal>
 
         {loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {[1, 2, 3, 4].map(i => (
-              <SkeletonCard key={i} />
-            ))}
+            {[1, 2, 3, 4].map(i => <SkeletonCard key={i} />)}
           </div>
         )}
 
         {error && (
           <div className="text-center py-16">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#a66b9610] flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#a66b96]/10 flex items-center justify-center">
               <IconTemplate size={28} className="text-[#a66b96]" />
             </div>
             <p className="text-[#8c7a87] font-medium">تعذّر تحميل القوالب</p>
@@ -73,7 +69,7 @@ export default function TemplatesGrid({ onBuy }: TemplatesGridProps) {
 
         {!loading && !error && templates.length === 0 && (
           <div className="text-center py-16">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#a66b9610] flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#a66b96]/10 flex items-center justify-center">
               <IconTemplate size={28} className="text-[#d49bbd]" />
             </div>
             <p className="text-[#3d2c38] font-semibold text-lg">قريباً</p>
@@ -82,11 +78,11 @@ export default function TemplatesGrid({ onBuy }: TemplatesGridProps) {
         )}
 
         {!loading && templates.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {templates.map(template => (
               <TemplateCard key={template._id} template={template} onBuy={onBuy} />
             ))}
-          </div>
+          </Reveal>
         )}
       </div>
     </section>

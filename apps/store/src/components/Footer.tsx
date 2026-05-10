@@ -12,64 +12,56 @@ export default function Footer() {
   }
 
   return (
-    <footer className="py-16 px-4 border-t border-[#ebdce3]/60 bg-[#fdfbf7]" dir="rtl">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
-          <div className="text-center md:text-right">
-            <Link to="/" className="flex items-center gap-2 justify-center md:justify-start mb-3">
+    <footer className="pt-16 pb-10 border-t border-[#ebdce3]/60 bg-[#fff7fa]/50" dir="rtl">
+      <div className="container-luxe">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div>
+            <Link to="/" className="flex items-center gap-2 mb-3">
               <img src="/فرحتي بنفسجي.png" alt="فرحتي" className="h-10 w-auto" />
             </Link>
-            <p className="text-[#8c7a87] text-sm max-w-xs leading-relaxed">
-              منصة دعوات الزفاف الرقمية الأولى في مصر
+            <p className="text-sm text-[#8c7a87] mt-2 max-w-sm leading-relaxed">
+              منصة دعوات الزفاف الرقمية الأولى في مصر — تصاميم فاخرة، تجربة استثنائية.
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="واتساب"
-              className="w-10 h-10 rounded-xl bg-[#a66b960a] border border-[#a66b9615] flex items-center justify-center text-[#8c7a87] hover:text-[#a66b96] hover:border-[#a66b9630] hover:bg-[#a66b9610] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2"
-            >
-              <IconWhatsApp size={20} />
-            </a>
-            <a
-              href="https://tiktok.com/@farhty.online"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="تيك توك"
-              className="w-10 h-10 rounded-xl bg-[#a66b960a] border border-[#a66b9615] flex items-center justify-center text-[#8c7a87] hover:text-[#a66b96] hover:border-[#a66b9630] hover:bg-[#a66b9610] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2"
-            >
-              <IconTikTok size={20} />
-            </a>
+          <nav className="flex flex-wrap gap-6 text-sm text-[#8c7a87]">
+            <button onClick={() => scrollTo('templates')} className="hover:text-[#955d85] transition-colors duration-200">القوالب</button>
+            <button onClick={() => scrollTo('how-it-works')} className="hover:text-[#955d85] transition-colors duration-200">كيف يعمل</button>
+            <button onClick={() => scrollTo('faq')} className="hover:text-[#955d85] transition-colors duration-200">الأسئلة الشائعة</button>
+            <Link to="/privacy" className="hover:text-[#955d85] transition-colors duration-200">سياسة الخصوصية</Link>
+            <Link to="/terms" className="hover:text-[#955d85] transition-colors duration-200">شروط الاستخدام</Link>
+          </nav>
+
+          <div className="flex gap-2">
+            {[
+              {
+                label: 'WhatsApp',
+                href: `https://wa.me/${WHATSAPP_NUMBER}`,
+                icon: <IconWhatsApp size={16} />,
+              },
+              {
+                label: 'TikTok',
+                href: 'https://tiktok.com/@farhty.online',
+                icon: <IconTikTok size={16} />,
+              },
+            ].map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                className="w-10 h-10 rounded-full bg-[#fff7fa] border border-[#ebdce3] flex items-center justify-center text-[#955d85] hover:bg-[#a66b96]/5 hover:border-[#a66b96]/30 transition duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2"
+              >
+                {s.icon}
+              </a>
+            ))}
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-2 text-sm mb-8">
-          <button
-            onClick={() => scrollTo('faq')}
-            className="text-[#8c7a87] hover:text-[#3d2c38] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2 rounded"
-          >
-            الأسئلة الشائعة
-          </button>
-          <button
-            onClick={() => scrollTo('templates')}
-            className="text-[#8c7a87] hover:text-[#3d2c38] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-2 rounded"
-          >
-            القوالب
-          </button>
-          <span className="text-[#ebdce3] hidden sm:inline">|</span>
-          <Link to="/privacy" className="text-[#8c7a87] hover:text-[#3d2c38] transition-colors duration-200">سياسة الخصوصية</Link>
-          <Link to="/terms" className="text-[#8c7a87] hover:text-[#3d2c38] transition-colors duration-200">شروط الاستخدام</Link>
-        </div>
-
-
-        <div className="section-divider mb-8" />
-
-        <p className="text-center text-[#8c7a87]/70 text-xs">
+        <div className="mt-10 pt-6 border-t border-[#ebdce3]/60 text-center text-xs text-[#8c7a87]/70 tracking-wide">
           &copy; {new Date().getFullYear()} فرحتي — جميع الحقوق محفوظة
-        </p>
+        </div>
       </div>
     </footer>
   )

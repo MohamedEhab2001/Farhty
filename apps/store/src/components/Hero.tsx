@@ -1,97 +1,172 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import heroCouple from '../assets/hero-couple.jpg'
 import { WHATSAPP_NUMBER } from '../api/client'
-import { IconDiamond, IconWhatsApp, BotanicalRose, BotanicalBranch, BotanicalFlower, BotanicalWheat } from './BrandIcons'
+import { IconDiamond, IconWhatsApp } from './BrandIcons'
+import { Petals } from './Petals'
+
+function Counter({ to, suffix = '', duration = 1600 }: { to: number; suffix?: string; duration?: number }) {
+  const [val, setVal] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        const start = performance.now()
+        const tick = (t: number) => {
+          const p = Math.min(1, (t - start) / duration)
+          const eased = 1 - Math.pow(1 - p, 3)
+          setVal(Math.floor(eased * to))
+          if (p < 1) requestAnimationFrame(tick)
+        }
+        requestAnimationFrame(tick)
+        io.disconnect()
+      }
+    }, { threshold: 0.5 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [to, duration])
+  return <span ref={ref}>{val.toLocaleString('ar-EG')}{suffix}</span>
+}
 
 export default function Hero() {
+  const [parY, setParY] = useState(0)
+
+  useEffect(() => {
+    const onScroll = () => setParY(Math.min(120, window.scrollY * 0.18))
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   const scrollToTemplates = () => {
     document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <section
-      className="relative flex items-center justify-center overflow-hidden pt-28 sm:pt-36 pb-16 sm:pb-24"
-      dir="rtl"
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-[#fff7fa] via-[#fefcfe] to-[#fdfbf7]" />
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 30% 40%, #a66b96 0%, transparent 50%), radial-gradient(circle at 70% 60%, #d49bbd 0%, transparent 45%)' }} />
-
-      <div className="absolute top-12 right-[10%] animate-float" style={{ animationDuration: '6s', animationDelay: '0s' }}>
-        <BotanicalRose size={100} className="text-[#a66b96]" opacity={0.1} />
+    <section id="top" className="relative pt-36 pb-24 overflow-hidden" dir="rtl">
+      <div aria-hidden className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-32 right-[6%] w-40 h-40 rounded-full bg-[#a66b96]/5 blur-3xl animate-float-slow" />
+        <div className="absolute top-60 left-[8%] w-56 h-56 rounded-full bg-[#d49bbd]/15 blur-3xl animate-float-slow [animation-delay:2s]" />
+        <svg aria-hidden className="absolute top-24 right-10 w-24 h-24 text-[#a66b96]/20 animate-spin-slow" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.6">
+          <circle cx="50" cy="50" r="30" />
+          <circle cx="50" cy="50" r="20" />
+          {[...Array(12)].map((_, i) => (
+            <line key={i} x1="50" y1="50" x2={50 + 40 * Math.cos((i * Math.PI) / 6)} y2={50 + 40 * Math.sin((i * Math.PI) / 6)} />
+          ))}
+        </svg>
       </div>
-      <div className="absolute top-48 left-[8%] animate-float hidden md:block" style={{ animationDuration: '7s', animationDelay: '1s' }}>
-        <BotanicalBranch size={110} className="text-[#d49bbd]" opacity={0.12} />
-      </div>
-      <div className="absolute bottom-24 right-[15%] animate-float hidden sm:block" style={{ animationDuration: '5s', animationDelay: '2s' }}>
-        <BotanicalFlower size={80} className="text-[#a66b96]" opacity={0.12} />
-      </div>
-      <div className="absolute bottom-40 left-[12%] animate-float" style={{ animationDuration: '8s', animationDelay: '1.5s' }}>
-        <BotanicalWheat size={90} className="text-[#d49bbd]" opacity={0.1} />
-      </div>
-      <div className="absolute top-20 left-[30%] animate-float hidden lg:block" style={{ animationDuration: '6.5s', animationDelay: '3s' }}>
-        <BotanicalFlower size={60} className="text-[#a66b96]" opacity={0.06} />
-      </div>
+      <Petals count={10} />
 
-      <div className="absolute top-4 right-4 w-80 h-80 rounded-full bg-[#a66b9606] blur-3xl pointer-events-none" />
-      <div className="absolute bottom-8 left-8 w-64 h-64 rounded-full bg-[#d49bbd06] blur-3xl pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#fdfbf7] via-transparent to-transparent pointer-events-none" />
+      <div className="container-luxe relative grid lg:grid-cols-[1.1fr_0.9fr] items-center gap-12">
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-right animate-blur-in">
+          {/* <span className="eyebrow mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#a66b96] animate-pulse" />
+            دعوات زفاف رقمية فاخرة
+          </span> */}
 
-      <div className="relative z-10 px-4 max-w-3xl mx-auto text-start sm:text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
-          className="section-label inline-flex items-center gap-2 bg-[#a66b9610] border border-[#a66b9625] rounded-full px-4 py-1.5 mb-8"
-        >
-          <IconDiamond size={14} />
-          دعوات زفاف رقمية فاخرة
-        </motion.div>
+          <h1 className="text-[clamp(2rem,5.5vw,4rem)] leading-[1.05] text-[#3d2c38] max-w-2xl">
+            <p className='mb-2'>دعوة زفافك…</p>
+            <span className="italic text-[#955d85] relative inline-block">
+              حكاية تبدأ من هنا
+              <svg aria-hidden className="absolute -bottom-3 right-0 left-0 w-full" viewBox="0 0 300 14" preserveAspectRatio="none">
+                <path
+                  d="M2 8 Q 75 1, 150 8 T 298 7"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  fill="none"
+                  strokeLinecap="round"
+                  className="text-[#a66b96]/60"
+                  style={{ strokeDasharray: 320, strokeDashoffset: 320, animation: 'draw 1.6s ease-out .6s forwards' }}
+                />
+              </svg>
+              <style>{`@keyframes draw { to { stroke-dashoffset: 0 } }`}</style>
+            </span>
+          </h1>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.7 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-bold text-[#3d2c38] leading-[1.15] tracking-tight mb-5"
-        >
-          دعوة زفافك...{' '}
-          <span className="text-gradient-gold font-black" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
-            حكاية تبدأ من هنا
-          </span>
-        </motion.h1>
+          <div className="divider-ornament my-7 self-center lg:self-start">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" /></svg>
+          </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-[#8c7a87] text-base sm:text-lg md:text-xl max-w-xl sm:mx-auto leading-relaxed mb-10"
-        >
-          تصاميم رومانسية ناعمة بتفاصيل تخطف الأنظار، ودعوة تفاعلية تشاركها مع أحبابك بلمسة زر
-        </motion.p>
+          <p className="max-w-xl text-base md:text-lg text-[#8c7a87] leading-relaxed">
+            تصاميم رومانسية ناعمة بتفاصيل تخطف الأنظار، ودعوة تفاعلية تشاركها مع أحبابك بلمسة زر
+            <span className="text-[#3d2c38]/85"> لحظة تستحق أن تُحفظ بأناقة.</span>
+          </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55 }}
-          className="flex flex-col sm:flex-row items-stretch sm:items-center justify-start sm:justify-center gap-3"
-        >
-          <button
-            id="hero-browse-btn"
-            onClick={scrollToTemplates}
-            className="btn-primary w-full sm:w-auto"
-          >
-            استعرض القوالب الآن
-            <IconDiamond size={18} />
-          </button>
-          <a
-            id="hero-whatsapp-btn"
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد معرفة المزيد عن دعوات فرحتي')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost w-full sm:w-auto"
-          >
-            <IconWhatsApp size={20} />
-            تحدث معنا
-          </a>
-        </motion.div>
+          <div className="mt-9 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+            <button id="hero-browse-btn" onClick={scrollToTemplates} className="btn-primary group">
+              <IconDiamond size={18} />
+              استعرض القوالب الآن
+            </button>
+            <a
+              id="hero-whatsapp-btn"
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد معرفة المزيد عن دعوات فرحتي')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost-luxe group"
+            >
+              <IconWhatsApp size={18} />
+              تحدث معنا
+            </a>
+          </div>
+
+          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl">
+            {[
+              { val: 120, suffix: '+', label: 'عروسة سعيدة' },
+              { val: 49, suffix: '★', label: 'تقييم العملاء', divisor: 10 },
+              { val: 5, suffix: ' د', label: 'تسليم فوري' },
+              { val: 24, suffix: '/٧', label: 'دعم فني' },
+            ].map((s) => (
+              <div key={s.label} className="flex flex-col items-center lg:items-start">
+                <div className="text-2xl md:text-3xl text-[#955d85] font-bold" style={{ fontFamily: "'Alexandria', sans-serif" }}>
+                  {s.divisor
+                    ? <>{(s.val / s.divisor).toLocaleString('ar-EG', { minimumFractionDigits: 1 })}{s.suffix}</>
+                    : <Counter to={s.val} suffix={s.suffix} />
+                  }
+                </div>
+                <div className="text-xs text-[#8c7a87] mt-1 tracking-wide">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Hero image */}
+        <div className="relative animate-rise [animation-delay:.2s]" style={{ transform: `translateY(${-parY * 0.3}px)` }}>
+          <div className="relative aspect-[4/5] max-w-md mx-auto">
+            <svg aria-hidden className="absolute -inset-6 w-[calc(100%+3rem)] h-[calc(100%+3rem)] text-[#a66b96]/25 animate-spin-slow" viewBox="0 0 200 200" fill="none">
+              <circle cx="100" cy="100" r="98" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 6" />
+            </svg>
+
+            <div className="absolute inset-0 rounded-[2rem] overflow-hidden img-zoom shadow-[var(--shadow-elegant)] border border-[#a66b96]/15">
+              <img src={heroCouple} alt="عروسان بلباس فاخر" className="w-full h-full object-cover" width={1536} height={1024} />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#fdfbf7]/60 via-transparent to-transparent" />
+            </div>
+
+            {/* Floating chip — RSVP */}
+            <div className="absolute -top-4 -right-4 card-luxe px-4 py-2.5 flex items-center gap-2.5 animate-float-slow">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-glow" />
+              <div className="text-[11px] leading-tight">
+                <div className="font-semibold text-[#3d2c38]">الزوار</div>
+                <div className="text-[#8c7a87]">{Math.floor(Math.random() * 1000)} ضيف</div>
+              </div>
+            </div>
+
+            {/* Floating chip — countdown */}
+            <div className="absolute -bottom-5 -left-5 card-luxe px-4 py-3 animate-float-slow [animation-delay:1.5s]">
+              <div className="text-[10px] tracking-widest text-[#8c7a87]">يبدأ الفرح خلال</div>
+              <div className="flex items-baseline gap-1 text-[#955d85]" style={{ fontFamily: "'Alexandria', sans-serif" }}>
+                <span className="text-2xl font-bold">١٢</span><span className="text-xs">يوم</span>
+                <span className="text-2xl font-bold mr-1">٠٧</span><span className="text-xs">ساعة</span>
+              </div>
+            </div>
+
+            {/* Floating chip — heart */}
+            <div className="absolute top-1/3 -left-8 card-luxe w-12 h-12 rounded-full grid place-items-center animate-float-slow [animation-delay:.8s]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-[#a66b96]">
+                <path d="M12 21s-7-4.35-9.5-8.5C.5 9 3 5 6.5 5c2 0 3.5 1.5 5.5 4 2-2.5 3.5-4 5.5-4 3.5 0 6 4 4 7.5C19 16.65 12 21 12 21Z" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )

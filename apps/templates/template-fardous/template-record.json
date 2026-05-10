@@ -1,0 +1,171 @@
+{
+  "name": "فردوس",
+  "slug": "template-fardous",
+  "price": 499,
+  "description": "دعوة زفاف إسلامية فاخرة بتصميم ذهبي زمردي — آيات قرآنية، تلاوة صوتية، عداد تنازلي، وجدار أمنيات",
+  "language": "en",
+  "features": {
+    "music": true,
+    "countdown": true,
+    "venueMap": true,
+    "wishWall": true,
+    "rtl": false,
+    "pages": 1
+  },
+  "fields": [
+    {
+      "key": "bride_name",
+      "label": "Bride's Name",
+      "type": "text",
+      "defaultValue": "Noor",
+      "required": true,
+      "group": "The Couple"
+    },
+    {
+      "key": "groom_name",
+      "label": "Groom's Name",
+      "type": "text",
+      "defaultValue": "Yusuf",
+      "required": true,
+      "group": "The Couple"
+    },
+    {
+      "key": "family_bride",
+      "label": "Bride's Family Name",
+      "type": "text",
+      "defaultValue": "Al-Hassan",
+      "required": false,
+      "group": "The Couple"
+    },
+    {
+      "key": "family_groom",
+      "label": "Groom's Family Name",
+      "type": "text",
+      "defaultValue": "Al-Rahman",
+      "required": false,
+      "group": "The Couple"
+    },
+    {
+      "key": "event_type",
+      "label": "Event Type",
+      "type": "text",
+      "defaultValue": "Walīmah",
+      "required": false,
+      "group": "The Couple",
+      "placeholder": "Walīmah / Wedding Reception"
+    },
+    {
+      "key": "wedding_date",
+      "label": "Wedding Date",
+      "type": "date",
+      "defaultValue": "",
+      "required": true,
+      "group": "The Couple"
+    },
+    {
+      "key": "wedding_time",
+      "label": "Wedding Time",
+      "type": "time",
+      "defaultValue": "19:30",
+      "required": false,
+      "group": "The Couple"
+    },
+    {
+      "key": "quran_verse_ar",
+      "label": "Quran Verse (Arabic)",
+      "type": "textarea",
+      "defaultValue": "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً",
+      "required": false,
+      "group": "Content"
+    },
+    {
+      "key": "quran_verse_en",
+      "label": "Quran Verse (English Translation)",
+      "type": "textarea",
+      "defaultValue": "\"And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquillity with them, and He has put love and mercy between you.\"",
+      "required": false,
+      "group": "Content"
+    },
+    {
+      "key": "quran_verse_ref",
+      "label": "Verse Reference",
+      "type": "text",
+      "defaultValue": "— Surah Ar-Rūm 30:21",
+      "required": false,
+      "group": "Content"
+    },
+    {
+      "key": "venue_name",
+      "label": "Venue Name",
+      "type": "text",
+      "defaultValue": "Al-Andalus Hall",
+      "required": false,
+      "group": "Venue"
+    },
+    {
+      "key": "venue_address",
+      "label": "Venue Address",
+      "type": "text",
+      "defaultValue": "Heliopolis, Cairo · Egypt",
+      "required": false,
+      "group": "Venue"
+    },
+    {
+      "key": "venue_map_url",
+      "label": "Google Maps Embed URL",
+      "type": "iframe",
+      "defaultValue": "",
+      "required": false,
+      "group": "Venue",
+      "placeholder": "https://www.google.com/maps/embed?pb=...",
+      "hint": "Share → Embed a map → copy the src URL from the iframe HTML"
+    },
+    {
+      "key": "venue_map_link",
+      "label": "Google Maps Directions Link",
+      "type": "url",
+      "defaultValue": "",
+      "required": false,
+      "group": "Venue",
+      "placeholder": "https://maps.google.com/?q=..."
+    },
+    {
+      "key": "hero_image",
+      "label": "Hero / Background Image",
+      "type": "image",
+      "defaultValue": "",
+      "cloudinaryFolder": "templates/fardous/hero",
+      "required": false,
+      "group": "Media"
+    },
+    {
+      "key": "audio_url",
+      "label": "Quran Recitation URL (MP3)",
+      "type": "url",
+      "defaultValue": "https://everyayah.com/data/Alafasy_128kbps/030021.mp3",
+      "required": false,
+      "group": "Media",
+      "hint": "Direct URL to an MP3 file. Default: Mishary Alafasy reciting Ar-Rum 30:21"
+    },
+    {
+      "key": "accent_color",
+      "label": "Accent Color",
+      "type": "color",
+      "defaultValue": "#B8962E",
+      "required": false,
+      "group": "Settings"
+    },
+    {
+      "key": "wish_entries",
+      "label": "Wish Wall Entries",
+      "type": "json",
+      "defaultValue": "[]",
+      "required": false,
+      "group": "Responses"
+    }
+  ],
+  "previewImages": [],
+  "previewVideo": "",
+  "status": "draft",
+  "version": "1.0.0"
+}

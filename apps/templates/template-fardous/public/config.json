@@ -1,0 +1,5 @@
+{
+  "slug": "ftest",
+  "template": "template-fardous",
+  "apiBase": "http://localhost:3001/"
+}

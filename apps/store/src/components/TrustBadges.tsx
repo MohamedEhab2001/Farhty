@@ -1,48 +1,43 @@
-import { motion } from 'framer-motion'
+import { Reveal } from './Reveal'
 import { IconShield, IconHeadset, IconInstant, IconDiamond } from './BrandIcons'
 
-const BADGES = [
-  { icon: <IconShield size={22} className="text-[#a66b96]" />, title: 'ضمان الاسترداد', text: 'استرداد المبلغ كاملاً خلال 24 ساعة' },
-  { icon: <IconHeadset size={22} className="text-[#a66b96]" />, title: 'دعم فني مجاني', text: 'مساعدة متاحة بعد الشراء' },
-  { icon: <IconInstant size={22} className="text-[#a66b96]" />, title: 'تسليم فوري', text: 'دعوتك جاهزة خلال دقائق من الدفع' },
-  { icon: <IconDiamond size={22} className="text-[#a66b96]" />, title: 'قوالب حصرية', text: 'تصاميم غير متاحة في أي مكان آخر' },
+const ITEMS = [
+  { icon: <IconShield size={22} className="text-[#fdfbf7]" />, title: 'ضمان الاسترداد', desc: 'استرداد المبلغ كاملاً خلال ٢٤ ساعة دون أي أسئلة.' },
+  { icon: <IconHeadset size={22} className="text-[#fdfbf7]" />, title: 'دعم فني مجاني', desc: 'فريقنا متاح لمساعدتكِ في كل خطوة قبل وبعد الشراء.' },
+  { icon: <IconInstant size={22} className="text-[#fdfbf7]" />, title: 'تسليم فوري', desc: 'دعوتكِ جاهزة خلال دقائق من الدفع — لا انتظار.' },
+  { icon: <IconDiamond size={22} className="text-[#fdfbf7]" />, title: 'قوالب حصرية', desc: 'تصاميم لا تجدينها في أي مكان آخر — مصنوعة بحب لِفرحتكِ.' },
 ]
 
 export default function TrustBadges() {
   return (
-    <section className="py-20 sm:py-28 px-4 bg-[#fef8fc]">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <span className="section-label mb-4 block">ضمانات</span>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#3d2c38]">لماذا تختار فرحتي؟</h2>
-        </motion.div>
+    <section className="py-20 sm:py-28 px-4 scroll-mt-24">
+      <div className="container-luxe">
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
+          <span className="eyebrow">ضمانات</span>
+          <h2 className="text-4xl md:text-5xl mt-5 text-[#3d2c38]">
+            لماذا تختارين <span className="italic text-[#955d85]">فرحتي؟</span>
+          </h2>
+          <div className="divider-ornament my-5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" /></svg>
+          </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {BADGES.map((badge, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="flex items-start gap-4 bg-[#ffffff] border border-[#ebdce3]/50 rounded-xl px-5 py-4 transition-shadow duration-300 hover:shadow-[0_4px_20px_rgba(166,107,150,0.08)]"
-              dir="rtl"
-            >
-              <div className="w-10 h-10 rounded-lg bg-[#a66b960a] border border-[#a66b9618] flex items-center justify-center flex-shrink-0">
-                {badge.icon}
+        <Reveal stagger className="grid sm:grid-cols-2 gap-5">
+          {ITEMS.map((it) => (
+            <div key={it.title} className="card-luxe p-6 flex items-start gap-5 group tilt glint">
+              <div
+                className="w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110"
+                style={{ background: 'var(--gradient-primary)' }}
+              >
+                {it.icon}
               </div>
               <div>
-                <p className="text-[#3d2c38] font-semibold text-sm">{badge.title}</p>
-                <p className="text-[#8c7a87] text-sm mt-0.5">{badge.text}</p>
+                <h3 className="text-xl text-[#3d2c38]">{it.title}</h3>
+                <p className="text-sm text-[#8c7a87] mt-1.5 leading-relaxed">{it.desc}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   )
