@@ -63,7 +63,7 @@ export default function RSVPSection() {
           className="text-center mb-10"
         >
           <p className="font-body text-rose/50 text-sm tracking-widest mb-3">تأكيد الحضور</p>
-          <h2 className="font-display text-3xl md:text-5xl rose-shimmer">يسعدنا حضوركم</h2>
+          <h2 className="font-display text-3xl md:text-5xl rose-shimmer py-4">يسعدنا حضوركم</h2>
         </motion.div>
 
         <motion.form

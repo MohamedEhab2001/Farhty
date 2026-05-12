@@ -23,10 +23,21 @@ async function uploadToCloudinary(file: File, folder: string, slug: string, isAu
   return upData.secure_url as string
 }
 
-function parseImages(raw: unknown): string[] {
-  if (Array.isArray(raw)) return raw.filter(Boolean)
-  if (typeof raw === 'string') { try { return (JSON.parse(raw) as string[]).filter(Boolean) } catch { return [] } }
+function parseJSONArray(raw: unknown): any[] {
+  if (Array.isArray(raw)) return raw
+  if (typeof raw === 'string' && raw.trim()) {
+    try {
+      const parsed = JSON.parse(raw)
+      return Array.isArray(parsed) ? parsed : []
+    } catch {
+      return []
+    }
+  }
   return []
+}
+
+function parseImages(raw: unknown): string[] {
+  return parseJSONArray(raw).filter(Boolean).map(String)
 }
 
 const s = (val: unknown): string => {
@@ -108,6 +119,7 @@ export default function AdminDashboard() {
   const ungrouped: TemplateField[] = []
 
   fields.forEach((f: TemplateField) => {
+    if (f.type === 'audio' || f.type === 'color' || f.key === 'music_file' || f.key === 'audio_url' || f.key === 'music_on' || f.group === 'الموسيقى' || f.group === 'الإعدادات') return
     const g = f.group || 'عام'
     if (!groups[g]) groups[g] = []
     groups[g].push(f)
@@ -407,6 +419,86 @@ export default function AdminDashboard() {
       }
 
       case 'json': {
+        if (field.key === 'wish_entries' || field.key === 'rsvp_entries' || field.key === 'wishes') {
+          const items = parseJSONArray(val)
+          return (
+            <div key={field.key} className="mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <label className="text-warm-dark/70 text-sm font-body">{field.label}</label>
+              </div>
+              <div className="glass-panel rounded-2xl overflow-hidden border border-rose/10 bg-white/30">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-right border-collapse">
+                    <thead className="bg-rose/5 text-rose/70 text-[10px] font-body uppercase tracking-wider">
+                      {field.key.includes('wish') ? (
+                        <tr>
+                          <th className="p-4 font-semibold">الاسم</th>
+                          <th className="p-4 font-semibold">الرسالة</th>
+                          <th className="p-4 w-16"></th>
+                        </tr>
+                      ) : (
+                        <tr>
+                          <th className="p-4 font-semibold">الاسم</th>
+                          <th className="p-4 font-semibold text-center">الحضور</th>
+                          <th className="p-4 font-semibold text-center">الضيوف</th>
+                          <th className="p-4 w-16"></th>
+                        </tr>
+                      )}
+                    </thead>
+                    <tbody className="divide-y divide-rose/5">
+                      {items.length === 0 ? (
+                        <tr>
+                          <td colSpan={4} className="p-10 text-center">
+                            <div className="flex flex-col items-center gap-2 opacity-30">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                              </svg>
+                              <span className="text-xs font-body">لا يوجد بيانات حالياً</span>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : (
+                        items.map((item: any, idx: number) => (
+                          <tr key={idx} className="hover:bg-rose/5 transition-colors group">
+                            <td className="p-4 text-warm-dark text-sm font-body font-medium">{item.name || 'مجهول'}</td>
+                            {field.key.includes('wish') ? (
+                              <td className="p-4 text-warm-dark/60 text-xs leading-relaxed max-w-xs">{item.message}</td>
+                            ) : (
+                              <>
+                                <td className="p-4 text-center">
+                                  <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full font-body ${item.attending ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                    {item.attending ? 'سيحضر' : 'لن يحضر'}
+                                  </span>
+                                </td>
+                                <td className="p-4 text-center text-warm-dark/60 text-xs font-mono">{item.guests || 0}</td>
+                              </>
+                            )}
+                            <td className="p-4 text-center">
+                              <button
+                                onClick={() => {
+                                  const updated = [...items]
+                                  updated.splice(idx, 1)
+                                  set(field.key, updated)
+                                }}
+                                className="text-red-400/40 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                                title="حذف"
+                              >
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <polyline points="3 6 5 6 21 6"></polyline>
+                                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )
+        }
         if (field.key === 'gallery_images') {
           const images = parseImages(get(field.key))
           return (

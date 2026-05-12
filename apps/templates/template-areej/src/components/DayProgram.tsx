@@ -18,6 +18,15 @@ export default function DayProgram() {
     { time: '22:00', label: 'الحفل والرقص' },
   ]
 
+  const formatTime12h = (time: string) => {
+    if (!time) return ''
+    const [h, m] = time.split(':').map(Number)
+    if (isNaN(h) || isNaN(m)) return time
+    const period = h >= 12 ? 'PM' : 'AM'
+    const h12 = h % 12 || 12
+    return `${h12}:${m.toString().padStart(2, '0')} ${period}`
+  }
+
   return (
     <section className="relative py-20 px-6">
       <div className="max-w-3xl mx-auto">
@@ -29,7 +38,7 @@ export default function DayProgram() {
           className="text-center mb-14"
         >
           <p className="font-body text-rose/50 text-sm tracking-widest mb-3">برنامج الحفل</p>
-          <h2 className="font-display text-3xl md:text-5xl rose-shimmer">تفاصيل المساء</h2>
+          <h2 className="font-display text-3xl md:text-5xl rose-shimmer py-4">تفاصيل المساء</h2>
         </motion.div>
 
         <div className="relative">
@@ -49,7 +58,7 @@ export default function DayProgram() {
                   <h3 className="font-body text-warm-dark text-base">{item.label}</h3>
                 </div>
                 <span className="font-display text-rose text-lg whitespace-nowrap" dir="ltr">
-                  {item.time}
+                  {formatTime12h(item.time)}
                 </span>
               </div>
 

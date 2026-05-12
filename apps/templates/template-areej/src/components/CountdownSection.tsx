@@ -45,7 +45,7 @@ export default function CountdownSection() {
           className="text-center mb-12"
         >
           <p className="font-body text-rose/50 text-sm tracking-widest mb-3">العد التنازلي</p>
-          <h2 className="font-display text-3xl md:text-5xl rose-shimmer">بقي على الموعد</h2>
+          <h2 className="font-display text-3xl md:text-5xl rose-shimmer py-4">بقي على الموعد</h2>
         </motion.div>
 
         <motion.div

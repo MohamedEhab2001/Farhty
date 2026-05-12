@@ -62,8 +62,8 @@ export default function WishWall() {
           transition={{ duration: 0.8 }}
           className="text-center mb-14"
         >
-          <p className="font-body text-gold/50 text-sm tracking-widest mb-3">تهاني</p>
-          <h2 className="font-display text-3xl md:text-5xl gold-shimmer">اتركوا تهنئتكم</h2>
+          <p className="font-body text-rose/50 text-sm tracking-widest mb-3">تهاني</p>
+          <h2 className="font-display text-3xl md:text-5xl rose-shimmer py-4">اتركوا تهنئتكم</h2>
         </motion.div>
 
         {!submitted ? (
@@ -75,7 +75,7 @@ export default function WishWall() {
             className="glass-panel rounded-[2rem] p-8 md:p-10 space-y-6 mb-12"
           >
             <div>
-              <label className="block font-body text-ivory/60 text-sm mb-2">الاسم</label>
+              <label className="block font-body text-warm-charcoal/60 text-sm mb-2">الاسم</label>
               <input
                 type="text"
                 value={name}
@@ -86,7 +86,7 @@ export default function WishWall() {
               />
             </div>
             <div>
-              <label className="block font-body text-ivory/60 text-sm mb-2">التهنئة</label>
+              <label className="block font-body text-warm-charcoal/60 text-sm mb-2">التهنئة</label>
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
@@ -101,7 +101,7 @@ export default function WishWall() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-xl bg-gold/20 border border-gold/30 text-gold font-body tracking-wide hover:bg-gold/30 transition-all duration-300 disabled:opacity-50"
+              className="w-full py-4 rounded-xl bg-rose/20 border border-rose/30 text-rose font-body tracking-wide hover:bg-rose/30 transition-all duration-300 disabled:opacity-50"
             >
               {loading ? 'جاري الإرسال...' : 'إرسال التهنئة'}
             </motion.button>
@@ -112,7 +112,7 @@ export default function WishWall() {
             animate={{ opacity: 1, scale: 1 }}
             className="glass-panel rounded-[2rem] p-10 text-center mb-12"
           >
-            <p className="font-display text-xl gold-shimmer">شكراً لتهنئتكم</p>
+            <p className="font-display text-xl rose-shimmer">شكراً لتهنئتكم</p>
           </motion.div>
         )}
 
@@ -126,8 +126,8 @@ export default function WishWall() {
                 transition={{ delay: i * 0.1 }}
                 className="glass-panel rounded-[1.25rem] p-6"
               >
-                <p className="font-body text-ivory/80 text-sm mb-2">{wish.message}</p>
-                <p className="font-display text-gold/60 text-xs">— {wish.name}</p>
+                <p className="font-body text-warm-charcoal/80 text-sm mb-2">{wish.message}</p>
+                <p className="font-display text-rose/60 text-xs">— {wish.name}</p>
               </motion.div>
             ))}
           </div>

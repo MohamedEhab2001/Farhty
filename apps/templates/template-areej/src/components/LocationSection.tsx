@@ -20,7 +20,7 @@ export default function LocationSection() {
           className="text-center mb-14"
         >
           <p className="font-body text-rose/50 text-sm tracking-widest mb-3">الموقع</p>
-          <h2 className="font-display text-3xl md:text-5xl rose-shimmer">مكان الاحتفال</h2>
+          <h2 className="font-display text-3xl md:text-5xl rose-shimmer py-4">مكان الاحتفال</h2>
         </motion.div>
 
         <motion.div

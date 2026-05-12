@@ -22,7 +22,7 @@ export default function GallerySection() {
           className="text-center mb-14"
         >
           <p className="font-body text-rose/50 text-sm tracking-widest mb-3">معرض الصور</p>
-          <h2 className="font-display text-3xl md:text-5xl rose-shimmer">ذكرياتنا</h2>
+          <h2 className="font-display text-3xl md:text-5xl rose-shimmer py-4">ذكرياتنا</h2>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">

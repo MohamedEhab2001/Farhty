@@ -68,7 +68,7 @@ export default function HeroSection() {
             className="flex flex-col items-center gap-2 min-w-[120px]"
           >
             <span className="font-body text-rose/40 text-xs tracking-widest">العروسة</span>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight leading-none text-deep-rose text-center whitespace-nowrap">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight leading-normal text-deep-rose text-center whitespace-nowrap">
               {brideName}
             </h1>
           </motion.div>
@@ -150,7 +150,7 @@ export default function HeroSection() {
             className="flex flex-col items-center gap-2 min-w-[120px]"
           >
             <span className="font-body text-rose/40 text-xs tracking-widest">العريس</span>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight leading-none text-deep-rose text-center whitespace-nowrap">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight leading-normal text-deep-rose text-center whitespace-nowrap">
               {groomName}
             </h1>
           </motion.div>
