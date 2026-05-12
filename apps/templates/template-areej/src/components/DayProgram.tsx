@@ -10,7 +10,20 @@ interface ScheduleItem {
 
 export default function DayProgram() {
   const { get } = useTemplateFields()
-  const items = (get('schedule_items') as ScheduleItem[] | undefined) ?? [
+  const rawItems = get('schedule_items')
+  let items = rawItems as ScheduleItem[] | undefined
+  if (typeof rawItems === 'string') {
+    try {
+      items = JSON.parse(rawItems)
+    } catch (e) {
+      items = undefined
+    }
+  }
+  if (!Array.isArray(items)) {
+    items = undefined
+  }
+  
+  items = items ?? [
     { time: '18:00', label: 'استقبال الضيوف' },
     { time: '19:00', label: 'دخلة العروسين' },
     { time: '20:00', label: 'العشاء' },
@@ -18,9 +31,13 @@ export default function DayProgram() {
     { time: '22:00', label: 'الحفل والرقص' },
   ]
 
-  const formatTime12h = (time: string) => {
-    if (!time) return ''
-    const [h, m] = time.split(':').map(Number)
+  const formatTime12h = (time: any) => {
+    if (!time || typeof time !== 'string') return String(time || '')
+    const parts = time.split(':')
+    if (parts.length < 2) return time
+    const [hStr, mStr] = parts
+    const h = Number(hStr)
+    const m = Number(mStr)
     if (isNaN(h) || isNaN(m)) return time
     const period = h >= 12 ? 'PM' : 'AM'
     const h12 = h % 12 || 12
@@ -55,10 +72,10 @@ export default function DayProgram() {
             >
               <div className="glass-panel rounded-[1.25rem] p-5 md:p-6 flex-1 flex items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-body text-warm-dark text-base">{item.label}</h3>
+                  <h3 className="font-body text-warm-dark text-base">{item?.label}</h3>
                 </div>
                 <span className="font-display text-rose text-lg whitespace-nowrap" dir="ltr">
-                  {formatTime12h(item.time)}
+                  {formatTime12h(item?.time)}
                 </span>
               </div>
 
