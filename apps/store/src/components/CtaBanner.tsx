@@ -30,20 +30,20 @@ export function CtaBanner() {
 
             <span className="relative inline-flex eyebrow !bg-white/15 !text-white !border-white/30">
               <span className="w-1.5 h-1.5 rounded-full bg-white" />
-              ابدئي رحلتك الآن
+              ابدأ رحلتك الآن
             </span>
             <h2 className="relative text-4xl md:text-6xl mt-6 text-[#fdfbf7]">
               دعوة زفافك تستحق <span className="italic text-[#E8B174] font-bold">الأفضل</span>
             </h2>
             <p className="relative text-[#fdfbf7]/85 mt-5 max-w-xl mx-auto leading-relaxed">
-              انضمي لآلاف العرائس اللاتي اخترن فرحتي — تصميم فاخر، تسليم فوري، وذكرى لا تُنسى.
+              انضم لآلاف العملاء الذين اختاروا فرحتي — تصميم فاخر، تسليم فوري، وذكرى لا تُنسى.
             </p>
             <div className="relative mt-9 flex flex-wrap items-center justify-center gap-4">
               <button
                 onClick={scrollToTemplates}
                 className="btn-ghost-luxe !bg-white !text-[#955d85] !border-white"
               >
-                استعرضي القوالب
+                استعرض القوالب
               </button>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد الطلب من فرحتي')}`}
@@ -52,7 +52,7 @@ export function CtaBanner() {
                 className="inline-flex items-center gap-2 px-7 py-4 rounded-full text-[#fdfbf7] border border-white/40 hover:bg-white/10 transition"
               >
                 <IconWhatsApp size={18} />
-                تواصلي على واتساب
+                تواصل على واتساب
               </a>
             </div>
           </div>

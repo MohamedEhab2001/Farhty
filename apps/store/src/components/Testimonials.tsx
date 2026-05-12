@@ -136,8 +136,8 @@ export default function Testimonials() {
                 key={i}
                 onClick={() => openLightbox(i)}
                 className={`relative flex-none w-[280px] sm:w-[380px] overflow-hidden rounded-2xl border bg-white shadow-sm cursor-zoom-in transition-all duration-300 ${i === current
-                    ? 'border-[#a66b96]/60 shadow-[0_4px_24px_rgba(166,107,150,0.18)] scale-[1.02]'
-                    : 'border-[#ebdce3]/60 opacity-75 hover:opacity-100 hover:border-[#a66b96]/30'
+                  ? 'border-[#a66b96]/60 shadow-[0_4px_24px_rgba(166,107,150,0.18)] scale-[1.02]'
+                  : 'border-[#ebdce3]/60 opacity-75 hover:opacity-100 hover:border-[#a66b96]/30'
                   }`}
               >
                 <img
@@ -168,8 +168,8 @@ export default function Testimonials() {
                   onClick={() => goTo(i)}
                   aria-label={`الانتقال إلى صورة ${i + 1}`}
                   className={`rounded-full transition-all duration-300 ${i === current
-                      ? 'w-5 h-2 bg-[#a66b96]'
-                      : 'w-2 h-2 bg-[#ebdce3] hover:bg-[#d49bbd]'
+                    ? 'w-5 h-2 bg-[#a66b96]'
+                    : 'w-2 h-2 bg-[#ebdce3] hover:bg-[#d49bbd]'
                     }`}
                 />
               ))}
@@ -180,12 +180,12 @@ export default function Testimonials() {
 
         {/* ── CTA ── */}
         <div className="mt-16 text-center">
-          <p className="text-[#8c7a87] text-sm mb-6">هل تريدين أن تكون دعوتك القادمة؟</p>
+          <p className="text-[#8c7a87] text-sm mb-6">هل تريد أن تكون دعوتك القادمة؟</p>
           <button
             onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-primary"
           >
-            استعرضي القوالب الآن
+            استعرض القوالب الآن
           </button>
         </div>
       </div>

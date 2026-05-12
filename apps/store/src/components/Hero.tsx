@@ -111,7 +111,7 @@ export default function Hero() {
 
           <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl">
             {[
-              { val: 120, suffix: '+', label: 'عروسة سعيدة' },
+              { val: 120, suffix: '+', label: 'عملاء سعداء' },
               { val: 49, suffix: '★', label: 'تقييم العملاء', divisor: 10 },
               { val: 5, suffix: ' د', label: 'تسليم فوري' },
               { val: 24, suffix: '/٧', label: 'دعم فني' },
@@ -149,8 +149,8 @@ export default function Hero() {
                 <div className="text-[#8c7a87]">{Math.floor(Math.random() * 1000)} ضيف</div>
               </div>
             </div>
-
-            {/* Floating chip — countdown */}
+            {/* 
+           
             <div className="absolute -bottom-5 -left-5 card-luxe px-4 py-3 animate-float-slow [animation-delay:1.5s]">
               <div className="text-[10px] tracking-widest text-[#8c7a87]">يبدأ الفرح خلال</div>
               <div className="flex items-baseline gap-1 text-[#955d85]" style={{ fontFamily: "'Alexandria', sans-serif" }}>
@@ -158,6 +158,7 @@ export default function Hero() {
                 <span className="text-2xl font-bold mr-1">٠٧</span><span className="text-xs">ساعة</span>
               </div>
             </div>
+             */}
 
             {/* Floating chip — heart */}
             <div className="absolute top-1/3 -left-8 card-luxe w-12 h-12 rounded-full grid place-items-center animate-float-slow [animation-delay:.8s]">

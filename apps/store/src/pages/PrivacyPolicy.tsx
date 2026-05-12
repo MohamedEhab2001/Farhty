@@ -1,12 +1,13 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { motion } from 'framer-motion'
+import { WHATSAPP_NUMBER } from '../api/client'
 
 export default function PrivacyPolicy() {
   return (
     <div dir="rtl" className="min-h-screen flex flex-col bg-[#fdfbf7]">
       <Navbar />
-      
+
       <main className="flex-grow pt-32 pb-20 px-4">
         <div className="max-w-3xl mx-auto">
           <motion.div
@@ -15,7 +16,7 @@ export default function PrivacyPolicy() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-4xl sm:text-5xl font-bold text-[#3d2c38] mb-12 text-center">سياسة الخصوصية</h1>
-            
+
             <div className="space-y-12 text-[#8c7a87] leading-relaxed text-lg">
               <section className="bg-white p-8 rounded-2xl border border-[#ebdce3]/40 shadow-sm">
                 <h2 className="text-2xl font-bold text-[#3d2c38] mb-4 flex items-center gap-3">
@@ -34,9 +35,8 @@ export default function PrivacyPolicy() {
                 </h2>
                 <p className="mb-4">نجمع المعلومات الضرورية فقط لإنشاء دعوتكم الخاصة، وتشمل:</p>
                 <ul className="list-disc pr-6 space-y-3">
-                  <li><strong className="text-[#3d2c38]">بيانات المناسبة:</strong> أسماء العروسين، تاريخ الزفاف، وقت الحفل، وموقع القاعة.</li>
-                  <li><strong className="text-[#3d2c38]">بيانات التواصل:</strong> رقم الواتساب الخاص بكم لإرسال رابط الدعوة والتواصل معكم.</li>
-                  <li><strong className="text-[#3d2c38]">الصور:</strong> الصور التي تختارون رفعها لتظهر في الدعوة.</li>
+                  <li><strong className="text-[#3d2c38]">بيانات المناسبة:</strong> تشمل أسماء العروسين، تاريخ الزفاف، وقت الحفل، وموقع القاعة، وأي بيانات ضرورية أخرى لإنشاء الدعوة.</li>
+                  <li><strong className="text-[#3d2c38]">الصور:</strong> الصور التي تختارون رفعها لتظهر في الدعوة الخاصة بكم.</li>
                 </ul>
               </section>
 
@@ -78,8 +78,8 @@ export default function PrivacyPolicy() {
                 <p className="mb-6">
                   إذا كان لديكم أي استفسار بخصوص سياسة الخصوصية، يمكنكم التواصل معنا مباشرة عبر الواتساب.
                 </p>
-                <a 
-                  href="https://wa.me/201027708044" 
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
                   className="btn-primary"
                   target="_blank"
                   rel="noopener noreferrer"

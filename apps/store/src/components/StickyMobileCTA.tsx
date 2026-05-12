@@ -17,7 +17,7 @@ export default function StickyMobileCTA() {
           className="w-full py-3 rounded-xl bg-[#a66b96] text-[#fdfbf7] font-bold text-base active:scale-[0.98] transition-transform duration-150 flex justify-center items-center gap-2 focus-visible:outline-2 focus-visible:outline-[#a66b96] focus-visible:outline-offset-3"
         >
           <IconDiamond size={18} />
-          اطلبي دعوتك الآن
+          اطلب دعوتك الآن
         </button>
       </div>
     </div>

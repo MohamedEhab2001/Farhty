@@ -7,4 +7,4 @@ export const apiClient = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '00201027708044'
+export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '201090033528'

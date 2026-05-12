@@ -6,21 +6,21 @@ const STEPS = [
     num: '١',
     icon: <IconTemplate size={26} className="text-[#a66b96]" />,
     title: 'اختر قالبك',
-    desc: 'تصفحي القوالب الفاخرة واختاري التصميم الذي يعكس ذوقكِ ويحكي قصتكِ.',
+    desc: 'تصفح القوالب الفاخرة واختر التصميم الذي يعكس ذوقك ويحكي قصتك.',
     iconPath: 'M4 6h16M4 12h16M4 18h10',
   },
   {
     num: '٢',
     icon: <IconChat size={26} className="text-[#a66b96]" />,
-    title: 'تواصلي معنا',
-    desc: 'راسلينا على واتساب لتأكيد الطلب وإرسال البيانات وسداد المبلغ بكل سهولة.',
+    title: 'تواصل معنا',
+    desc: 'راسلنا على واتساب لتأكيد الطلب وإرسال البيانات وسداد المبلغ بكل سهولة.',
     iconPath: 'M21 15a4 4 0 0 1-4 4H8l-5 4V6a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z',
   },
   {
     num: '٣',
     icon: <IconShare size={26} className="text-[#a66b96]" />,
-    title: 'شاركي دعوتكِ',
-    desc: 'احصلي على رابط دعوتكِ خلال دقائق، أدخلي بياناتكِ وشاركيها مع ضيوفكِ فوراً.',
+    title: 'شارك دعوتك',
+    desc: 'احصل على رابط دعوتك خلال دقائق، أدخل بياناتك وشاركها مع ضيوفك فوراً.',
     iconPath: 'M4 12v.01M4 6v.01M4 18v.01M9 6h11M9 12h11M9 18h11',
   },
 ]
@@ -37,7 +37,7 @@ export default function HowItWorks() {
           <div className="divider-ornament my-5">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" /></svg>
           </div>
-          <p className="text-[#8c7a87]">من اللحظة التي تختارين فيها التصميم وحتى يصل ضيوفكِ — تجربة سلسة وأنيقة.</p>
+          <p className="text-[#8c7a87]">من اللحظة التي تختار فيها التصميم وحتى يصل ضيوفك — تجربة سلسة وأنيقة.</p>
         </Reveal>
 
         <Reveal stagger className="relative grid md:grid-cols-3 gap-6">

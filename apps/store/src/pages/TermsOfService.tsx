@@ -1,12 +1,13 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { motion } from 'framer-motion'
+import { WHATSAPP_NUMBER } from '../api/client'
 
 export default function TermsOfService() {
   return (
     <div dir="rtl" className="min-h-screen flex flex-col bg-[#fdfbf7]">
       <Navbar />
-      
+
       <main className="flex-grow pt-32 pb-20 px-4">
         <div className="max-w-3xl mx-auto">
           <motion.div
@@ -15,7 +16,7 @@ export default function TermsOfService() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-4xl sm:text-5xl font-bold text-[#3d2c38] mb-12 text-center">شروط الاستخدام</h1>
-            
+
             <div className="space-y-12 text-[#8c7a87] leading-relaxed text-lg">
               <section className="bg-white p-8 rounded-2xl border border-[#ebdce3]/40 shadow-sm">
                 <h2 className="text-2xl font-bold text-[#3d2c38] mb-4 flex items-center gap-3">
@@ -73,9 +74,7 @@ export default function TermsOfService() {
                   <span className="w-8 h-8 rounded-lg bg-[#a66b9610] text-[#a66b96] flex items-center justify-center text-sm">٦</span>
                   التوافر والدعم
                 </h2>
-                <p>
-                  نحن نسعى لضمان توفر رابط الدعوة بنسبة 99% حتى موعد الزفاف. في حال وجود أي مشكلة تقنية، نوفر دعماً فنياً سريعاً عبر الواتساب لحل المشكلة فوراً.
-                </p>
+                نحن نسعى لضمان توفر رابط الدعوة بنسبة 100%. تظل الدعوة متاحة بشكل افتراضي لمدة ٦ أشهر من تاريخ الشراء، ويمكن زيادة هذه المدة حسب الطلب. في حال وجود أي مشكلة تقنية، نوفر دعماً فنياً سريعاً عبر الواتساب لحل المشكلة فوراً.
               </section>
 
               <section className="bg-[#a66b9605] p-8 rounded-2xl border border-[#a66b9620] text-center">
@@ -83,9 +82,8 @@ export default function TermsOfService() {
                 <p className="mb-6">
                   إذا كان لديك أي استفسار بخصوص شروط الاستخدام، نحن هنا للمساعدة.
                 </p>
-                <a 
-                  href="https://wa.me/201027708044" 
-                  className="btn-primary"
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}`} className="btn-primary"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

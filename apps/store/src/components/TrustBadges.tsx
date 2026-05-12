@@ -3,9 +3,9 @@ import { IconShield, IconHeadset, IconInstant, IconDiamond } from './BrandIcons'
 
 const ITEMS = [
   { icon: <IconShield size={22} className="text-[#fdfbf7]" />, title: 'ضمان الاسترداد', desc: 'استرداد المبلغ كاملاً خلال ٢٤ ساعة دون أي أسئلة.' },
-  { icon: <IconHeadset size={22} className="text-[#fdfbf7]" />, title: 'دعم فني مجاني', desc: 'فريقنا متاح لمساعدتكِ في كل خطوة قبل وبعد الشراء.' },
-  { icon: <IconInstant size={22} className="text-[#fdfbf7]" />, title: 'تسليم فوري', desc: 'دعوتكِ جاهزة خلال دقائق من الدفع — لا انتظار.' },
-  { icon: <IconDiamond size={22} className="text-[#fdfbf7]" />, title: 'قوالب حصرية', desc: 'تصاميم لا تجدينها في أي مكان آخر — مصنوعة بحب لِفرحتكِ.' },
+  { icon: <IconHeadset size={22} className="text-[#fdfbf7]" />, title: 'دعم فني مجاني', desc: 'فريقنا متاح لمساعدتك في كل خطوة قبل وبعد الشراء.' },
+  { icon: <IconInstant size={22} className="text-[#fdfbf7]" />, title: 'تسليم فوري', desc: 'دعوتك جاهزة خلال دقائق من الدفع — لا انتظار.' },
+  { icon: <IconDiamond size={22} className="text-[#fdfbf7]" />, title: 'قوالب حصرية', desc: 'تصاميم لا تجدها في أي مكان آخر — مصنوعة بحب لفرحتك.' },
 ]
 
 export default function TrustBadges() {
@@ -15,7 +15,7 @@ export default function TrustBadges() {
         <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="eyebrow">ضمانات</span>
           <h2 className="text-4xl md:text-5xl mt-5 text-[#3d2c38]">
-            لماذا تختارين <span className="italic text-[#955d85]">فرحتي؟</span>
+            لماذا تختار <span className="italic text-[#955d85]">فرحتي؟</span>
           </h2>
           <div className="divider-ornament my-5">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" /></svg>
