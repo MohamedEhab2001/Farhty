@@ -39,7 +39,7 @@ export default function CountdownSection() {
   return (
     <section
       ref={ref}
-      className="relative py-20 md:py-28 linen-texture overflow-hidden"
+      className="relative py-14 md:py-28 linen-texture overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, #3D2117 0%, #5A3424 30%, #6B3F2A 50%, #5A3424 70%, #3D2117 100%)',
       }}

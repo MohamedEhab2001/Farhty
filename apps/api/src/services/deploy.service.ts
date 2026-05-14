@@ -74,6 +74,61 @@ export async function deployInstance(
   });
 }
 
+export async function rebuildInstance(
+  res: Response,
+  templateSlug: string,
+  instanceSlug: string,
+  instanceId: string
+): Promise<void> {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  sendEvent(res, `[${timestamp()}] 🔄 Rebuilding ${instanceSlug}...`);
+
+  const scriptPath = path.resolve(__dirname, '../../../../rebuild-instance.sh');
+
+  const child = spawn('bash', [scriptPath, templateSlug, instanceSlug], {
+    env: { ...process.env },
+    shell: false,
+  });
+
+  child.stdout.on('data', (chunk: Buffer) => {
+    const lines = chunk.toString().split('\n').filter(Boolean);
+    for (const line of lines) sendEvent(res, line);
+  });
+
+  child.stderr.on('data', (chunk: Buffer) => {
+    const lines = chunk.toString().split('\n').filter(Boolean);
+    for (const line of lines) sendEvent(res, `[${timestamp()}] ⚠️ ${line}`);
+  });
+
+  child.on('error', (err) => {
+    sendEvent(res, `[${timestamp()}] ❌ Script error: ${err.message}`);
+    sendEvent(res, 'FAILED');
+    res.end();
+  });
+
+  child.on('close', async (code) => {
+    if (code === 0) {
+      try {
+        await Instance.findByIdAndUpdate(instanceId, { deployedAt: new Date() });
+        sendEvent(res, `[${timestamp()}] 📝 Instance timestamp updated`);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        sendEvent(res, `[${timestamp()}] ⚠️ DB update skipped: ${msg}`);
+      }
+      sendEvent(res, `[${timestamp()}] ✓ Done → https://${instanceSlug}.farhty.online`);
+      sendEvent(res, 'DONE');
+    } else {
+      sendEvent(res, `[${timestamp()}] ❌ Script exited with code ${code}`);
+      sendEvent(res, 'FAILED');
+    }
+    res.end();
+  });
+}
+
 async function saveInstance(
   res: Response,
   templateId: string,

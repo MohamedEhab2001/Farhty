@@ -50,7 +50,7 @@ export default function EnvelopeReveal({ onOpen }: EnvelopeRevealProps) {
             style={{ perspective: '1000px' }}
           >
             <div
-              className={`glass-panel rounded-[2.5rem] p-10 text-center transition-all duration-700 ${opening ? 'scale-50 opacity-0' : ''}`}
+              className={`glass-panel rounded-[2rem] md:rounded-[2.5rem] p-7 md:p-10 text-center transition-all duration-700 ${opening ? 'scale-50 opacity-0' : ''}`}
               style={{ transform: opening ? 'scale(0.5) translateY(-50px)' : 'scale(1)', opacity: opening ? 0 : 1 }}
             >
               <div className="mb-8">

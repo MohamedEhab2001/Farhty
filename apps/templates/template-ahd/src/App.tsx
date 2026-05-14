@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-[100dvh]"
       style={{ '--gold': accentColor } as React.CSSProperties}
     >
       {instance?.isPreview && <PreviewBanner templateName="Ahd" />}

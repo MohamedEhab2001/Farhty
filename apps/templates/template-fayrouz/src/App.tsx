@@ -25,7 +25,7 @@ export default function App() {
 
   // 3. Public invitation — no auth, no admin UI ever
   return (
-    <div className="min-h-screen bg-ivory">
+    <div className="min-h-[100dvh] bg-ivory">
       {instance?.isPreview && <PreviewBanner templateName="فيروز" />}
 
       <FallingPetals />

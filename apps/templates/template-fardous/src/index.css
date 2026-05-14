@@ -30,6 +30,7 @@ body {
   direction: rtl;
   text-align: right;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
   background-image:
     radial-gradient(ellipse at top, rgba(212,184,112,0.35), transparent 60%),
     radial-gradient(ellipse at bottom, rgba(45,106,79,0.12), transparent 55%);

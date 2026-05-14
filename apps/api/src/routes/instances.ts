@@ -8,7 +8,7 @@ import { Instance } from '../models/Instance';
 import { Template } from '../models/Template';
 import { adminAuth } from '../middleware/adminAuth';
 import { instanceAuth, InstanceRequest } from '../middleware/instanceAuth';
-import { deployInstance } from '../services/deploy.service';
+import { deployInstance, rebuildInstance } from '../services/deploy.service';
 
 const execFileAsync = promisify(execFile);
 
@@ -230,6 +230,28 @@ adminInstanceRouter.post('/', adminAuth, async (req: Request, res: Response): Pr
     if (!res.headersSent) {
       res.status(500).json({ error: msg });
     }
+  }
+});
+
+// POST /api/admin/instances/:id/rebuild — rebuild template + copy dist + reload nginx
+adminInstanceRouter.post('/:id/rebuild', adminAuth, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const instance = await Instance.findById(req.params.id).populate('templateId', 'slug');
+    if (!instance) {
+      res.status(404).json({ error: 'Instance not found' });
+      return;
+    }
+
+    const template = instance.templateId as unknown as { slug: string };
+    if (!template?.slug) {
+      res.status(400).json({ error: 'Instance has no associated template' });
+      return;
+    }
+
+    await rebuildInstance(res, template.slug, instance.slug, (instance._id as unknown as string).toString());
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    if (!res.headersSent) res.status(500).json({ error: msg });
   }
 });
 

@@ -71,7 +71,7 @@ export default function WishWall() {
   }
 
   return (
-    <section ref={sectionRef} id="wish-wall" className="py-24 md:py-36 bg-ivory">
+    <section ref={sectionRef} id="wish-wall" className="py-14 md:py-36 bg-ivory">
       <div className="max-w-3xl mx-auto px-6">
 
         {/* Heading */}

@@ -12,14 +12,14 @@ export default function ParentsNames() {
   const fatherOfGroom = get('father_of_groom') ?? 'أحمد'
 
   return (
-    <section className="relative py-20 px-6">
+    <section className="relative py-12 md:py-20 px-6">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="glass-panel rounded-[2.5rem] p-10 md:p-14"
+          className="glass-panel rounded-[2rem] md:rounded-[2.5rem] p-7 md:p-14"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
             <div className="text-center">

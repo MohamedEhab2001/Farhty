@@ -17,7 +17,7 @@ export default function HeroSection() {
   const opacity = Math.max(0, 1 - scrollY / 600)
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
       {/* Background image with parallax */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform"

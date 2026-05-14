@@ -57,7 +57,7 @@ export default function WishingWall() {
   }
 
   return (
-    <section ref={ref} className="relative py-20 md:py-28 bg-gradient-to-b from-ivory via-cream/50 to-ivory overflow-hidden">
+    <section ref={ref} className="relative py-14 md:py-28 bg-gradient-to-b from-ivory via-cream/50 to-ivory overflow-hidden">
       {/* Floating dove */}
       <motion.img
         src="/dove.svg"

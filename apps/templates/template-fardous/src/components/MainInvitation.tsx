@@ -63,7 +63,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.2 }}
-      className="relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col items-center px-4 py-10 sm:px-6 sm:py-14 md:py-16"
+      className="relative z-10 mx-auto flex min-h-[100dvh] max-w-4xl flex-col items-center px-4 py-10 sm:px-6 sm:py-14 md:py-16"
     >
       {/* Mute button */}
       {instance?.features?.music !== false && (

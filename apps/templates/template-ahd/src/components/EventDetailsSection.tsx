@@ -50,7 +50,7 @@ export default function EventDetailsSection() {
   ]
 
   return (
-    <section ref={sectionRef} id="event-details" className="py-24 md:py-36 bg-ivory">
+    <section ref={sectionRef} id="event-details" className="py-14 md:py-36 bg-ivory">
       <div className="max-w-4xl mx-auto px-6">
 
         <div

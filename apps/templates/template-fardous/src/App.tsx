@@ -49,7 +49,7 @@ export default function App() {
   const audioSrc = (get('audio_url') as string) || DEFAULT_AUDIO
 
   return (
-    <div className="relative min-h-screen overflow-hidden" style={{ background: 'var(--cream)' }}>
+    <div className="relative min-h-[100dvh] overflow-hidden" style={{ background: 'var(--cream)' }}>
       {instance?.isPreview && <PreviewBanner templateName="فردوس" />}
 
       {instance?.features?.music !== false && (

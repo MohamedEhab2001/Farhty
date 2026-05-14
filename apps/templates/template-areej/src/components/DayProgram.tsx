@@ -45,7 +45,7 @@ export default function DayProgram() {
   }
 
   return (
-    <section className="relative py-20 px-6">
+    <section className="relative py-12 md:py-20 px-6">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

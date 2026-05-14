@@ -68,7 +68,7 @@ export default function GallerySection() {
   }
 
   return (
-    <section ref={sectionRef} id="gallery" className="py-24 md:py-36" style={{ backgroundColor: '#F8F4EC' }}>
+    <section ref={sectionRef} id="gallery" className="py-14 md:py-36" style={{ backgroundColor: '#F8F4EC' }}>
       <div className="max-w-5xl mx-auto px-6">
 
         <div

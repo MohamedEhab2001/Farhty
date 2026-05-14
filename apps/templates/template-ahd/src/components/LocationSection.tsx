@@ -23,14 +23,14 @@ export default function LocationSection() {
   if (!mapEmbedUrl) return null
 
   return (
-    <section ref={sectionRef} id="location" className="bg-ivory py-24 md:py-36">
+    <section ref={sectionRef} id="location" className="bg-ivory py-14 md:py-36">
       <div className="max-w-4xl mx-auto px-6">
 
         <div
           className="text-center mb-12"
           style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(24px)', transition: 'all 1s cubic-bezier(0.22,1,0.36,1)' }}
         >
-          <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '2rem', letterSpacing: '0.1em' }}>
+          <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
             المكان
           </p>
           <h2 className="font-amiri italic font-light text-charcoal mb-3" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>

@@ -43,7 +43,7 @@ export default function RSVPSection() {
   }
 
   return (
-    <section ref={sectionRef} id="rsvp" className="rsvp-bg py-24 md:py-36">
+    <section ref={sectionRef} id="rsvp" className="rsvp-bg py-14 md:py-36">
       <div className="max-w-xl mx-auto px-6">
 
         <div

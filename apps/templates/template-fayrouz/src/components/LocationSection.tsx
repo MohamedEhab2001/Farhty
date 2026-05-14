@@ -13,7 +13,7 @@ export default function LocationSection() {
   const directionsUrl = get('venue_directions_url') ?? ''
 
   return (
-    <section ref={ref} className="relative py-20 md:py-28 bg-gradient-to-b from-ivory via-cream to-ivory">
+    <section ref={ref} className="relative py-14 md:py-28 bg-gradient-to-b from-ivory via-cream to-ivory">
       {/* Floral divider top */}
       <motion.div
         className="flex justify-center mb-10"

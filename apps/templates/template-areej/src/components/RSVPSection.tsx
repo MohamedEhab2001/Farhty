@@ -36,7 +36,7 @@ export default function RSVPSection() {
 
   if (submitted || alreadySubmitted) {
     return (
-      <section className="relative py-20 px-6">
+      <section className="relative py-12 md:py-20 px-6">
         <div className="max-w-lg mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -53,7 +53,7 @@ export default function RSVPSection() {
   }
 
   return (
-    <section className="relative py-20 px-6">
+    <section className="relative py-12 md:py-20 px-6">
       <div className="max-w-lg mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

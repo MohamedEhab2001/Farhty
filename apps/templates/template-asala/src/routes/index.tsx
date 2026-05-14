@@ -49,7 +49,7 @@ function Index() {
   }, []);
 
   return (
-    <main className="relative min-h-screen text-ivory">
+    <main className="relative min-h-[100dvh] text-ivory">
       {/* Fixed atmospheric background */}
       <div className="fixed inset-0 z-0">
         <img
@@ -173,7 +173,7 @@ function Index() {
 
       {/* COUNTDOWN + DATE */}
       <SectionWrap id="countdown" eyebrow="SAVE THE DATE" title={DATE_AR} onActive={setActive}>
-        <div className="grid grid-cols-4 gap-3 md:gap-5 max-w-xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 max-w-xl mx-auto">
           {[
             { v: countdown.d, l: "يوم" },
             { v: countdown.h, l: "ساعة" },

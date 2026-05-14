@@ -39,17 +39,17 @@ export default function CountdownSection() {
   }, [weddingDate])
 
   const units = [
-    { label: 'ثانية', value: pad(timeLeft.seconds) },
-    { label: 'دقيقة', value: pad(timeLeft.minutes) },
-    { label: 'ساعة', value: pad(timeLeft.hours) },
     { label: 'يوم', value: pad(timeLeft.days) },
+    { label: 'ساعة', value: pad(timeLeft.hours) },
+    { label: 'دقيقة', value: pad(timeLeft.minutes) },
+    { label: 'ثانية', value: pad(timeLeft.seconds) },
   ]
 
   return (
-    <section ref={sectionRef} id="countdown" className="py-20 md:py-28" style={{ backgroundColor: '#F8F2E6' }}>
+    <section ref={sectionRef} id="countdown" className="py-14 md:py-28" style={{ backgroundColor: '#F8F2E6' }}>
       <div className="max-w-4xl mx-auto px-6">
 
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <p
             className="font-tajawal font-light text-warm-gray mb-3"
             style={{
@@ -74,11 +74,11 @@ export default function CountdownSection() {
           </h2>
         </div>
 
-        <div className="flex flex-row-reverse items-start justify-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {units.map((unit, i) => (
             <div
               key={unit.label}
-              className="flex-1 countdown-box"
+              className="countdown-box"
               style={{
                 opacity: visible ? 1 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(36px)',

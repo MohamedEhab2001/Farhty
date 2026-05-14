@@ -38,9 +38,9 @@ export default function OurStorySection() {
     : placeholderColors.map((c) => ({ url: '', color: c }))
 
   return (
-    <section ref={sectionRef} id="our-story" className="py-24 md:py-36 bg-ivory">
+    <section ref={sectionRef} id="our-story" className="py-14 md:py-36 bg-ivory overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 md:px-10">
-        <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24">
+        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-24">
 
           {/* يمين — الصور البولارويد */}
           <div

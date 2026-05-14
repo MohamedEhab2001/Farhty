@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 import ConfirmDialog from '../components/ConfirmDialog'
 import DeployModal from '../components/DeployModal'
+import RebuildModal from '../components/RebuildModal'
 import { api } from '../api/client'
 
 interface Instance {
@@ -17,6 +18,7 @@ export default function Instances() {
   const [deleting, setDeleting] = useState(false)
   const [resetId, setResetId] = useState<string | null>(null)
   const [newPw, setNewPw] = useState('')
+  const [rebuildInst, setRebuildInst] = useState<{ id: string; slug: string } | null>(null)
 
   const load = () => {
     api.get<Instance[]>('/api/admin/instances').then(r => setInstances(r.data)).finally(() => setLoading(false))
@@ -42,6 +44,7 @@ export default function Instances() {
     <Layout title="الحسابات المنشورة">
       {deleteId && <ConfirmDialog message="حذف هذا الحساب نهائياً؟" onConfirm={confirmDelete} onCancel={() => setDeleteId(null)} loading={deleting} />}
       {showDeploy && <DeployModal onClose={() => setShowDeploy(false)} onDeployed={load} />}
+      {rebuildInst && <RebuildModal instanceId={rebuildInst.id} slug={rebuildInst.slug} onClose={() => { setRebuildInst(null); load() }} />}
 
       <div className="flex justify-between items-center mb-6">
         <p className="text-[#9d8fa8] text-sm">{instances.length} حساب</p>
@@ -85,6 +88,14 @@ export default function Instances() {
                       ) : (
                         <button id={`reset-pw-${inst._id}`} onClick={() => setResetId(inst._id)} className="btn-ghost py-1 px-3 text-xs">تغيير كلمة المرور</button>
                       )}
+                      <button
+                        id={`rebuild-inst-${inst._id}`}
+                        onClick={() => setRebuildInst({ id: inst._id, slug: inst.slug })}
+                        className="py-1 px-3 text-xs rounded-lg text-[#e8b857] hover:bg-[#e8b857]/10 transition-all"
+                        title="إعادة بناء القالب ونشره"
+                      >
+                        🔄 إعادة بناء
+                      </button>
                       <button id={`delete-inst-${inst._id}`} onClick={() => setDeleteId(inst._id)} className="py-1 px-3 text-xs rounded-lg text-red-400 hover:bg-red-900/20 transition-all">حذف</button>
                     </div>
                   </td>

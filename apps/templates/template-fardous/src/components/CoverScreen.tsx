@@ -19,7 +19,7 @@ export default function CoverScreen({ onOpen, get }: Props) {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.05 }}
       transition={{ duration: 0.9, ease: 'easeInOut' }}
-      className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center"
+      className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center px-6 text-center"
     >
       {/* Hero backdrop */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">

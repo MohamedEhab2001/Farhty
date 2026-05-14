@@ -45,7 +45,7 @@ export default function RSVPSection() {
   return (
     <section
       ref={ref}
-      className="relative py-20 md:py-28 overflow-hidden"
+      className="relative py-14 md:py-28 overflow-hidden"
       style={{
         background: 'linear-gradient(180deg, #F5E6D5 0%, #F0D5C0 40%, #EBCBB0 100%)',
       }}

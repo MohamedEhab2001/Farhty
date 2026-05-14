@@ -32,20 +32,20 @@ export default function HeroSection() {
 
       {/* ── Section flower-frame corners ── */}
       <div className="absolute top-0 left-0 pointer-events-none z-10">
-        <img src="/assets/blossom-1.png" alt="" className="w-28 md:w-44 opacity-70" />
+        <img src="/assets/blossom-1.png" alt="" className="w-20 md:w-44 opacity-70" />
       </div>
       <div className="absolute top-0 right-0 pointer-events-none z-10">
-        <img src="/assets/blossom-1.png" alt="" className="w-28 md:w-44 opacity-70" style={{ transform: 'scaleX(-1)' }} />
+        <img src="/assets/blossom-1.png" alt="" className="w-20 md:w-44 opacity-70" style={{ transform: 'scaleX(-1)' }} />
       </div>
       <div className="absolute bottom-0 left-0 pointer-events-none z-10">
-        <img src="/assets/peony-1.png" alt="" className="w-32 md:w-52 opacity-60" style={{ transform: 'scaleY(-1)' }} />
+        <img src="/assets/peony-1.png" alt="" className="w-24 md:w-52 opacity-60" style={{ transform: 'scaleY(-1)' }} />
       </div>
       <div className="absolute bottom-0 right-0 pointer-events-none z-10">
-        <img src="/assets/peony-1.png" alt="" className="w-32 md:w-52 opacity-60" style={{ transform: 'scale(-1,-1)' }} />
+        <img src="/assets/peony-1.png" alt="" className="w-24 md:w-52 opacity-60" style={{ transform: 'scale(-1,-1)' }} />
       </div>
 
       {/* ── Main content ── */}
-      <div className="relative z-20 w-full max-w-6xl mx-auto px-6 md:px-12 py-28 flex flex-col items-center gap-6">
+      <div className="relative z-20 w-full max-w-6xl mx-auto px-6 md:px-12 py-12 md:py-24 flex flex-col items-center gap-6">
 
         {/* Tagline */}
         <motion.p
@@ -68,7 +68,7 @@ export default function HeroSection() {
             className="flex flex-col items-center gap-2 min-w-[120px]"
           >
             <span className="font-body text-rose/40 text-xs tracking-widest">العروسة</span>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight leading-normal text-deep-rose text-center whitespace-nowrap">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight leading-normal text-deep-rose text-center">
               {brideName}
             </h1>
           </motion.div>
@@ -79,7 +79,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex-shrink-0 flex items-center justify-center"
-            style={{ width: 'clamp(220px, 30vw, 320px)', height: 'clamp(220px, 30vw, 320px)' }}
+            style={{ width: 'clamp(180px, 50vw, 320px)', height: 'clamp(180px, 50vw, 320px)' }}
           >
             {/* Flower ring — 8 petals orbiting the circle */}
             {[
@@ -150,7 +150,7 @@ export default function HeroSection() {
             className="flex flex-col items-center gap-2 min-w-[120px]"
           >
             <span className="font-body text-rose/40 text-xs tracking-widest">العريس</span>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight leading-normal text-deep-rose text-center whitespace-nowrap">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight leading-normal text-deep-rose text-center">
               {groomName}
             </h1>
           </motion.div>
