@@ -385,6 +385,34 @@ export default function AdminDashboard() {
           )}
         </Section>
 
+        {/* ─── الأقسام — إظهار وإخفاء ─── */}
+        <Section title="الأقسام — إظهار وإخفاء">
+          {instance.features.countdown && (
+            <SectionToggle label="العد التنازلي" fieldKey="section_countdown_visible" get={get} set={set} />
+          )}
+          {instance.features.ourStory && (
+            <SectionToggle label="قصتنا" fieldKey="section_ourstory_visible" get={get} set={set} />
+          )}
+          {instance.features.eventDetails && (
+            <SectionToggle label="تفاصيل الحفل" fieldKey="section_eventdetails_visible" get={get} set={set} />
+          )}
+          {instance.features.venueMap && (
+            <SectionToggle label="الموقع والخريطة" fieldKey="section_location_visible" get={get} set={set} />
+          )}
+          {instance.features.rsvp && (
+            <SectionToggle label="تأكيد الحضور" fieldKey="section_rsvp_visible" get={get} set={set} />
+          )}
+          {instance.features.wishWall && (
+            <SectionToggle label="جدار الأمنيات" fieldKey="section_wishwall_visible" get={get} set={set} />
+          )}
+          {instance.features.gallery && (
+            <SectionToggle label="معرض الصور" fieldKey="section_gallery_visible" get={get} set={set} />
+          )}
+          {instance.features.shareButton && (
+            <SectionToggle label="زر المشاركة" fieldKey="section_sharebutton_visible" get={get} set={set} />
+          )}
+        </Section>
+
         {/* ─── حفظ ─── */}
         <button
           onClick={handleSave}
@@ -474,6 +502,40 @@ function SingleImageUpload({ value, uploadStatus, uploadError, onUpload }: {
       {uploadStatus === 'success' && <p style={{ color: '#3a8c4b', fontSize: '0.72rem', marginTop: '0.4rem', textAlign: 'center' }}>تم الرفع بنجاح</p>}
       {uploadStatus === 'error' && uploadError && <div style={{ background: '#FEE', padding: '0.5rem', marginTop: '0.4rem', fontSize: '0.72rem', color: '#C00' }}>{uploadError}</div>}
       {value && <img src={value} alt="" style={{ width: '100%', marginTop: '0.75rem', maxHeight: '200px', objectFit: 'cover' }} />}
+    </div>
+  )
+}
+
+// ─── Section visibility toggle ────────────────────────────────────────────────
+function SectionToggle({ label, fieldKey, get, set }: {
+  label: string
+  fieldKey: string
+  get: (key: string) => unknown
+  set: (key: string, value: unknown) => void
+}) {
+  const isVisible = get(fieldKey) !== false
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <span style={{ fontFamily: 'Tajawal, sans-serif', fontSize: '0.9rem', color: isVisible ? '#3C3C3C' : '#8A8078' }}>
+        {label}
+      </span>
+      <button
+        onClick={() => set(fieldKey, !isVisible)}
+        style={{
+          position: 'relative', width: '44px', height: '24px', borderRadius: '999px',
+          background: isVisible ? '#C4A35A' : '#D9D9D9',
+          border: 'none', cursor: 'pointer', transition: 'background 0.25s ease', flexShrink: 0,
+        }}
+        title={isVisible ? 'إخفاء القسم' : 'إظهار القسم'}
+      >
+        <span style={{
+          position: 'absolute', top: '3px',
+          right: isVisible ? '3px' : '23px',
+          width: '18px', height: '18px', borderRadius: '50%',
+          background: 'white', transition: 'right 0.25s ease',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.18)',
+        }} />
+      </button>
     </div>
   )
 }

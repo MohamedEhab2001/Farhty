@@ -1,194 +1,224 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Layout from '../components/Layout'
-import FieldBuilder, { TemplateField } from '../components/FieldBuilder'
 import { api } from '../api/client'
 
-interface FormData {
-  name: string; slug: string; price: number; description: string
-  language: string; status: string; version: string
-  features: { music: boolean; gallery: boolean; rsvp: boolean; countdownTimer: boolean; rtl: boolean; pages: number }
-  fields: TemplateField[]
-  previewImages: string[]; previewVideo: string
-}
-
-const DEFAULT: FormData = {
-  name: '', slug: '', price: 299, description: '', language: 'ar', status: 'draft', version: '1.0.0',
-  features: { music: false, gallery: false, rsvp: false, countdownTimer: false, rtl: true, pages: 3 },
-  fields: [], previewImages: [], previewVideo: ''
-}
-
-function slugify(s: string) {
-  return s.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-}
+const DEFAULT_JSON = JSON.stringify(
+  {
+    name: '',
+    slug: '',
+    price: 399,
+    description: '',
+    language: 'ar',
+    features: {
+      countdown: true,
+      ourStory: true,
+      eventDetails: true,
+      rsvp: true,
+      wishWall: true,
+      gallery: true,
+      shareButton: true,
+      venueMap: true,
+      rtl: true,
+      pages: 1,
+    },
+    fields: [],
+    previewImages: [],
+    previewVideo: '',
+    status: 'draft',
+    version: '1.0.0',
+  },
+  null,
+  2
+)
 
 export default function TemplateForm() {
   const { id } = useParams<{ id: string }>()
   const isEdit = !!id
   const navigate = useNavigate()
-  const [form, setForm] = useState<FormData>(DEFAULT)
-  const [saving, setSaving] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const [json, setJson] = useState('')
   const [error, setError] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [loading, setLoading] = useState(isEdit)
 
   useEffect(() => {
-    if (!isEdit) return
-    api.get(`/api/admin/templates/${id}`).then(r => {
-      const d = r.data
-      setForm({
-        name: d.name, slug: d.slug, price: d.price, description: d.description || '',
-        language: d.language, status: d.status, version: d.version || '1.0.0',
-        features: d.features || DEFAULT.features,
-        fields: d.fields || [], previewImages: d.previewImages || [], previewVideo: d.previewVideo || ''
+    if (!isEdit) {
+      setJson(DEFAULT_JSON)
+      return
+    }
+    api
+      .get(`/api/admin/templates/${id}`)
+      .then(r => {
+        const { _id, __v, createdAt, updatedAt, ...clean } = r.data
+        setJson(JSON.stringify(clean, null, 2))
       })
-    }).catch(() => setError('تعذّر تحميل القالب'))
+      .catch(() => setError('تعذّر تحميل القالب'))
+      .finally(() => setLoading(false))
   }, [id, isEdit])
 
-  const set = (patch: Partial<FormData>) => setForm(f => ({ ...f, ...patch }))
-  const setFeat = (key: string, val: boolean | number) =>
-    setForm(f => ({ ...f, features: { ...f.features, [key]: val } }))
-
-  const submit = async (e: React.FormEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key !== 'Tab') return
     e.preventDefault()
-    setSaving(true); setError('')
+    const el = e.currentTarget
+    const start = el.selectionStart
+    const end = el.selectionEnd
+    const updated = json.substring(0, start) + '  ' + json.substring(end)
+    setJson(updated)
+    requestAnimationFrame(() => {
+      el.selectionStart = el.selectionEnd = start + 2
+    })
+  }
+
+  const format = () => {
+    setError('')
+    try {
+      setJson(JSON.stringify(JSON.parse(json), null, 2))
+    } catch (e) {
+      setError(`JSON غير صالح: ${e instanceof Error ? e.message : 'خطأ في التنسيق'}`)
+    }
+  }
+
+  const submit = async () => {
+    setError('')
+    let parsed: unknown
+    try {
+      parsed = JSON.parse(json)
+    } catch (e) {
+      setError(`JSON غير صالح: ${e instanceof Error ? e.message : 'خطأ في التنسيق'}`)
+      textareaRef.current?.focus()
+      return
+    }
+    setSaving(true)
     try {
       if (isEdit) {
-        await api.put(`/api/admin/templates/${id}`, form)
+        await api.put(`/api/admin/templates/${id}`, parsed)
       } else {
-        await api.post('/api/admin/templates', form)
+        await api.post('/api/admin/templates', parsed)
       }
       navigate('/templates')
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'خطأ'
+      const msg = err instanceof Error ? err.message : 'خطأ في الحفظ'
       setError(msg)
     } finally {
       setSaving(false)
     }
   }
 
-  const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="card mb-6">
-      <h3 className="font-bold text-[#e8b857] mb-4">{title}</h3>
-      {children}
-    </div>
-  )
+  const lineCount = json.split('\n').length
+
+  if (loading) {
+    return (
+      <Layout title="تعديل القالب">
+        <p style={{ color: '#9d8fa8' }}>جاري التحميل...</p>
+      </Layout>
+    )
+  }
 
   return (
     <Layout title={isEdit ? 'تعديل القالب' : 'قالب جديد'}>
-      <form onSubmit={submit} className="max-w-4xl">
+      <div style={{ maxWidth: '900px' }}>
 
-        {/* 1. Basic Info */}
-        <Section title="المعلومات الأساسية">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label>الاسم</label>
-              <input id="form-name" value={form.name} onChange={e => { set({ name: e.target.value }); if (!isEdit) set({ slug: slugify(e.target.value) }) }} required />
-            </div>
-            <div>
-              <label>الرابط (slug)</label>
-              <input id="form-slug" value={form.slug} onChange={e => set({ slug: e.target.value })} dir="ltr" required />
-            </div>
-            <div>
-              <label>السعر (جنيه)</label>
-              <input id="form-price" type="number" value={form.price} onChange={e => set({ price: +e.target.value })} required />
-            </div>
-            <div>
-              <label>اللغة</label>
-              <select id="form-language" value={form.language} onChange={e => set({ language: e.target.value })}>
-                <option value="ar">عربي</option>
-                <option value="en">English</option>
-                <option value="both">كلاهما</option>
-              </select>
-            </div>
-            <div>
-              <label>الحالة</label>
-              <select id="form-status" value={form.status} onChange={e => set({ status: e.target.value })}>
-                <option value="draft">مسودة</option>
-                <option value="active">نشط</option>
-              </select>
-            </div>
-            <div>
-              <label>الإصدار</label>
-              <input id="form-version" value={form.version} onChange={e => set({ version: e.target.value })} dir="ltr" />
-            </div>
-            <div className="md:col-span-2">
-              <label>الوصف</label>
-              <textarea id="form-description" value={form.description} onChange={e => set({ description: e.target.value })} rows={3} />
+        <p style={{ color: '#9d8fa8', fontSize: '13px', marginBottom: '16px' }}>
+          {isEdit
+            ? 'عدّل قيم JSON مباشرة ثم احفظ.'
+            : 'أضف بيانات القالب بصيغة JSON ثم أنشئه.'}
+        </p>
+
+        {/* Editor card */}
+        <div className="card" style={{ padding: 0, overflow: 'hidden', marginBottom: '16px' }}>
+
+          {/* Toolbar */}
+          <div style={{
+            background: '#181420',
+            borderBottom: '1px solid #2e2840',
+            padding: '8px 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+            <span style={{ fontSize: '12px', color: '#9d8fa8', fontFamily: 'monospace' }}>
+              {isEdit ? `template-${id}.json` : 'new-template.json'}
+            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ fontSize: '11px', color: '#2e2840' }}>{lineCount} lines</span>
+              <button
+                onClick={format}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid #2e2840',
+                  color: '#9d8fa8',
+                  borderRadius: '6px',
+                  padding: '3px 10px',
+                  fontSize: '11px',
+                  cursor: 'pointer',
+                  fontFamily: 'Cairo, sans-serif',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = '#c8973a'; e.currentTarget.style.color = '#c8973a' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = '#2e2840'; e.currentTarget.style.color = '#9d8fa8' }}
+              >
+                Format
+              </button>
             </div>
           </div>
-        </Section>
 
-        {/* 2. Features */}
-        <Section title="المميزات">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[
-              { key: 'music', label: 'موسيقى' },
-              { key: 'gallery', label: 'معرض صور' },
-              { key: 'rsvp', label: 'RSVP' },
-              { key: 'countdownTimer', label: 'عداد تنازلي' },
-              { key: 'rtl', label: 'RTL (عربي)' },
-            ].map(f => (
-              <label key={f.key} className="flex items-center gap-3 cursor-pointer">
-                <span className="toggle">
-                  <input
-                    type="checkbox"
-                    id={`feat-${f.key}`}
-                    checked={form.features[f.key as keyof typeof form.features] as boolean}
-                    onChange={e => setFeat(f.key, e.target.checked)}
-                  />
-                  <span className="toggle-slider" />
-                </span>
-                <span className="text-sm text-[#f0e8d8]">{f.label}</span>
-              </label>
-            ))}
-            <div>
-              <label>عدد الصفحات</label>
-              <input id="feat-pages" type="number" min={1} max={10} value={form.features.pages} onChange={e => setFeat('pages', +e.target.value)} />
-            </div>
+          {/* Textarea */}
+          <textarea
+            ref={textareaRef}
+            value={json}
+            onChange={e => setJson(e.target.value)}
+            onKeyDown={handleKeyDown}
+            dir="ltr"
+            spellCheck={false}
+            style={{
+              width: '100%',
+              minHeight: '640px',
+              fontFamily: "'Fira Code', 'Cascadia Code', 'Courier New', monospace",
+              fontSize: '13px',
+              lineHeight: '1.65',
+              background: '#0d0b0e',
+              color: '#f0e8d8',
+              border: 'none',
+              borderRadius: 0,
+              padding: '16px 20px',
+              resize: 'vertical',
+              outline: 'none',
+              direction: 'ltr',
+              textAlign: 'left',
+            }}
+          />
+        </div>
+
+        {/* Error */}
+        {error && (
+          <div style={{
+            background: '#dc262620',
+            border: '1px solid #dc262630',
+            borderRadius: '10px',
+            color: '#f87171',
+            padding: '10px 14px',
+            marginBottom: '16px',
+            fontFamily: 'monospace',
+            fontSize: '12px',
+            direction: 'ltr',
+            textAlign: 'left',
+          }}>
+            {error}
           </div>
-        </Section>
+        )}
 
-        {/* 3. Preview Assets */}
-        <Section title="روابط المعاينة">
-          <div className="space-y-3">
-            <div>
-              <label>رابط صورة المعاينة (Cloudinary URL)</label>
-              <input
-                id="form-preview-img"
-                value={form.previewImages[0] || ''}
-                onChange={e => set({ previewImages: e.target.value ? [e.target.value] : [] })}
-                dir="ltr"
-                placeholder="https://res.cloudinary.com/..."
-              />
-            </div>
-            <div>
-              <label>رابط فيديو المعاينة (اختياري)</label>
-              <input
-                id="form-preview-video"
-                value={form.previewVideo}
-                onChange={e => set({ previewVideo: e.target.value })}
-                dir="ltr"
-                placeholder="https://res.cloudinary.com/..."
-              />
-            </div>
-          </div>
-        </Section>
-
-        {/* 4. Field Builder */}
-        <Section title="حقول القالب">
-          <FieldBuilder fields={form.fields} onChange={fields => set({ fields })} />
-        </Section>
-
-        {error && <p className="text-red-400 text-sm mb-4 badge badge-red p-3">{error}</p>}
-
-        <div className="flex gap-3">
-          <button id="form-submit-btn" type="submit" disabled={saving} className="btn-gold px-8 py-3">
+        {/* Actions */}
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button onClick={submit} disabled={saving} className="btn-gold" style={{ padding: '10px 32px' }}>
             {saving ? 'جاري الحفظ...' : isEdit ? 'حفظ التغييرات' : 'إنشاء القالب'}
           </button>
-          <button type="button" onClick={() => navigate('/templates')} className="btn-ghost px-6 py-3">
+          <button onClick={() => navigate('/templates')} className="btn-ghost" style={{ padding: '10px 24px' }}>
             إلغاء
           </button>
         </div>
-      </form>
+
+      </div>
     </Layout>
   )
 }

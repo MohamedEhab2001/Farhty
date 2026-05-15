@@ -46,28 +46,28 @@ export default function App() {
       <BotanicalDivider />
 
       {/* 2. Countdown */}
-      {instance?.features.countdown && <CountdownSection />}
+      {instance?.features.countdown && get('section_countdown_visible') !== false && <CountdownSection />}
 
       {/* 3. Our Story */}
-      {instance?.features.ourStory && <OurStorySection />}
+      {instance?.features.ourStory && get('section_ourstory_visible') !== false && <OurStorySection />}
 
       {/* 4. Event Details — ceremony + reception cards */}
-      {instance?.features.eventDetails && <EventDetailsSection />}
+      {instance?.features.eventDetails && get('section_eventdetails_visible') !== false && <EventDetailsSection />}
 
       {/* 5. Location / Map */}
-      {instance?.features.venueMap && <LocationSection />}
+      {instance?.features.venueMap && get('section_location_visible') !== false && <LocationSection />}
 
       {/* 6. RSVP */}
-      {instance?.features.rsvp && <RSVPSection />}
+      {instance?.features.rsvp && get('section_rsvp_visible') !== false && <RSVPSection />}
 
       {/* 6. Wish Wall */}
-      {instance?.features.wishWall && <WishWall />}
+      {instance?.features.wishWall && get('section_wishwall_visible') !== false && <WishWall />}
 
       {/* 7. Gallery */}
-      {instance?.features.gallery && <GallerySection />}
+      {instance?.features.gallery && get('section_gallery_visible') !== false && <GallerySection />}
 
       {/* Share button — floating */}
-      {instance?.features.shareButton && <ShareButton />}
+      {instance?.features.shareButton && get('section_sharebutton_visible') !== false && <ShareButton />}
 
       {/* Footer */}
       <Footer />

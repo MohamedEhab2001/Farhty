@@ -1,6 +1,7 @@
 import { Router, Request, Response, IRouter } from 'express';
 import { Template } from '../models/Template';
 import { adminAuth } from '../middleware/adminAuth';
+import { rebuildTemplateInstances } from '../services/deploy.service';
 
 // ─── Public router ────────────────────────────────────────────────────────────
 // Mounted at: /api/templates
@@ -58,6 +59,21 @@ adminTemplateRouter.post('/', adminAuth, async (req: Request, res: Response): Pr
   }
 });
 
+// GET /api/admin/templates/:id
+adminTemplateRouter.get('/:id', adminAuth, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const template = await Template.findById(req.params.id);
+    if (!template) {
+      res.status(404).json({ error: 'Template not found' });
+      return;
+    }
+    res.json(template);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ error: msg });
+  }
+});
+
 // PUT /api/admin/templates/:id
 adminTemplateRouter.put('/:id', adminAuth, async (req: Request, res: Response): Promise<void> => {
   try {
@@ -93,6 +109,21 @@ adminTemplateRouter.patch('/:id/status', adminAuth, async (req: Request, res: Re
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Unknown error';
     res.status(400).json({ error: msg });
+  }
+});
+
+// POST /api/admin/templates/:id/rebuild-instances
+adminTemplateRouter.post('/:id/rebuild-instances', adminAuth, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const template = await Template.findById(req.params.id);
+    if (!template) {
+      res.status(404).json({ error: 'Template not found' });
+      return;
+    }
+    await rebuildTemplateInstances(res, (template._id as unknown as string).toString(), template.slug);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    if (!res.headersSent) res.status(500).json({ error: msg });
   }
 });
 

@@ -129,6 +129,65 @@ export async function rebuildInstance(
   });
 }
 
+export async function rebuildTemplateInstances(
+  res: Response,
+  templateId: string,
+  templateSlug: string
+): Promise<void> {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  const instances = await Instance.find({ templateId });
+
+  if (instances.length === 0) {
+    sendEvent(res, `[${timestamp()}] ℹ️ No instances found for template "${templateSlug}"`);
+    sendEvent(res, 'DONE');
+    res.end();
+    return;
+  }
+
+  sendEvent(res, `[${timestamp()}] Found ${instances.length} instance(s) — starting batch rebuild...`);
+
+  const scriptPath = path.resolve(__dirname, '../../../../rebuild-instance.sh');
+  let succeeded = 0;
+  let failed = 0;
+
+  for (let i = 0; i < instances.length; i++) {
+    const instance = instances[i];
+    sendEvent(res, `[${timestamp()}] ─── (${i + 1}/${instances.length}) Rebuilding ${instance.slug}...`);
+
+    const ok = await new Promise<boolean>((resolve) => {
+      const child = spawn('bash', [scriptPath, templateSlug, instance.slug], {
+        env: { ...process.env },
+        shell: false,
+      });
+      child.stdout.on('data', (chunk: Buffer) => {
+        chunk.toString().split('\n').filter(Boolean).forEach(line => sendEvent(res, line));
+      });
+      child.stderr.on('data', (chunk: Buffer) => {
+        chunk.toString().split('\n').filter(Boolean).forEach(line => sendEvent(res, `[${timestamp()}] ⚠️ ${line}`));
+      });
+      child.on('error', () => resolve(false));
+      child.on('close', (code) => resolve(code === 0));
+    });
+
+    if (ok) {
+      await Instance.findByIdAndUpdate(instance._id, { deployedAt: new Date() });
+      sendEvent(res, `[${timestamp()}] ✓ ${instance.slug} rebuilt`);
+      succeeded++;
+    } else {
+      sendEvent(res, `[${timestamp()}] ❌ ${instance.slug} failed — continuing...`);
+      failed++;
+    }
+  }
+
+  sendEvent(res, `[${timestamp()}] ─── Batch complete: ${succeeded} succeeded, ${failed} failed`);
+  sendEvent(res, failed === 0 ? 'DONE' : 'FAILED');
+  res.end();
+}
+
 async function saveInstance(
   res: Response,
   templateId: string,

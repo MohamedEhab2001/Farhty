@@ -159,6 +159,78 @@
       "type": "json",
       "defaultValue": "[]",
       "required": false
+    },
+    {
+      "key": "section_countdown_visible",
+      "label": "إظهار قسم العد التنازلي",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء قسم العد التنازلي من الدعوة"
+    },
+    {
+      "key": "section_ourstory_visible",
+      "label": "إظهار قسم قصتنا",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء قسم قصتنا من الدعوة"
+    },
+    {
+      "key": "section_eventdetails_visible",
+      "label": "إظهار قسم تفاصيل الحفل",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء تفاصيل حفل الزواج والاستقبال"
+    },
+    {
+      "key": "section_location_visible",
+      "label": "إظهار قسم الموقع والخريطة",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء خريطة القاعة من الدعوة"
+    },
+    {
+      "key": "section_rsvp_visible",
+      "label": "إظهار قسم تأكيد الحضور",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإيقاف استقبال تأكيدات الحضور مؤقتًا"
+    },
+    {
+      "key": "section_wishwall_visible",
+      "label": "إظهار قسم جدار الأمنيات",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء جدار الأمنيات من الدعوة"
+    },
+    {
+      "key": "section_gallery_visible",
+      "label": "إظهار قسم معرض الصور",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء معرض الصور من الدعوة"
+    },
+    {
+      "key": "section_sharebutton_visible",
+      "label": "إظهار زر المشاركة",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء زر مشاركة الدعوة"
     }
   ],
   "previewImages": [],

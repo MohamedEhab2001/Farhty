@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import ConfirmDialog from '../components/ConfirmDialog'
+import RebuildAllModal from '../components/RebuildAllModal'
 import { api } from '../api/client'
 
 interface Template {
@@ -16,6 +17,7 @@ export default function Templates() {
   const [loading, setLoading] = useState(true)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [rebuildAll, setRebuildAll] = useState<{ id: string; name: string } | null>(null)
   const navigate = useNavigate()
 
   const load = () => {
@@ -40,6 +42,13 @@ export default function Templates() {
 
   return (
     <Layout title="القوالب">
+      {rebuildAll && (
+        <RebuildAllModal
+          templateId={rebuildAll.id}
+          templateName={rebuildAll.name}
+          onClose={() => setRebuildAll(null)}
+        />
+      )}
       {deleteId && (
         <ConfirmDialog
           message="هل تريد حذف هذا القالب نهائياً؟"
@@ -103,6 +112,12 @@ export default function Templates() {
                         rel="noopener noreferrer"
                         className="btn-ghost py-1 px-3 text-xs"
                       >معاينة ↗</a>
+                      <button
+                        id={`rebuild-all-${t._id}`}
+                        onClick={() => setRebuildAll({ id: t._id, name: t.name })}
+                        className="py-1 px-3 text-xs rounded-lg text-[#e8b857] hover:bg-[#e8b857]/10 transition-all"
+                        title="إعادة بناء جميع الحسابات المنشورة من هذا القالب"
+                      >🔄 إعادة بناء الكل</button>
                       <button
                         id={`delete-tpl-${t._id}`}
                         onClick={() => setDeleteId(t._id)}
