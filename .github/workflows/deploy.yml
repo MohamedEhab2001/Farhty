@@ -26,8 +26,9 @@ jobs:
             git pull origin master
             pnpm install
             pnpm --filter store build && pnpm --filter api build && pnpm --filter admin build
+            systemctl restart nginx
+            systemctl restart nginx
+            systemctl restart nginx
+            systemctl restart nginx
             pm2 restart farhty-api
-            systemctl restart nginx
-            systemctl restart nginx
-            systemctl restart nginx
-            systemctl restart nginx
+
