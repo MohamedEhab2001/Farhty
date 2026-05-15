@@ -37,11 +37,19 @@ export default function BuyModal({ template, onClose }: BuyModalProps) {
     }
   }, [template, onClose])
 
+  const isOnSale = !!template?.salePrice && (
+    !template.saleEndsAt || new Date(template.saleEndsAt).getTime() > Date.now()
+  )
+  const effectivePrice = template && isOnSale ? template.salePrice! : template?.price
+
   const handleWhatsApp = () => {
     if (!template) return
     setSending(true)
+    const priceNote = isOnSale
+      ? `بسعر العرض ${effectivePrice} جنيه (بدلاً من ${template.price} جنيه)`
+      : `بسعر ${effectivePrice} جنيه`
     const text = encodeURIComponent(
-      `مرحبا، أنا مهتم بقالب ${template.name} بسعر ${template.price} جنيه.\nممكن تبعتلي تفاصيل الدفع؟`
+      `مرحبا، أنا مهتم بقالب ${template.name} ${priceNote}.\nممكن تبعتلي تفاصيل الدفع؟`
     )
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank')
     setTimeout(() => { setSending(false) }, 1000)
@@ -92,9 +100,16 @@ export default function BuyModal({ template, onClose }: BuyModalProps) {
               <h2 className="text-xl font-bold text-center text-[#3d2c38] mb-1">
                 {template.name}
               </h2>
-              <p className="text-center text-[#a66b96] text-lg font-semibold mb-5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                {template.price} جنيه
-              </p>
+              <div className="flex items-center justify-center gap-2 mb-5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                <p className="text-center text-[#a66b96] text-lg font-semibold">
+                  {effectivePrice} جنيه
+                </p>
+                {isOnSale && (
+                  <p className="text-center text-[#8c7a87] text-sm line-through">
+                    {template.price} جنيه
+                  </p>
+                )}
+              </div>
 
               <div className="bg-[#fdfbf7] rounded-xl p-4 mb-5 border border-[#ebdce3]/40">
                 <p className="text-[#8c7a87] text-sm text-center leading-relaxed">

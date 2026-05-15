@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import ConfirmDialog from '../components/ConfirmDialog'
 import RebuildAllModal from '../components/RebuildAllModal'
+import FlashSaleModal from '../components/FlashSaleModal'
 import { api } from '../api/client'
 
 interface Template {
   _id: string; name: string; slug: string; language: string
   price: number; status: string; version: string
+  salePrice?: number; saleEndsAt?: string
 }
 
 const LANG_LABEL: Record<string, string> = { ar: 'عربي', en: 'English', both: 'عربي+English' }
@@ -18,6 +20,7 @@ export default function Templates() {
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
   const [rebuildAll, setRebuildAll] = useState<{ id: string; name: string } | null>(null)
+  const [flashSaleTarget, setFlashSaleTarget] = useState<Template | null>(null)
   const navigate = useNavigate()
 
   const load = () => {
@@ -47,6 +50,16 @@ export default function Templates() {
           templateId={rebuildAll.id}
           templateName={rebuildAll.name}
           onClose={() => setRebuildAll(null)}
+        />
+      )}
+      {flashSaleTarget && (
+        <FlashSaleModal
+          templateId={flashSaleTarget._id}
+          templateName={flashSaleTarget.name}
+          currentSalePrice={flashSaleTarget.salePrice}
+          currentSaleEndsAt={flashSaleTarget.saleEndsAt}
+          onClose={() => setFlashSaleTarget(null)}
+          onSaved={load}
         />
       )}
       {deleteId && (
@@ -87,7 +100,21 @@ export default function Templates() {
                 <tr key={t._id}>
                   <td className="font-semibold text-[#f0e8d8]">{t.name}</td>
                   <td><span className="badge badge-gray">{LANG_LABEL[t.language] || t.language}</span></td>
-                  <td className="text-[#e8b857] font-semibold">{t.price} ج</td>
+                  <td>
+                    {t.salePrice ? (
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[#e8b857] font-semibold">{t.salePrice} ج</span>
+                        <span className="text-[#9d8fa8] text-xs line-through">{t.price} ج</span>
+                        {t.saleEndsAt && (
+                          <span className="text-[#ff6b6b] text-xs">
+                            حتى {new Date(t.saleEndsAt).toLocaleDateString('ar-EG')}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-[#e8b857] font-semibold">{t.price} ج</span>
+                    )}
+                  </td>
                   <td>
                     <span className={`badge ${t.status === 'active' ? 'badge-green' : 'badge-yellow'}`}>
                       {t.status === 'active' ? 'نشط' : 'مسودة'}
@@ -118,6 +145,12 @@ export default function Templates() {
                         className="py-1 px-3 text-xs rounded-lg text-[#e8b857] hover:bg-[#e8b857]/10 transition-all"
                         title="إعادة بناء جميع الحسابات المنشورة من هذا القالب"
                       >🔄 إعادة بناء الكل</button>
+                      <button
+                        id={`flash-sale-${t._id}`}
+                        onClick={() => setFlashSaleTarget(t)}
+                        className={`py-1 px-3 text-xs rounded-lg transition-all ${t.salePrice ? 'text-[#e8b857] bg-[#e8b857]/10 hover:bg-[#e8b857]/20' : 'text-[#9d8fa8] hover:bg-[#3d2c38]/40'}`}
+                        title="إدارة عرض فلاش"
+                      >{t.salePrice ? '⚡ عرض نشط' : '⚡ فلاش'}</button>
                       <button
                         id={`delete-tpl-${t._id}`}
                         onClick={() => setDeleteId(t._id)}

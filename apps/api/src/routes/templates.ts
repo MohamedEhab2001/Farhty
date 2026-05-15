@@ -112,6 +112,25 @@ adminTemplateRouter.patch('/:id/status', adminAuth, async (req: Request, res: Re
   }
 });
 
+// PATCH /api/admin/templates/:id/sale
+adminTemplateRouter.patch('/:id/sale', adminAuth, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { salePrice, saleEndsAt } = req.body as { salePrice?: number | null; saleEndsAt?: string | null };
+    const update = salePrice != null
+      ? { salePrice, saleEndsAt: saleEndsAt ? new Date(saleEndsAt) : null }
+      : { $unset: { salePrice: '', saleEndsAt: '' } };
+    const template = await Template.findByIdAndUpdate(req.params.id, update, { new: true });
+    if (!template) {
+      res.status(404).json({ error: 'Template not found' });
+      return;
+    }
+    res.json(template);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    res.status(400).json({ error: msg });
+  }
+});
+
 // POST /api/admin/templates/:id/rebuild-instances
 adminTemplateRouter.post('/:id/rebuild-instances', adminAuth, async (req: Request, res: Response): Promise<void> => {
   try {

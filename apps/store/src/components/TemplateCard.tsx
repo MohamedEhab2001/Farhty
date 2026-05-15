@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Template } from '../hooks/useTemplates'
 
 interface TemplateCardProps {
@@ -19,6 +19,32 @@ const FEATURE_ICONS: Record<string, { icon: string; label: string }> = {
   rsvp: { icon: '✉️', label: 'RSVP' },
 }
 
+function useCountdown(endsAt?: string) {
+  const getRemaining = () => {
+    if (!endsAt) return null
+    const diff = new Date(endsAt).getTime() - Date.now()
+    if (diff <= 0) return null
+    const h = Math.floor(diff / 3_600_000)
+    const m = Math.floor((diff % 3_600_000) / 60_000)
+    const s = Math.floor((diff % 60_000) / 1_000)
+    return { h, m, s, diff }
+  }
+
+  const [remaining, setRemaining] = useState(getRemaining)
+
+  useEffect(() => {
+    if (!endsAt) return
+    const id = setInterval(() => setRemaining(getRemaining()), 1_000)
+    return () => clearInterval(id)
+  }, [endsAt])
+
+  return remaining
+}
+
+function pad(n: number) {
+  return String(n).padStart(2, '0')
+}
+
 export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
   const previewUrl = `https://preview-${template.slug}.farhty.online`
   const hasImage = template.previewImages && template.previewImages.length > 0
@@ -27,6 +53,12 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
   )
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
+
+  const countdown = useCountdown(template.saleEndsAt)
+  const isOnSale = !!template.salePrice && (
+    !template.saleEndsAt || new Date(template.saleEndsAt).getTime() > Date.now()
+  )
+  const effectivePrice = isOnSale ? template.salePrice! : template.price
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -69,7 +101,12 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
         )}
         <div className="ornament-corner" />
 
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
+          {isOnSale && (
+            <span className="bg-[#e8b857] text-[#3d2c38] text-xs font-bold px-3 py-1 rounded-lg animate-pulse">
+              ⚡ عرض فلاش
+            </span>
+          )}
           <span className="bg-[#a66b96]/90 backdrop-blur-sm text-[#fdfbf7] text-xs font-semibold px-3 py-1 rounded-lg">
             {LANGUAGE_LABELS[template.language] || template.language}
           </span>
@@ -93,30 +130,38 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
       <div className="p-5 flex flex-col flex-1 relative z-10">
         <div className="flex items-start justify-between mb-3">
           <h3 className="text-xl text-[#3d2c38]" style={{ fontFamily: "'Alexandria', sans-serif" }}>{template.name}</h3>
-          <span className="text-[#a66b96] font-bold text-lg whitespace-nowrap mr-2" style={{ fontVariantNumeric: 'tabular-nums' }}>
-            {template.price} ج
-          </span>
+          <div className="mr-2 text-left flex flex-col items-end" style={{ fontVariantNumeric: 'tabular-nums' }}>
+            <span className="text-[#a66b96] font-bold text-lg whitespace-nowrap">
+              {effectivePrice} ج
+            </span>
+            {isOnSale && (
+              <span className="text-[#8c7a87] text-xs line-through whitespace-nowrap">
+                {template.price} ج
+              </span>
+            )}
+          </div>
         </div>
+
+        {isOnSale && countdown && (
+          <div className="flex items-center justify-center gap-1.5 bg-[#fff8e6] border border-[#e8b857]/40 rounded-xl px-3 py-2 mb-3 text-[#3d2c38]">
+            <span className="text-xs font-medium text-[#8c7a87]">ينتهي خلال:</span>
+            <span className="font-mono font-bold text-sm text-[#e8b857]">
+              {pad(countdown.h)}:{pad(countdown.m)}:{pad(countdown.s)}
+            </span>
+          </div>
+        )}
+
+        {isOnSale && !countdown && template.saleEndsAt && (
+          <div className="flex items-center justify-center bg-[#fff8e6] border border-[#e8b857]/40 rounded-xl px-3 py-2 mb-3">
+            <span className="text-xs text-[#8c7a87]">انتهى العرض</span>
+          </div>
+        )}
 
         {template.description && (
           <p className="text-[#8c7a87] text-sm leading-relaxed mb-4 line-clamp-2">
             {template.description}
           </p>
         )}
-
-        {/* {activeFeatures.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-5">
-            {activeFeatures.map(([key, { icon, label }]) => (
-              <span
-                key={key}
-                className="bg-[#fdfbf7] border border-[#ebdce3]/60 text-[#8c7a87] text-xs px-2.5 py-1 rounded-full flex items-center gap-1"
-              >
-                <span>{icon}</span>
-                <span>{label}</span>
-              </span>
-            ))}
-          </div>
-        )} */}
 
         <div className="flex gap-3 mt-auto pt-2">
           <a

@@ -15,6 +15,8 @@ export interface Template {
   name: string
   slug: string
   price: number
+  salePrice?: number
+  saleEndsAt?: string
   description: string
   language: 'ar' | 'en' | 'both'
   features: TemplateFeatures

@@ -29,6 +29,8 @@ export interface ITemplate extends Document {
   name: string;
   slug: string;
   price: number;
+  salePrice?: number;
+  saleEndsAt?: Date;
   description: string;
   language: 'ar' | 'en' | 'both';
   features: ITemplateFeatures;
@@ -87,6 +89,8 @@ const TemplateSchema = new Schema<ITemplate>(
     name: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
     price: { type: Number, required: true },
+    salePrice: { type: Number },
+    saleEndsAt: { type: Date },
     description: { type: String, default: '' },
     language: {
       type: String,
