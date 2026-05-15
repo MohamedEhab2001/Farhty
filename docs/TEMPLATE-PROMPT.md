@@ -439,6 +439,123 @@ RULES for AdminDashboard:
   structured item cards with individual inputs per itemSchema field
 
 ═══════════════════════════════════════════
+SECTION VISIBILITY — MANDATORY STANDARD
+═══════════════════════════════════════════
+
+Every template section that can be shown or hidden MUST implement this system.
+This is NON-NEGOTIABLE. Every generated template must follow this exactly.
+
+RULE: For every feature-gated section, add a matching boolean field to control
+per-instance visibility. The customer toggles sections from their /admin route.
+
+NAMING CONVENTION — always section_{name}_visible:
+  section_countdown_visible
+  section_ourstory_visible
+  section_eventdetails_visible
+  section_venue_visible
+  section_location_visible
+  section_rsvp_visible
+  section_wishwall_visible
+  section_gallery_visible
+  section_parents_visible
+  section_dayprogram_visible
+  section_music_visible
+  section_share_visible
+  (follow same pattern for any custom section)
+
+FIELD DEFINITION — add to MongoDB fields array, always last, group "الأقسام":
+  {
+    "key": "section_gallery_visible",
+    "label": "إظهار قسم معرض الصور",
+    "type": "boolean",
+    "defaultValue": true,
+    "required": false,
+    "group": "الأقسام",
+    "hint": "أوقف هذا لإخفاء معرض الصور من الدعوة"
+  }
+
+RENDERING RULE — always use !== false, never just truthy:
+  ✅  {instance?.features.gallery && get('section_gallery_visible') !== false && <GallerySection />}
+  ❌  {get('section_gallery_visible') && <GallerySection />}
+  ❌  {instance?.features.gallery && <GallerySection />}
+
+  WHY !== false: get() returns defaultValue (true) when field is unset.
+  A truthy check works the same but !== false makes intent explicit and
+  handles any edge case where the field is missing from the fields array.
+
+SECTIONS THAT MUST NEVER GET A TOGGLE (always visible):
+  - Hero section
+  - Couple names display
+  - Wedding date display
+  - Footer
+
+SECTIONS THAT MUST ALWAYS HAVE A TOGGLE (when the feature exists):
+  - Countdown timer       → section_countdown_visible
+  - Gallery               → section_gallery_visible
+  - RSVP form             → section_rsvp_visible
+  - Wish wall             → section_wishwall_visible
+  - Venue / map           → section_venue_visible (or section_location_visible)
+  - Day program           → section_dayprogram_visible
+  - Parents names         → section_parents_visible
+  - Music player          → section_music_visible
+  - Share button          → section_share_visible
+  - Our story             → section_ourstory_visible
+  - Event details         → section_eventdetails_visible
+
+FIELD ORDERING: All section_*_visible fields MUST come last in the fields
+array, in their own "الأقسام" group, after all content fields.
+
+ADMIN DASHBOARD — no extra code needed for data-driven dashboards:
+  Data-driven AdminDashboards (those that iterate instance.fields) automatically
+  render boolean fields as toggle switches under the "الأقسام" group.
+
+  For handcrafted AdminDashboards, add a SectionToggle component and a
+  dedicated "الأقسام — إظهار وإخفاء" section before the save button:
+
+    function SectionToggle({ label, fieldKey, get, set }) {
+      const isVisible = get(fieldKey) !== false
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>{label}</span>
+          <button onClick={() => set(fieldKey, !isVisible)}
+            style={{ width: '44px', height: '24px', borderRadius: '999px',
+                     background: isVisible ? '[accent]' : '#D9D9D9', border: 'none', cursor: 'pointer',
+                     position: 'relative', transition: 'background 0.25s ease' }}>
+            <span style={{ position: 'absolute', top: '3px',
+                           right: isVisible ? '3px' : '23px',
+                           width: '18px', height: '18px', borderRadius: '50%',
+                           background: 'white', transition: 'right 0.25s ease' }} />
+          </button>
+        </div>
+      )
+    }
+
+═══════════════════════════════════════════
+FOOTER — MANDATORY ON EVERY TEMPLATE
+═══════════════════════════════════════════
+
+Every template MUST end with this footer as the very last element before
+the closing tag of the public invitation. No exceptions.
+
+Required text (Arabic): صنعت لكل حب بواسطة farhty.online
+
+The footer must:
+  - Always be the last visible element of the invitation
+  - Use the template's muted/faded color style (low opacity, small text)
+  - Never be hidden or removable
+
+Minimum implementation:
+  <footer style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+    <p style={{ fontSize: '0.75rem', opacity: 0.4, fontFamily: '[template font]',
+                letterSpacing: '0.08em', color: '[template muted color]' }}>
+      صنعت لكل حب بواسطة farhty.online
+    </p>
+  </footer>
+
+Style it to match the template — use the template's colors and fonts.
+The text is fixed and must not be a customer-editable field.
+
+═══════════════════════════════════════════
 DYNAMIC FEATURES — HOW TO HANDLE THEM
 ═══════════════════════════════════════════
 

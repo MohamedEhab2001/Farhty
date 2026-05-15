@@ -208,6 +208,13 @@ export default function AdminDashboard() {
           </Section>
         )}
 
+        {/* الأقسام */}
+        <Section title="الأقسام — إظهار وإخفاء">
+          {instance.features?.countdown !== false && <SectionToggle label="العد التنازلي" fieldKey="section_countdown_visible" get={get} set={set} />}
+          {instance.features?.venueMap !== false && <SectionToggle label="الموقع والخريطة" fieldKey="section_venue_visible" get={get} set={set} />}
+          {instance.features?.wishWall !== false && <SectionToggle label="جدار الأمنيات" fieldKey="section_wishwall_visible" get={get} set={set} />}
+        </Section>
+
         {/* زر الحفظ */}
         <button
           onClick={handleSave}
@@ -247,6 +254,26 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
       </label>
       {children}
       {hint && <p style={{ marginTop: '0.3rem', fontSize: '0.65rem', color: 'var(--gold-deep)', opacity: 0.7, lineHeight: 1.7, fontFamily: 'Tajawal, sans-serif' }}>{hint}</p>}
+    </div>
+  )
+}
+
+function SectionToggle({ label, fieldKey, get, set }: {
+  label: string; fieldKey: string
+  get: (key: string) => unknown; set: (key: string, value: unknown) => void
+}) {
+  const isVisible = get(fieldKey) !== false
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <span style={{ fontFamily: 'Tajawal, sans-serif', fontSize: '0.9rem', color: isVisible ? 'var(--ink)' : 'var(--gold-deep)', opacity: isVisible ? 1 : 0.55 }}>
+        {label}
+      </span>
+      <button
+        onClick={() => set(fieldKey, !isVisible)}
+        style={{ position: 'relative', width: '44px', height: '24px', borderRadius: '999px', background: isVisible ? 'var(--gold)' : '#D9D9D9', border: 'none', cursor: 'pointer', transition: 'background 0.25s ease', flexShrink: 0 }}
+      >
+        <span style={{ position: 'absolute', top: '3px', right: isVisible ? '3px' : '23px', width: '18px', height: '18px', borderRadius: '50%', background: 'white', transition: 'right 0.25s ease', boxShadow: '0 1px 4px rgba(0,0,0,0.18)' }} />
+      </button>
     </div>
   )
 }

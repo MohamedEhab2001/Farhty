@@ -28,3 +28,6 @@ jobs:
             pnpm --filter store build && pnpm --filter api build && pnpm --filter admin build
             pm2 restart farhty-api
             systemctl restart nginx
+            systemctl restart nginx
+            systemctl restart nginx
+            systemctl restart nginx

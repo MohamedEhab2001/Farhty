@@ -161,7 +161,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           </div>
 
           {/* Countdown */}
-          {instance?.features?.countdown !== false && weddingDate && (
+          {instance?.features?.countdown !== false && get('section_countdown_visible') !== false && weddingDate && (
             <>
               <Divider />
               <Countdown weddingDate={weddingDate} weddingTime={weddingTime} />
@@ -169,7 +169,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           )}
 
           {/* Venue map */}
-          {instance?.features?.venueMap !== false && (venueMapUrl || venueMapLnk) && (
+          {instance?.features?.venueMap !== false && get('section_venue_visible') !== false && (venueMapUrl || venueMapLnk) && (
             <>
               <Divider />
               <VenueSection venueName={venueName} venueAddress={venueAddr} venueMapUrl={venueMapUrl} venueMapLink={venueMapLnk} />
@@ -177,7 +177,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           )}
 
           {/* Wish wall */}
-          {instance?.features?.wishWall !== false && (
+          {instance?.features?.wishWall !== false && get('section_wishwall_visible') !== false && (
             <>
               <Divider />
               <WishWall initialWishes={wishes} />
@@ -201,9 +201,9 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
         <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--emerald-deep)', fontFamily: 'Tajawal, sans-serif' }}>
           صنعت بكل حب بواسطة
         </p>
-        <a 
-          href="https://farhaty.online" 
-          target="_blank" 
+        <a
+          href="https://farhaty.online"
+          target="_blank"
           rel="noopener noreferrer"
           className="text-xs font-medium tracking-widest"
           style={{ color: 'var(--gold-deep)', fontFamily: 'Tajawal, sans-serif' }}
@@ -211,6 +211,9 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           farhaty.online
         </a>
       </div>
+      <p className="mt-3 text-xs" style={{ color: 'rgba(184,150,46,0.4)', fontFamily: 'Tajawal, sans-serif', letterSpacing: '0.1em' }}>
+        صنعت لكل حب بواسطة farhty.online
+      </p>
     </motion.section>
   )
 }

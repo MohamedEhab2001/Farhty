@@ -203,6 +203,14 @@ export default function AdminDashboard() {
           </Section>
         )}
 
+        {/* ─── Section Visibility ─── */}
+        <Section title="الأقسام — إظهار وإخفاء">
+          {instance.features.countdown && <SectionToggle label="العد التنازلي" fieldKey="section_countdown_visible" get={get} set={set} />}
+          {instance.features.location && <SectionToggle label="الموقع والخريطة" fieldKey="section_location_visible" get={get} set={set} />}
+          {instance.features.rsvp && <SectionToggle label="تأكيد الحضور" fieldKey="section_rsvp_visible" get={get} set={set} />}
+          {instance.features.wishWall && <SectionToggle label="جدار الأمنيات" fieldKey="section_wishwall_visible" get={get} set={set} />}
+        </Section>
+
         {/* ─── Save Button ─── */}
         <button
           onClick={handleSave}
@@ -254,6 +262,24 @@ function TextInput({ value, onChange, placeholder, dir }: {
       dir={dir}
       className="w-full px-4 py-3 rounded-xl border border-gold/30 bg-ivory text-espresso outline-none focus:border-gold transition-colors"
     />
+  )
+}
+
+function SectionToggle({ label, fieldKey, get, set }: {
+  label: string; fieldKey: string
+  get: (key: string) => unknown; set: (key: string, value: unknown) => void
+}) {
+  const isVisible = get(fieldKey) !== false
+  return (
+    <div className="flex items-center justify-between">
+      <span className={`text-sm ${isVisible ? 'text-espresso' : 'text-espresso/40'}`}>{label}</span>
+      <button
+        onClick={() => set(fieldKey, !isVisible)}
+        style={{ position: 'relative', width: '44px', height: '24px', borderRadius: '999px', background: isVisible ? '#C9A96E' : '#D9D9D9', border: 'none', cursor: 'pointer', transition: 'background 0.25s ease', flexShrink: 0 }}
+      >
+        <span style={{ position: 'absolute', top: '3px', right: isVisible ? '3px' : '23px', width: '18px', height: '18px', borderRadius: '50%', background: 'white', transition: 'right 0.25s ease', boxShadow: '0 1px 4px rgba(0,0,0,0.18)' }} />
+      </button>
+    </div>
   )
 }
 

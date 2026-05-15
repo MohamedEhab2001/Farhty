@@ -88,29 +88,29 @@ export default function App() {
           <HeroSection />
           <GoldDivider />
 
-          {features.parentsNames && <ParentsNames />}
-          {features.parentsNames && <GoldDivider />}
+          {features.parentsNames && get('section_parents_visible') !== false && <ParentsNames />}
+          {features.parentsNames && get('section_parents_visible') !== false && <GoldDivider />}
 
-          {features.countdown && <CountdownSection />}
-          {features.countdown && <GoldDivider />}
+          {features.countdown && get('section_countdown_visible') !== false && <CountdownSection />}
+          {features.countdown && get('section_countdown_visible') !== false && <GoldDivider />}
 
-          {features.dayProgram && <DayProgram />}
-          {features.dayProgram && <GoldDivider />}
+          {features.dayProgram && get('section_dayprogram_visible') !== false && <DayProgram />}
+          {features.dayProgram && get('section_dayprogram_visible') !== false && <GoldDivider />}
 
-          {features.venueMap && <LocationSection />}
+          {features.venueMap && get('section_venue_visible') !== false && <LocationSection />}
 
-          {features.gallery && <GallerySection />}
-          {features.gallery && <GoldDivider />}
+          {features.gallery && get('section_gallery_visible') !== false && <GallerySection />}
+          {features.gallery && get('section_gallery_visible') !== false && <GoldDivider />}
 
-          {features.rsvp && <RSVPSection />}
-          {features.wishWall && <WishWall />}
+          {features.rsvp && get('section_rsvp_visible') !== false && <RSVPSection />}
+          {features.wishWall && get('section_wishwall_visible') !== false && <WishWall />}
 
           <Footer />
         </>
       )}
 
-      {features.music && <MusicPlayer />}
-      {features.shareButton && <ShareButton />}
+      {features.music && get('section_music_visible') !== false && <MusicPlayer />}
+      {features.shareButton && get('section_share_visible') !== false && <ShareButton />}
     </div>
   )
 }

@@ -32,13 +32,13 @@ export default function App() {
 
       <HeroSection />
 
-      {instance?.features.countdown && <CountdownSection />}
+      {instance?.features.countdown && get('section_countdown_visible') !== false && <CountdownSection />}
 
-      {instance?.features.location && <LocationSection />}
+      {instance?.features.location && get('section_location_visible') !== false && <LocationSection />}
 
-      {instance?.features.rsvp && <RSVPSection />}
+      {instance?.features.rsvp && get('section_rsvp_visible') !== false && <RSVPSection />}
 
-      {instance?.features.wishWall && <WishingWall />}
+      {instance?.features.wishWall && get('section_wishwall_visible') !== false && <WishingWall />}
 
       {/* Footer */}
       <footer className="relative py-10 text-center overflow-hidden"
@@ -52,7 +52,7 @@ export default function App() {
           style={{ background: 'linear-gradient(90deg, transparent, #C9A96E40, transparent)' }}
         />
         <p className="font-naskh text-sm text-cream/40">
-          صُمّمت بكل حب بواسطة <span className="gold-shimmer font-bold">فرحتي</span>
+          صنعت لكل حب بواسطة <span className="gold-shimmer font-bold">farhty.online</span>
         </p>
       </footer>
 

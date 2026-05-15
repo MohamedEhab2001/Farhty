@@ -75,11 +75,11 @@ export function Invitation() {
   const features = instance?.features ?? {}
   const showCurtain = (features.curtainIntro as boolean | undefined) ?? true
   const showBubbles = (features.coupleBubbles as boolean | undefined) ?? true
-  const showStory = (features.story as boolean | undefined) ?? true
-  const showCountdown = (features.countdown as boolean | undefined) ?? true
-  const showVenue = (features.venueMap as boolean | undefined) ?? true
-  const showRsvp = (features.rsvp as boolean | undefined) ?? true
-  const showWishWall = (features.wishWall as boolean | undefined) ?? true
+  const showStory = ((features.story as boolean | undefined) ?? true) && get('section_story_visible') !== false
+  const showCountdown = ((features.countdown as boolean | undefined) ?? true) && get('section_countdown_visible') !== false
+  const showVenue = ((features.venueMap as boolean | undefined) ?? true) && get('section_venue_visible') !== false
+  const showRsvp = ((features.rsvp as boolean | undefined) ?? true) && get('section_rsvp_visible') !== false
+  const showWishWall = ((features.wishWall as boolean | undefined) ?? true) && get('section_wishwall_visible') !== false
 
   useEffect(() => {
     if (!showCurtain) setBubblesVisible(true)
@@ -272,7 +272,7 @@ export function Invitation() {
       <footer className="relative z-20 text-center py-16 px-5">
         <div className="ornament-divider w-32 mx-auto mb-6" />
         <p className="font-arabic text-gold text-lg">شكرًا لكونكم جزءًا من فرحتنا</p>
-        <p className="text-xs text-ivory/40 tracking-[0.3em] mt-4 font-body">FARHTY · فرحتي</p>
+        <p className="text-xs text-ivory/40 tracking-[0.3em] mt-4 font-body">صنعت لكل حب بواسطة farhty.online</p>
       </footer>
     </main>
   )

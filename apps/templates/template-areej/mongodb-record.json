@@ -183,6 +183,87 @@
       "defaultValue": "#C9A96E",
       "required": false,
       "group": "الإعدادات"
+    },
+    {
+      "key": "section_parents_visible",
+      "label": "إظهار قسم أسماء الآباء",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء قسم أسماء الآباء"
+    },
+    {
+      "key": "section_countdown_visible",
+      "label": "إظهار قسم العد التنازلي",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء العد التنازلي"
+    },
+    {
+      "key": "section_dayprogram_visible",
+      "label": "إظهار قسم برنامج الحفل",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء جدول برنامج الحفل"
+    },
+    {
+      "key": "section_venue_visible",
+      "label": "إظهار قسم الموقع والخريطة",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء خريطة القاعة"
+    },
+    {
+      "key": "section_gallery_visible",
+      "label": "إظهار قسم معرض الصور",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء معرض الصور"
+    },
+    {
+      "key": "section_rsvp_visible",
+      "label": "إظهار قسم تأكيد الحضور",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإيقاف استقبال تأكيدات الحضور"
+    },
+    {
+      "key": "section_wishwall_visible",
+      "label": "إظهار قسم جدار الأمنيات",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء جدار الأمنيات"
+    },
+    {
+      "key": "section_music_visible",
+      "label": "إظهار مشغل الموسيقى",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء مشغل الموسيقى العائم"
+    },
+    {
+      "key": "section_share_visible",
+      "label": "إظهار زر المشاركة",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "group": "الأقسام",
+      "hint": "أوقف هذا لإخفاء زر مشاركة الدعوة"
     }
   ],
   "previewImages": [],
