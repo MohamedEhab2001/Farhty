@@ -58,7 +58,7 @@ export default function WishWall({ initialWishes }: Props) {
           اترك دعاءك
         </p>
         <h3 className="mt-3 text-3xl md:text-4xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
-          جدار الأمنيات
+          دفتر التهنئة
         </h3>
         <p className="mt-1 text-sm" style={{ color: 'rgba(26,26,46,0.6)', fontFamily: 'Tajawal, sans-serif' }}>
           شارك دعاءً أو كلمة طيبة للزوجين
@@ -97,7 +97,7 @@ export default function WishWall({ initialWishes }: Props) {
             style={{ background: 'var(--gradient-gold)', boxShadow: 'var(--shadow-gold)', color: 'var(--cream)', fontFamily: 'Tajawal, sans-serif', fontWeight: 500 }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 19-7z"/>
+              <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 19-7z" />
             </svg>
             {submitting ? 'جاري الإرسال...' : 'أرسل الأمنية'}
           </button>

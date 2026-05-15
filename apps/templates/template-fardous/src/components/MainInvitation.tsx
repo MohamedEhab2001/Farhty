@@ -21,20 +21,20 @@ function str(v: unknown, fallback: string): string {
 }
 
 export default function MainInvitation({ muted, onToggleMute, get, instance }: Props) {
-  const brideName   = str(get('bride_name'),   'نور')
-  const groomName   = str(get('groom_name'),   'يوسف')
-  const weddingDate = str(get('wedding_date'),  '')
-  const weddingTime = str(get('wedding_time'),  '19:30')
-  const familyBride = str(get('family_bride'),  'آل الحسن')
-  const familyGroom = str(get('family_groom'),  'آل الرحمان')
-  const eventType   = str(get('event_type'),    'وليمة')
-  const venueName   = str(get('venue_name'),    'قاعة الأندلس')
-  const venueAddr   = str(get('venue_address'), 'مصر الجديدة، القاهرة')
+  const brideName = str(get('bride_name'), 'نور')
+  const groomName = str(get('groom_name'), 'يوسف')
+  const weddingDate = str(get('wedding_date'), '')
+  const weddingTime = str(get('wedding_time'), '19:30')
+  const familyBride = str(get('family_bride'), 'آل الحسن')
+  const familyGroom = str(get('family_groom'), 'آل الرحمان')
+  const eventType = str(get('event_type'), 'وليمة')
+  const venueName = str(get('venue_name'), 'قاعة الأندلس')
+  const venueAddr = str(get('venue_address'), 'مصر الجديدة، القاهرة')
   const venueMapUrl = str(get('venue_map_url'), '')
-  const venueMapLnk = str(get('venue_map_link'),'')
-  const heroImage   = str(get('hero_image'),    '') || mosqueImg
+  const venueMapLnk = str(get('venue_map_link'), '')
+  const heroImage = str(get('hero_image'), '') || mosqueImg
 
-  const verseAr  = str(get('quran_verse_ar'), 'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً')
+  const verseAr = str(get('quran_verse_ar'), 'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً')
   const verseRef = str(get('quran_verse_ref'), '— سورة الروم ٣٠:٢١')
 
   const rawWishes = get('wish_entries')
@@ -104,6 +104,8 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
         <div className="text-center">
           <ArabesqueMark small />
 
+          <p className="my-3 text-3xl sm:text-4xl text-gold-gradient" style={{ fontFamily: 'Amiri, serif' }}>﴿ ﷽ ﴾</p>
+
           {/* Quran verse */}
           <p className="mt-6 text-xl leading-[2] md:text-2xl" style={{ color: 'var(--emerald-deep)', fontFamily: 'Amiri, serif' }} dir="rtl">
             {verseAr}
@@ -129,7 +131,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           <h1 className="mt-8 text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
             {brideName}
           </h1>
-          <p className="my-3 text-3xl sm:text-4xl text-gold-gradient" style={{ fontFamily: 'Amiri, serif' }}>﴾ ﷽ ﴿</p>
+
           <h1 className="text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
             {groomName}
           </h1>
@@ -139,19 +141,19 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           {/* Details grid */}
           <div className="grid gap-5 md:gap-8 md:grid-cols-3">
             <DetailBlock
-              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>}
+              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>}
               label="التاريخ"
               value={displayDate}
               sub=""
             />
             <DetailBlock
-              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>}
+              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>}
               label="الوقت"
               value={displayTime || weddingTime}
               sub={eventType}
             />
             <DetailBlock
-              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>}
+              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>}
               label="المكان"
               value={venueName}
               sub={venueAddr}
@@ -185,15 +187,30 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           <Divider />
 
           {/* Closing dua */}
-          <p className="text-xl leading-[2]" style={{ color: 'var(--emerald-deep)', fontFamily: 'Amiri, serif' }} dir="rtl">
+          {/* <p className="text-xl leading-[2]" style={{ color: 'var(--emerald-deep)', fontFamily: 'Amiri, serif' }} dir="rtl">
             بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْر
-          </p>
+          </p> */}
         </div>
       </div>
 
       <p className="mt-10 text-sm tracking-[0.3em]" style={{ color: 'rgba(184,150,46,0.7)', fontFamily: 'Tajawal, sans-serif' }}>
         أهلًا وسهلًا بكم
       </p>
+
+      <div className="mt-16 flex flex-col items-center gap-1 opacity-40 transition-opacity hover:opacity-100">
+        <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--emerald-deep)', fontFamily: 'Tajawal, sans-serif' }}>
+          صنعت بكل حب بواسطة
+        </p>
+        <a 
+          href="https://farhaty.online" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-xs font-medium tracking-widest"
+          style={{ color: 'var(--gold-deep)', fontFamily: 'Tajawal, sans-serif' }}
+        >
+          farhaty.online
+        </a>
+      </div>
     </motion.section>
   )
 }

@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react'
 import { useTemplateData, useTemplateFieldsWithSave, api } from '@farhty/template-sdk'
+import mosqueImg from '../assets/mosque.jpg'
+
 
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error'
 
@@ -152,27 +154,29 @@ export default function AdminDashboard() {
           <Field label="صورة الغلاف / الخلفية">
             <ImageUpload
               value={get('hero_image') as string ?? ''}
+              defaultValue={mosqueImg}
               status={ust['hero_image'] || 'idle'}
               error={uploadErrors['hero_image']}
               onUpload={f => handleUpload('hero_image', f, 'templates/fardous/hero')}
+              onClear={() => set('hero_image', '')}
             />
           </Field>
-          <Field label="رابط تلاوة القرآن (MP3)" hint="رابط مباشر لملف MP3 — الافتراضي: تلاوة المشاري العفاسي لسورة الروم">
+          {/* <Field label="رابط تلاوة القرآن (MP3)" hint="رابط مباشر لملف MP3 — الافتراضي: تلاوة المشاري العفاسي لسورة الروم">
             <input type="url" value={get('audio_url') as string ?? ''} onChange={e => set('audio_url', e.target.value)} placeholder="https://everyayah.com/data/..." style={{ ...inputStyle, direction: 'ltr', textAlign: 'left' }} />
-          </Field>
-          <Field label="اللون الرئيسي">
+          </Field> */}
+          {/* <Field label="اللون الرئيسي">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <input type="color" value={get('accent_color') as string ?? '#B8962E'} onChange={e => set('accent_color', e.target.value)} style={{ width: '48px', height: '36px', border: 'none', cursor: 'pointer', background: 'transparent' }} />
               <span style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--gold-deep)' }}>
                 {get('accent_color') as string ?? '#B8962E'}
               </span>
             </div>
-          </Field>
+          </Field> */}
         </Section>
 
         {/* جدار الأمنيات */}
         {wishes.length > 0 && (
-          <Section title={`جدار الأمنيات (${wishes.length} — ${wishes.filter(w => w.visible !== false).length} ظاهرة)`}>
+          <Section title={`دفتر التهنئة (${wishes.length} — ${wishes.filter(w => w.visible !== false).length} ظاهرة)`}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {wishes.map((w, i) => {
                 const visible = w.visible !== false
@@ -192,8 +196,8 @@ export default function AdminDashboard() {
                     >
                       <svg viewBox="0 0 20 20" fill="none" style={{ width: '14px', height: '14px' }}>
                         {visible
-                          ? <><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6z" stroke="var(--gold)" strokeWidth="1.2"/><circle cx="10" cy="10" r="2" stroke="var(--gold)" strokeWidth="1.2"/></>
-                          : <><path d="M3 3l14 14M8.5 8.5A2 2 0 0012 12m-6.5-5.5C4.2 7.7 2 10 2 10s3 6 8 6c1.5 0 2.9-.4 4-.9" stroke="var(--gold-deep)" strokeWidth="1.2" strokeLinecap="round"/><path d="M14 13.5C15.7 12.2 18 10 18 10s-3-6-8-6c-.7 0-1.4.1-2 .3" stroke="var(--gold-deep)" strokeWidth="1.2" strokeLinecap="round"/></>
+                          ? <><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6z" stroke="var(--gold)" strokeWidth="1.2" /><circle cx="10" cy="10" r="2" stroke="var(--gold)" strokeWidth="1.2" /></>
+                          : <><path d="M3 3l14 14M8.5 8.5A2 2 0 0012 12m-6.5-5.5C4.2 7.7 2 10 2 10s3 6 8 6c1.5 0 2.9-.4 4-.9" stroke="var(--gold-deep)" strokeWidth="1.2" strokeLinecap="round" /><path d="M14 13.5C15.7 12.2 18 10 18 10s-3-6-8-6c-.7 0-1.4.1-2 .3" stroke="var(--gold-deep)" strokeWidth="1.2" strokeLinecap="round" /></>
                         }
                       </svg>
                     </button>
@@ -251,18 +255,42 @@ function TextIn({ value, onChange, placeholder }: { value: string; onChange: (v:
   return <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} style={inputStyle} />
 }
 
-function ImageUpload({ value, status, error, onUpload }: { value: string; status: UploadStatus; error?: string; onUpload: (f: File) => void }) {
+function ImageUpload({ value, defaultValue, status, error, onUpload, onClear }: { value: string; defaultValue?: string; status: UploadStatus; error?: string; onUpload: (f: File) => void; onClear?: () => void }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const uploading = status === 'uploading'
+  const displayUrl = value || defaultValue
+
   return (
     <div>
-      <label style={{ display: 'block', width: '100%', padding: '1rem', border: '1px dashed rgba(184,150,46,0.4)', textAlign: 'center', cursor: uploading ? 'not-allowed' : 'pointer', fontSize: '0.85rem', color: 'var(--gold)', opacity: uploading ? 0.5 : 1, borderRadius: '4px', fontFamily: 'Tajawal, sans-serif' }}>
-        {uploading ? 'جاري الرفع...' : '+ اختر صورة'}
-        <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }} disabled={uploading} onChange={e => { const f = e.target.files?.[0]; if (f) { onUpload(f); e.currentTarget.value = '' } }} />
-      </label>
+      <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <label style={{ flex: 1, display: 'block', padding: '1rem', border: '1px dashed rgba(184,150,46,0.4)', textAlign: 'center', cursor: uploading ? 'not-allowed' : 'pointer', fontSize: '0.85rem', color: 'var(--gold)', opacity: uploading ? 0.5 : 1, borderRadius: '4px', fontFamily: 'Tajawal, sans-serif' }}>
+          {uploading ? 'جاري الرفع...' : value ? 'تغيير الصورة' : '+ اختر صورة'}
+          <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }} disabled={uploading} onChange={e => { const f = e.target.files?.[0]; if (f) { onUpload(f); e.currentTarget.value = '' } }} />
+        </label>
+
+        {value && onClear && (
+          <button
+            onClick={onClear}
+            style={{ padding: '0 1rem', border: '1px solid rgba(220, 38, 38, 0.2)', background: 'rgba(220, 38, 38, 0.05)', color: '#dc2626', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem', fontFamily: 'Tajawal, sans-serif' }}
+          >
+            إزالة
+          </button>
+        )}
+      </div>
+
       {status === 'success' && <p style={{ color: '#3a8c4b', fontSize: '0.75rem', marginTop: '0.4rem', textAlign: 'center', fontFamily: 'Tajawal, sans-serif' }}>تم الرفع بنجاح</p>}
       {status === 'error' && error && <div style={{ background: '#FEE', padding: '0.5rem', marginTop: '0.4rem', fontSize: '0.75rem', color: '#C00', borderRadius: '4px', fontFamily: 'Tajawal, sans-serif' }}>{error}</div>}
-      {value && <img src={value} alt="" style={{ width: '100%', marginTop: '0.75rem', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px' }} />}
+
+      {displayUrl && (
+        <div style={{ relative: 'true', marginTop: '0.75rem' }}>
+          <img src={displayUrl} alt="" style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px', opacity: value ? 1 : 0.5 }} />
+          {!value && (
+            <p style={{ fontSize: '0.65rem', color: 'var(--gold-deep)', textAlign: 'center', marginTop: '0.25rem', opacity: 0.8 }}>
+              (يتم عرض الصورة الافتراضية حالياً)
+            </p>
+          )}
+        </div>
+      )}
     </div>
   )
 }

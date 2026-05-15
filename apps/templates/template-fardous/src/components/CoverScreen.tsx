@@ -91,7 +91,7 @@ export default function CoverScreen({ onOpen, get }: Props) {
       >
         <span className="absolute inset-0 rounded-full border" style={{ borderColor: 'rgba(247,243,233,0.4)' }} />
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" opacity={0.8}>
-          <path d="M12 21s-7-4.35-9.5-8.5C.5 9 3 5 6.5 5c2 0 3.5 1.5 5.5 4 2-2.5 3.5-4 5.5-4 3.5 0 6 4 4 7.5C19 16.65 12 21 12 21Z"/>
+          <path d="M12 21s-7-4.35-9.5-8.5C.5 9 3 5 6.5 5c2 0 3.5 1.5 5.5 4 2-2.5 3.5-4 5.5-4 3.5 0 6 4 4 7.5C19 16.65 12 21 12 21Z" />
         </svg>
         <span>افتح الدعوة</span>
       </motion.button>
@@ -103,7 +103,7 @@ export default function CoverScreen({ onOpen, get }: Props) {
         className="mt-8 text-xs"
         style={{ color: 'rgba(26,64,48,0.5)', fontFamily: 'Tajawal, sans-serif' }}
       >
-        (سيُعزف القرآن الكريم بصوت هادئ)
+        (سيُتلى القرآن الكريم بصوت هادئ)
       </motion.p>
     </motion.section>
   )
