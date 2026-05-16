@@ -3,10 +3,11 @@ import { useAdminAuth } from '../hooks/useAdminAuth'
 
 const NAV_ITEMS = [
   { to: '/', label: 'الرئيسية', icon: '📊', exact: true },
-  { to: '/templates', label: 'القوالب', icon: '🎨' },
+  { to: '/templates', label: 'التصاميم', icon: '🎨' },
   { to: '/instances', label: 'الحسابات', icon: '🚀' },
   { to: '/orders', label: 'الطلبات', icon: '📦' },
   { to: '/testimonials', label: 'التقييمات', icon: '⭐' },
+  { to: '/promos', label: 'العروض', icon: '⚡' },
 ]
 
 export default function Sidebar() {
@@ -36,10 +37,9 @@ export default function Sidebar() {
             to={item.to}
             end={item.exact}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                isActive
-                  ? 'bg-[#c8973a20] text-[#e8b857] border border-[#c8973a30]'
-                  : 'text-[#9d8fa8] hover:bg-[#2e2840] hover:text-[#f0e8d8]'
+              `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
+                ? 'bg-[#c8973a20] text-[#e8b857] border border-[#c8973a30]'
+                : 'text-[#9d8fa8] hover:bg-[#2e2840] hover:text-[#f0e8d8]'
               }`
             }
           >

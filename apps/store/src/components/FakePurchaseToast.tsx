@@ -127,7 +127,7 @@ export default function FakePurchaseToast() {
                 {' '}من{' '}{current.city}
               </p>
               <p className="text-xs text-[#8c7a87] truncate">
-                اشترى قالب <span className="text-[#a66b96]">{current.template}</span> منذ {current.ago}
+                اشترى تصميم <span className="text-[#a66b96]">{current.template}</span> منذ {current.ago}
               </p>
             </div>
             <div className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0 animate-pulse" />

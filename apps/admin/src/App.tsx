@@ -7,6 +7,7 @@ import TemplateForm from './pages/TemplateForm'
 import Instances from './pages/Instances'
 import Orders from './pages/Orders'
 import Testimonials from './pages/Testimonials'
+import Promos from './pages/Promos'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem(TOKEN_KEY)
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/instances" element={<ProtectedRoute><Instances /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         <Route path="/testimonials" element={<ProtectedRoute><Testimonials /></ProtectedRoute>} />
+        <Route path="/promos" element={<ProtectedRoute><Promos /></ProtectedRoute>} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

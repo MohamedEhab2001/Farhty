@@ -59,7 +59,7 @@ export default function RebuildAllModal({ templateId, templateName, onClose }: R
 
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#2e2840]">
           <div>
-            <h2 className="font-bold text-[#f0e8d8]">إعادة بناء جميع حسابات القالب</h2>
+            <h2 className="font-bold text-[#f0e8d8]">إعادة بناء جميع حسابات التصميم</h2>
             <p className="text-[#9d8fa8] text-xs mt-0.5">{templateName}</p>
           </div>
           <button onClick={onClose} className="text-[#9d8fa8] hover:text-white transition-colors text-lg">✕</button>

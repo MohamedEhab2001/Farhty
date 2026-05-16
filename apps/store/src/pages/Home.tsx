@@ -8,14 +8,17 @@ import TrustBadges from '../components/TrustBadges'
 import FAQ from '../components/FAQ'
 import Footer from '../components/Footer'
 import BuyModal from '../components/BuyModal'
-import FakePurchaseToast from '../components/FakePurchaseToast'
 import StickyMobileCTA from '../components/StickyMobileCTA'
 import { CtaBanner } from '../components/CtaBanner'
 import { CursorGlow } from '../components/CursorGlow'
+import PromoBanners from '../components/PromoBanners'
+import PromoPopup from '../components/PromoPopup'
 import { Template } from '../hooks/useTemplates'
+import { usePromos } from '../hooks/usePromos'
 
 export default function Home() {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null)
+  const { banners, popup } = usePromos()
 
   return (
     <div dir="rtl">
@@ -24,6 +27,7 @@ export default function Home() {
 
       <main id="main-content" className="flex flex-col pb-24">
         <Hero />
+        <PromoBanners banners={banners} />
         <TemplatesGrid onBuy={setSelectedTemplate} />
         <HowItWorks />
         <Testimonials />
@@ -36,6 +40,7 @@ export default function Home() {
 
       {/* Floating UI */}
       <BuyModal template={selectedTemplate} onClose={() => setSelectedTemplate(null)} />
+      <PromoPopup popup={popup} />
       {/* <FakePurchaseToast /> */}
       <StickyMobileCTA />
     </div>

@@ -44,7 +44,7 @@ export default function Templates() {
   }
 
   return (
-    <Layout title="القوالب">
+    <Layout title="التصاميم">
       {rebuildAll && (
         <RebuildAllModal
           templateId={rebuildAll.id}
@@ -64,7 +64,7 @@ export default function Templates() {
       )}
       {deleteId && (
         <ConfirmDialog
-          message="هل تريد حذف هذا القالب نهائياً؟"
+          message="هل تريد حذف هذا التصميم نهائياً؟"
           onConfirm={confirmDelete}
           onCancel={() => setDeleteId(null)}
           loading={deleting}
@@ -72,9 +72,9 @@ export default function Templates() {
       )}
 
       <div className="flex justify-between items-center mb-6">
-        <p className="text-[#9d8fa8] text-sm">{templates.length} قالب</p>
+        <p className="text-[#9d8fa8] text-sm">{templates.length} تصميم</p>
         <button id="new-template-btn" onClick={() => navigate('/templates/new')} className="btn-gold">
-          + قالب جديد
+          + تصميم جديد
         </button>
       </div>
 
@@ -82,7 +82,7 @@ export default function Templates() {
         {loading ? (
           <div className="p-8 text-center text-[#9d8fa8]">جاري التحميل...</div>
         ) : templates.length === 0 ? (
-          <div className="p-8 text-center text-[#9d8fa8]">لا توجد قوالب بعد</div>
+          <div className="p-8 text-center text-[#9d8fa8]">لا توجد تصاميم بعد</div>
         ) : (
           <table>
             <thead>
@@ -143,7 +143,7 @@ export default function Templates() {
                         id={`rebuild-all-${t._id}`}
                         onClick={() => setRebuildAll({ id: t._id, name: t.name })}
                         className="py-1 px-3 text-xs rounded-lg text-[#e8b857] hover:bg-[#e8b857]/10 transition-all"
-                        title="إعادة بناء جميع الحسابات المنشورة من هذا القالب"
+                        title="إعادة بناء جميع الحسابات المنشورة من هذا التصميم"
                       >🔄 إعادة بناء الكل</button>
                       <button
                         id={`flash-sale-${t._id}`}

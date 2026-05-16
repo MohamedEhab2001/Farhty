@@ -5,7 +5,7 @@ const ITEMS = [
   { icon: <IconShield size={22} className="text-[#fdfbf7]" />, title: 'ضمان الاسترداد', desc: 'استرداد المبلغ كاملاً خلال ٢٤ ساعة دون أي أسئلة.' },
   { icon: <IconHeadset size={22} className="text-[#fdfbf7]" />, title: 'دعم فني مجاني', desc: 'فريقنا متاح لمساعدتك في كل خطوة قبل وبعد الشراء.' },
   { icon: <IconInstant size={22} className="text-[#fdfbf7]" />, title: 'تسليم فوري', desc: 'دعوتك جاهزة خلال دقائق من الدفع — لا انتظار.' },
-  { icon: <IconDiamond size={22} className="text-[#fdfbf7]" />, title: 'قوالب حصرية', desc: 'تصاميم لا تجدها في أي مكان آخر — مصنوعة بحب لفرحتك.' },
+  { icon: <IconDiamond size={22} className="text-[#fdfbf7]" />, title: 'تصاميم حصرية', desc: 'تصاميم لا تجدها في أي مكان آخر — مصنوعة بحب لفرحتك.' },
 ]
 
 export default function TrustBadges() {

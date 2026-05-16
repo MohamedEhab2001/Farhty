@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import heroCouple from '../assets/hero-couple.jpg'
 import { WHATSAPP_NUMBER } from '../api/client'
 import { IconDiamond, IconWhatsApp } from './BrandIcons'
 import { Petals } from './Petals'
+
+const visitors = Math.floor(Math.random() * 1000)
+
 
 function Counter({ to, suffix = '', duration = 1600 }: { to: number; suffix?: string; duration?: number }) {
   const [val, setVal] = useState(0)
@@ -65,9 +67,9 @@ export default function Hero() {
           </span> */}
 
           <h1 className="text-[clamp(2rem,5.5vw,4rem)] leading-[1.05] text-[#3d2c38] max-w-2xl">
-            <p className='mb-2'>دعوة زفافك…</p>
+            <p className='mb-2'>دعوة فرحتك</p>
             <span className="italic text-[#955d85] relative inline-block">
-              حكاية تبدأ من هنا
+              تستاهل تبقي ذكرى
               <svg aria-hidden className="absolute -bottom-3 right-0 left-0 w-full" viewBox="0 0 300 14" preserveAspectRatio="none">
                 <path
                   d="M2 8 Q 75 1, 150 8 T 298 7"
@@ -88,14 +90,15 @@ export default function Hero() {
           </div>
 
           <p className="max-w-xl text-base md:text-lg text-[#8c7a87] leading-relaxed">
-            تصاميم رومانسية ناعمة بتفاصيل تخطف الأنظار، ودعوة تفاعلية تشاركها مع أحبابك بلمسة زر
-            <span className="text-[#3d2c38]/85"> لحظة تستحق أن تُحفظ بأناقة.</span>
+            مع فرحتي، دعوة فرحك مش مجرد تصميم حلو…
+            دي أول إحساس بيوصل لضيوفك عن
+            <span className="text-[#3d2c38]/85"> يومكم المميز.</span>
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center lg:justify-start gap-4">
             <button id="hero-browse-btn" onClick={scrollToTemplates} className="btn-primary group">
               <IconDiamond size={18} />
-              استعرض القوالب الآن
+              استعرض التصاميم الآن
             </button>
             <a
               id="hero-whatsapp-btn"
@@ -105,7 +108,7 @@ export default function Hero() {
               className="btn-ghost-luxe group"
             >
               <IconWhatsApp size={18} />
-              تحدث معنا
+              تواصل معنا
             </a>
           </div>
 
@@ -137,7 +140,7 @@ export default function Hero() {
             </svg>
 
             <div className="absolute inset-0 rounded-[2rem] overflow-hidden img-zoom shadow-[var(--shadow-elegant)] border border-[#a66b96]/15">
-              <img src={heroCouple} alt="عروسان بلباس فاخر" className="w-full h-full object-cover" width={1536} height={1024} />
+              <img src={"https://scontent.fspx1-1.fna.fbcdn.net/v/t39.30808-6/698990080_122098373661315584_2908464142913695598_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=upTkBHYADTMQ7kNvwGt0GRa&_nc_oc=AdqLJsWN3oru4kuJZjgU16fZLCLURn99AibvUGWZxfrljfDbH_ECj-uZK9vLfujpSrM&_nc_zt=23&_nc_ht=scontent.fspx1-1.fna&_nc_gid=Fk4rJ_nnfHj1rIf3cbr6JQ&_nc_ss=7b2a8&oh=00_Af53vh-EAWW-ekNaRw8IXcZuEM6dDQjo067Vy7iQCbuu3A&oe=6A0EB308"} alt="عروسان بلباس فاخر" className="w-full h-full object-cover" width={1536} height={1024} />
               <div className="absolute inset-0 bg-gradient-to-t from-[#fdfbf7]/60 via-transparent to-transparent" />
             </div>
 
@@ -146,7 +149,7 @@ export default function Hero() {
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-glow" />
               <div className="text-[11px] leading-tight">
                 <div className="font-semibold text-[#3d2c38]">الزوار</div>
-                <div className="text-[#8c7a87]">{Math.floor(Math.random() * 1000)} ضيف</div>
+                <div className="text-[#8c7a87]">{visitors} ضيف</div>
               </div>
             </div>
             {/* 

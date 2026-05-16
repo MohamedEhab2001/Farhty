@@ -185,7 +185,7 @@ export default function Testimonials() {
             onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-primary"
           >
-            استعرض القوالب الآن
+            استعرض التصاميم الآن
           </button>
         </div>
       </div>

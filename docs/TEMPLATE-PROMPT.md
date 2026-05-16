@@ -732,8 +732,39 @@ Example — Wish submission (NO auth token needed):
   })
 
 Add array fields to MongoDB record:
-  { "key": "rsvp_entries", "label": "تأكيدات الحضور", "type": "json", "defaultValue": "[]", "group": "الردود" }
-  { "key": "wish_entries", "label": "التهاني",          "type": "json", "defaultValue": "[]", "group": "الردود" }
+  { "key": "rsvp_entries", "label": "تأكيدات الحضور", "type": "json", "defaultValue": "[]", "group": "الردود",
+    "hint": "تُحدَّث تلقائياً عند تأكيد الضيوف — للقراءة فقط" }
+  { "key": "wish_entries", "label": "التهاني",          "type": "json", "defaultValue": "[]", "group": "الردود",
+    "hint": "تُحدَّث تلقائياً عند إرسال تهنئة — للقراءة فقط" }
+
+ADMIN DASHBOARD — READABLE RENDERING FOR rsvp_entries AND wish_entries:
+
+  These two fields MUST NOT render as a raw JSON textarea in the AdminDashboard.
+  Intercept them by key BEFORE the type switch and render readable UI instead.
+
+  In AdminDashboard.tsx, inside renderField():
+
+    // Must come before the switch(type) block
+    if (key === 'rsvp_entries') return renderRsvpEntries(val)
+    if (key === 'wish_entries') return renderWishEntries(val)
+
+  renderRsvpEntries(val):
+    Parse val as { name, attending, guests }[] and render:
+    - Summary bar: "✓ N سيحضر — M ضيف" (green badge) + "✗ N اعتذر" (red badge) + total count
+    - One card per entry: avatar circle (✓/✗), name, guest count, attending status label
+    - Empty state: "لا توجد ردود حتى الآن" placeholder
+
+  renderWishEntries(val):
+    Parse val as { name, message }[] and render:
+    - Count label: "N تهنئة"
+    - One card per entry: emoji icon, sender name (bold), message text
+    - Empty state: "لا توجد تهاني حتى الآن" placeholder
+
+  Both functions parse the raw JSON safely:
+    Array.isArray(val) ? val : JSON.parse(val || '[]')
+
+  These are READ-ONLY views — no editing, no save button needed for these fields.
+  The data is written exclusively via the public POST endpoints.
 
 ABSOLUTE RULES:
 - Never use PATCH /api/instances/:id/data for guest submissions (that requires auth)
@@ -741,6 +772,7 @@ ABSOLUTE RULES:
 - Always pass slug in the POST body — the backend resolves the instance
 - Use localStorage only for "already submitted" local dedup (e.g. farhty_rsvp_submitted_${slug})
 - Never suggest creating new API routes beyond the ones listed here
+- rsvp_entries and wish_entries MUST render as readable card lists in AdminDashboard — NEVER as raw JSON textarea
 
 ═════════════════════════════════════════════
 ADMIN-ONLY OPERATIONS

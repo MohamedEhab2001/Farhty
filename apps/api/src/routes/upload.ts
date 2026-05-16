@@ -1,5 +1,6 @@
 import { Router, Request, Response, IRouter } from 'express';
 import { instanceAuth } from '../middleware/instanceAuth';
+import { adminAuth } from '../middleware/adminAuth';
 import { generateSignedUploadParams } from '../services/cloudinary.service';
 
 const router: IRouter = Router();
@@ -15,6 +16,22 @@ router.post('/sign', instanceAuth, async (req: Request, res: Response): Promise<
       return;
     }
 
+    const params = generateSignedUploadParams(folder);
+    res.json(params);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ error: msg });
+  }
+});
+
+// POST /api/upload/admin-sign  — signed upload params for admin panel
+router.post('/admin-sign', adminAuth, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { folder } = req.body as { folder: string };
+    if (!folder) {
+      res.status(400).json({ error: 'folder is required' });
+      return;
+    }
     const params = generateSignedUploadParams(folder);
     res.json(params);
   } catch (err) {

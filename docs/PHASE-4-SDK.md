@@ -195,7 +195,7 @@ Props:
 
 Renders:
   Fixed top bar (z-index above everything)
-  "هذه معاينة — اشترِ هذا القالب الآن"
+  "هذه معاينة — اشترِ هذا التصميم الآن"
   Button → links to farhty.online (store)
   Subtle pulsing or highlighted styling
 

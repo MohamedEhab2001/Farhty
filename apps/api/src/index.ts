@@ -26,6 +26,9 @@ import orderRoutes from './routes/orders';
 // Testimonials
 import { publicTestimonialRouter, adminTestimonialRouter } from './routes/testimonials';
 
+// Promos
+import { publicPromoRouter, adminPromoRouter } from './routes/promos';
+
 // Upload
 import uploadRoutes from './routes/upload';
 
@@ -48,12 +51,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/templates', publicTemplateRouter);
 app.use('/api/instances', publicInstanceRouter);
 app.use('/api/testimonials', publicTestimonialRouter);
+app.use('/api/promos', publicPromoRouter);
 
 // ─── Admin routes ─────────────────────────────────────────────────────────────
 app.use('/api/admin/templates', adminTemplateRouter);
 app.use('/api/admin/instances', adminInstanceRouter);
 app.use('/api/admin/orders', orderRoutes);
 app.use('/api/admin/testimonials', adminTestimonialRouter);
+app.use('/api/admin/promos', adminPromoRouter);
 
 // ─── Upload ───────────────────────────────────────────────────────────────────
 app.use('/api/upload', uploadRoutes);

@@ -34,7 +34,10 @@
       "PowerShell(Get-ChildItem \"D:\\\\Work\\\\Farhy\\\\apps\\\\store\" -Name \"package.json\" | ForEach-Object { Get-Content \"D:\\\\Work\\\\Farhy\\\\apps\\\\store\\\\package.json\" | Select-Object -First 20 })",
       "Bash(Get-ChildItem -Path \"D:\\\\Work\\\\Farhy\" -Directory)",
       "Bash(Select-Object Name)",
-      "Bash(grep -E \"\\\\.\\(sh|js|ts\\)$\")"
+      "Bash(grep -E \"\\\\.\\(sh|js|ts\\)$\")",
+      "PowerShell(New-Item *)",
+      "PowerShell(Copy-Item *)",
+      "Bash(echo \"exit: $?\")"
     ]
   }
 }

@@ -62,7 +62,7 @@ export default function Orders() {
           <table>
             <thead>
               <tr>
-                <th>الهاتف</th><th>القالب</th><th>طريقة الدفع</th>
+                <th>الهاتف</th><th>التصميم</th><th>طريقة الدفع</th>
                 <th>الحالة</th><th>التاريخ</th><th>الملاحظات</th><th>الإجراءات</th>
               </tr>
             </thead>

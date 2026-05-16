@@ -43,7 +43,7 @@ export function CtaBanner() {
                 onClick={scrollToTemplates}
                 className="btn-ghost-luxe !bg-white !text-[#955d85] !border-white"
               >
-                استعرض القوالب
+                استعرض التصاميم
               </button>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد الطلب من فرحتي')}`}

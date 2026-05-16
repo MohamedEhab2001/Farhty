@@ -54,7 +54,7 @@ export default function TemplateForm() {
         const { _id, __v, createdAt, updatedAt, ...clean } = r.data
         setJson(JSON.stringify(clean, null, 2))
       })
-      .catch(() => setError('تعذّر تحميل القالب'))
+      .catch(() => setError('تعذّر تحميل التصميم'))
       .finally(() => setLoading(false))
   }, [id, isEdit])
 
@@ -110,20 +110,20 @@ export default function TemplateForm() {
 
   if (loading) {
     return (
-      <Layout title="تعديل القالب">
+      <Layout title="تعديل التصميم">
         <p style={{ color: '#9d8fa8' }}>جاري التحميل...</p>
       </Layout>
     )
   }
 
   return (
-    <Layout title={isEdit ? 'تعديل القالب' : 'قالب جديد'}>
+    <Layout title={isEdit ? 'تعديل التصميم' : 'تصميم جديد'}>
       <div style={{ maxWidth: '900px' }}>
 
         <p style={{ color: '#9d8fa8', fontSize: '13px', marginBottom: '16px' }}>
           {isEdit
             ? 'عدّل قيم JSON مباشرة ثم احفظ.'
-            : 'أضف بيانات القالب بصيغة JSON ثم أنشئه.'}
+            : 'أضف بيانات التصميم بصيغة JSON ثم أنشئه.'}
         </p>
 
         {/* Editor card */}
@@ -211,7 +211,7 @@ export default function TemplateForm() {
         {/* Actions */}
         <div style={{ display: 'flex', gap: '12px' }}>
           <button onClick={submit} disabled={saving} className="btn-gold" style={{ padding: '10px 32px' }}>
-            {saving ? 'جاري الحفظ...' : isEdit ? 'حفظ التغييرات' : 'إنشاء القالب'}
+            {saving ? 'جاري الحفظ...' : isEdit ? 'حفظ التغييرات' : 'إنشاء التصميم'}
           </button>
           <button onClick={() => navigate('/templates')} className="btn-ghost" style={{ padding: '10px 24px' }}>
             إلغاء

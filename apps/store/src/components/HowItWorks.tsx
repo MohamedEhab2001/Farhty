@@ -5,8 +5,8 @@ const STEPS = [
   {
     num: '١',
     icon: <IconTemplate size={26} className="text-[#a66b96]" />,
-    title: 'اختر قالبك',
-    desc: 'تصفح القوالب الفاخرة واختر التصميم الذي يعكس ذوقك ويحكي قصتك.',
+    title: 'اختر تصميمك',
+    desc: 'تصفح التصاميم الفاخرة واختر التصميم الذي يعكس ذوقك ويحكي قصتك.',
     iconPath: 'M4 6h16M4 12h16M4 18h10',
   },
   {
@@ -32,7 +32,7 @@ export default function HowItWorks() {
         <Reveal className="text-center max-w-2xl mx-auto mb-20">
           <span className="eyebrow">خطوات بسيطة</span>
           <h2 className="text-4xl md:text-5xl mt-5 text-[#3d2c38]">
-            كيف يعمل <span className="italic text-[#955d85]">فرحتي؟</span>
+            خطوات انشاء <span className="italic text-[#955d85]">دعوتك</span>
           </h2>
           <div className="divider-ornament my-5">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" /></svg>

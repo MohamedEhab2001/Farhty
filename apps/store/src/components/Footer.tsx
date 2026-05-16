@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
 
           <nav className="flex flex-wrap gap-6 text-sm text-[#8c7a87]">
-            <button onClick={() => scrollTo('templates')} className="hover:text-[#955d85] transition-colors duration-200">القوالب</button>
+            <button onClick={() => scrollTo('templates')} className="hover:text-[#955d85] transition-colors duration-200">التصاميم</button>
             <button onClick={() => scrollTo('how-it-works')} className="hover:text-[#955d85] transition-colors duration-200">كيف يعمل</button>
             <button onClick={() => scrollTo('faq')} className="hover:text-[#955d85] transition-colors duration-200">الأسئلة الشائعة</button>
             <Link to="/privacy" className="hover:text-[#955d85] transition-colors duration-200">سياسة الخصوصية</Link>

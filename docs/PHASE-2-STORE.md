@@ -73,8 +73,8 @@ apps/store/
 
 ### Hero
 - Strong Arabic headline: "دعوة زفافك تستحق أن تُبهر"
-- Sub-headline: "قوالب دعوات رقمية تفاعلية بتصاميم فاخرة"
-- Two CTAs: "استعرض القوالب" (scroll down) | "تواصل معنا" (WhatsApp)
+- Sub-headline: "تصاميم دعوات رقمية تفاعلية بتصاميم فاخرة"
+- Two CTAs: "استعرض التصاميم" (scroll down) | "تواصل معنا" (WhatsApp)
 - Background: dark with subtle animated pattern or gradient
 - Mobile first — full viewport height
 
@@ -82,7 +82,7 @@ apps/store/
 
 ### How It Works
 Three steps with icons:
-1. اختار قالبك المفضل
+1. اختار تصميمك المفضل
 2. تواصل معنا على واتساب وأكد الدفع
 3. ادخل بياناتك وشارك دعوتك
 
@@ -113,7 +113,7 @@ Shows template name + price
 → Button: "ابدأ المحادثة"
   → opens wa.me/[WHATSAPP_NUMBER]?text=...
   → pre-filled message:
-    "مرحبا، أنا مهتم بقالب [template name] بسعر [price] جنيه.
+    "مرحبا، أنا مهتم بتصميم [template name] بسعر [price] جنيه.
      ممكن تبعتلي تفاصيل الدفع؟"
 
 Small note below button:
@@ -143,7 +143,7 @@ Simultaneously:
 ✓ ضمان استرداد المبلغ خلال 24 ساعة
 ✓ دعم فني مجاني بعد الشراء
 ✓ تسليم فوري بعد تأكيد الدفع
-✓ قوالب حصرية غير متاحة في أي مكان آخر
+✓ تصاميم حصرية غير متاحة في أي مكان آخر
 ```
 Displayed as badge grid with icons.
 
@@ -154,8 +154,8 @@ Displayed as badge grid with icons.
 - Appears every 25–45 seconds (random interval)
 - Pulled from a hardcoded list of ~15 fake purchases:
   ```
-  "أحمد من القاهرة اشترى قالب ليلى منذ 3 دقائق"
-  "مريم من الإسكندرية اشترت قالب نور منذ 7 دقائق"
+  "أحمد من القاهرة اشترى تصميم ليلى منذ 3 دقائق"
+  "مريم من الإسكندرية اشترت تصميم نور منذ 7 دقائق"
   ```
 - Animated slide-in from bottom-left (framer-motion)
 - Auto-dismisses after 4 seconds

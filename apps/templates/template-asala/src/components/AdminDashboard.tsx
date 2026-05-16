@@ -238,14 +238,12 @@ export function AdminDashboard() {
             <button
               type="button"
               onClick={() => set(key, !(val as boolean))}
-              className={`relative w-12 h-6 rounded-full transition-colors ${
-                val ? 'bg-gold' : 'bg-ivory/20'
-              }`}
+              className={`relative w-12 h-6 rounded-full transition-colors ${val ? 'bg-gold' : 'bg-ivory/20'
+                }`}
             >
               <span
-                className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all ${
-                  val ? 'right-1' : 'left-1'
-                }`}
+                className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all ${val ? 'right-1' : 'left-1'
+                  }`}
               />
             </button>
           </div>
@@ -352,8 +350,8 @@ export function AdminDashboard() {
                             sub.type === 'time'
                               ? 'time'
                               : sub.type === 'number'
-                              ? 'number'
-                              : 'text'
+                                ? 'number'
+                                : 'text'
                           }
                           value={(item[sub.key] as string) ?? ''}
                           onChange={e => {
@@ -421,7 +419,7 @@ export function AdminDashboard() {
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <h1 className="font-arabic text-lg text-gradient-gold">لوحة التحكم</h1>
-            <p className="text-ivory/40 text-xs font-body mt-0.5">قالب أصالة</p>
+            <p className="text-ivory/40 text-xs font-body mt-0.5">تصميم أصالة</p>
           </div>
           <button
             onClick={handleSave}

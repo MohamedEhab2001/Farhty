@@ -19,8 +19,8 @@ export default function BuyModal({ template, onClose }: BuyModalProps) {
       templateId: template._id,
       paymentMethod: 'vodafone',
       status: 'pending',
-      notes: `طلب عبر الموقع — قالب ${template.name}`,
-    }).catch(() => {})
+      notes: `طلب عبر الموقع — تصميم ${template.name}`,
+    }).catch(() => { })
   }, [template])
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function BuyModal({ template, onClose }: BuyModalProps) {
       ? `بسعر العرض ${effectivePrice} جنيه (بدلاً من ${template.price} جنيه)`
       : `بسعر ${effectivePrice} جنيه`
     const text = encodeURIComponent(
-      `مرحبا، أنا مهتم بقالب ${template.name} ${priceNote}.\nممكن تبعتلي تفاصيل الدفع؟`
+      `مرحبا، أنا مهتم بتصميم ${template.name} ${priceNote}.\nممكن تبعتلي تفاصيل الدفع؟`
     )
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank')
     setTimeout(() => { setSending(false) }, 1000)
@@ -81,7 +81,7 @@ export default function BuyModal({ template, onClose }: BuyModalProps) {
               className="pointer-events-auto bg-[#fff7fa] border border-[#ebdce3]/60 rounded-2xl p-7 max-w-sm w-full shadow-[0_24px_80px_rgba(61,44,56,0.2)] relative"
               dir="rtl"
               role="dialog"
-              aria-label={`طلب قالب ${template.name}`}
+              aria-label={`طلب تصميم ${template.name}`}
             >
               <button
                 onClick={onClose}

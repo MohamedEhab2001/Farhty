@@ -31,11 +31,11 @@ export default function Dashboard() {
           return o.status === 'confirmed' && new Date(o.createdAt).getMonth() === thisMonth
         }).length,
       })
-    }).catch(() => {}).finally(() => setLoading(false))
+    }).catch(() => { }).finally(() => setLoading(false))
   }, [])
 
   const CARDS = [
-    { label: 'قوالب نشطة', value: stats.activeTemplates, icon: '🎨', color: '#c8973a' },
+    { label: 'تصاميم نشطة', value: stats.activeTemplates, icon: '🎨', color: '#c8973a' },
     { label: 'حسابات منشورة', value: stats.totalInstances, icon: '🚀', color: '#4ade80' },
     { label: 'طلبات معلقة', value: stats.pendingOrders, icon: '📦', color: stats.pendingOrders > 0 ? '#f87171' : '#9d8fa8', badge: stats.pendingOrders > 0 },
     { label: 'طلبات مؤكدة (هذا الشهر)', value: stats.confirmedOrders, icon: '✅', color: '#60a5fa' },

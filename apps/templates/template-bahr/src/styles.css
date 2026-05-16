@@ -1,0 +1,114 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@300;400;500;600&family=Cairo:wght@300;400;600&display=swap');
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sea: var(--sea);
+  --color-sea-deep: var(--sea-deep);
+  --color-sand: var(--sand);
+  --color-gold: var(--gold);
+  --font-display: var(--font-display);
+  --font-arabic: var(--font-arabic);
+  --font-arabic-sans: var(--font-arabic-sans);
+}
+
+:root {
+  --radius: 0.625rem;
+  --sea: oklch(0.52 0.04 220);
+  --sea-deep: oklch(0.38 0.045 225);
+  --sand: oklch(0.96 0.018 80);
+  --gold: oklch(0.78 0.09 75);
+
+  --background: oklch(0.96 0.018 80);
+  --foreground: oklch(0.32 0.04 225);
+  --card: oklch(0.98 0.012 80);
+  --card-foreground: oklch(0.32 0.04 225);
+  --popover: oklch(0.98 0.012 80);
+  --popover-foreground: oklch(0.32 0.04 225);
+  --primary: oklch(0.42 0.045 225);
+  --primary-foreground: oklch(0.96 0.018 80);
+  --secondary: oklch(0.9 0.025 200);
+  --secondary-foreground: oklch(0.32 0.04 225);
+  --muted: oklch(0.92 0.015 200);
+  --muted-foreground: oklch(0.5 0.03 220);
+  --accent: oklch(0.78 0.09 75);
+  --accent-foreground: oklch(0.25 0.04 225);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0.003 247);
+  --border: oklch(0.85 0.02 200);
+  --input: oklch(0.88 0.02 200);
+  --ring: oklch(0.52 0.04 220);
+
+  --font-display: 'Cormorant Garamond', serif;
+  --font-arabic: 'Amiri', serif;
+  --font-arabic-sans: 'Cairo', sans-serif;
+
+  --gradient-sea: linear-gradient(180deg, oklch(0.58 0.04 220) 0%, oklch(0.42 0.05 225) 100%);
+  --gradient-sunset: linear-gradient(180deg, oklch(0.92 0.04 60) 0%, oklch(0.78 0.08 40) 60%, oklch(0.58 0.04 220) 100%);
+  --shadow-soft: 0 20px 60px -20px oklch(0.32 0.04 225 / 0.25);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-display);
+  }
+  html { scroll-behavior: smooth; }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+@keyframes shimmer {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes wave {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-float { animation: float-slow 6s ease-in-out infinite; }
+.animate-shimmer { animation: shimmer 3s ease-in-out infinite; }
+.animate-wave { animation: wave 18s linear infinite; }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 1.2s ease-out, transform 1.2s ease-out; }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+.ornament-line {
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  height: 1px;
+}

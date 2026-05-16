@@ -4,7 +4,7 @@ import { WHATSAPP_NUMBER } from '../api/client'
 import { IconWhatsApp } from './BrandIcons'
 
 const NAV_LINKS = [
-  { id: 'templates', label: 'القوالب' },
+  { id: 'templates', label: 'التصاميم' },
   { id: 'how-it-works', label: 'كيف يعمل' },
   { id: 'testimonials', label: 'آراء العملاء' },
   { id: 'faq', label: 'الأسئلة' },
@@ -32,11 +32,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled
           ? 'py-3 backdrop-blur-xl bg-[#fdfbf7]/80 border-b border-[#ebdce3]/60 shadow-[0_8px_30px_-20px_rgba(166,107,150,0.25)]'
           : 'py-5'
-      }`}
+        }`}
       dir="rtl"
       role="navigation"
       aria-label="التنقل الرئيسي"

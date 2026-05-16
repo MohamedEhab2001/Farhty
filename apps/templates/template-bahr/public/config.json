@@ -1,0 +1,5 @@
+{
+  "slug": "bahr",
+  "template": "template-bahr",
+  "apiBase": "http://localhost:3001"
+}

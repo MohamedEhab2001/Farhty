@@ -73,7 +73,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "ليلى وأحمد — دعوة زفاف | Farhty" },
-      { name: "description", content: "دعوة زفاف فاخرة — رحلة من الحب نشاركها معكم. قالب فرحتي." },
+      { name: "description", content: "دعوة زفاف فاخرة — رحلة من الحب نشاركها معكم. تصميم فرحتي." },
       { name: "author", content: "Farhty" },
       { property: "og:title", content: "ليلى وأحمد — دعوة زفاف" },
       { property: "og:description", content: "رحلة فاخرة من الحب — يشرّفنا حضوركم." },

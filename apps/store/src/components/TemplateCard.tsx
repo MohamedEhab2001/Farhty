@@ -104,12 +104,12 @@ export default function TemplateCard({ template, onBuy }: TemplateCardProps) {
         <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
           {isOnSale && (
             <span className="bg-[#e8b857] text-[#3d2c38] text-xs font-bold px-3 py-1 rounded-lg animate-pulse">
-              ⚡ عرض فلاش
+              خصم {Math.round(((template.price - template.salePrice!) / template.price) * 100)}% لفترة محدودة
             </span>
           )}
-          <span className="bg-[#a66b96]/90 backdrop-blur-sm text-[#fdfbf7] text-xs font-semibold px-3 py-1 rounded-lg">
+          {/* <span className="bg-[#a66b96]/90 backdrop-blur-sm text-[#fdfbf7] text-xs font-semibold px-3 py-1 rounded-lg">
             {LANGUAGE_LABELS[template.language] || template.language}
-          </span>
+          </span> */}
         </div>
 
         {/* Hover overlay */}

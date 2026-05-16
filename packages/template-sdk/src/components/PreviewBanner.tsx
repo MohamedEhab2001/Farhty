@@ -25,7 +25,7 @@ export function PreviewBanner({ templateName }: PreviewBannerProps) {
         }}
       >
         <span style={{ color: '#0d0b0e', fontWeight: 700, fontSize: 14 }}>
-          👀 هذه معاينة {templateName ? `لقالب "${templateName}"` : ''} — اشترِ هذا القالب الآن
+          👀 هذه معاينة {templateName ? `لتصميم "${templateName}"` : ''} — اشترِ هذا التصميم الآن
         </span>
         <a
           href="https://farhty.online"

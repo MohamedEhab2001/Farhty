@@ -62,7 +62,7 @@ export default function Instances() {
           <table>
             <thead>
               <tr>
-                <th>الرابط</th><th>القالب</th><th>معاينة؟</th>
+                <th>الرابط</th><th>التصميم</th><th>معاينة؟</th>
                 <th>تاريخ النشر</th><th>آخر تحديث</th><th>الإجراءات</th>
               </tr>
             </thead>
@@ -71,7 +71,7 @@ export default function Instances() {
                 <tr key={inst._id}>
                   <td>
                     <a href={`https://${inst.slug}.farhty.online`} target="_blank" rel="noopener noreferrer"
-                       className="text-[#e8b857] hover:underline font-mono text-xs">{inst.slug}.farhty.online ↗</a>
+                      className="text-[#e8b857] hover:underline font-mono text-xs">{inst.slug}.farhty.online ↗</a>
                   </td>
                   <td className="text-[#9d8fa8] text-xs">{inst.templateId?.name || '—'}</td>
                   <td><span className={`badge ${inst.isPreview ? 'badge-yellow' : 'badge-gray'}`}>{inst.isPreview ? 'معاينة' : 'مباشر'}</span></td>
@@ -92,7 +92,7 @@ export default function Instances() {
                         id={`rebuild-inst-${inst._id}`}
                         onClick={() => setRebuildInst({ id: inst._id, slug: inst.slug })}
                         className="py-1 px-3 text-xs rounded-lg text-[#e8b857] hover:bg-[#e8b857]/10 transition-all"
-                        title="إعادة بناء القالب ونشره"
+                        title="إعادة بناء التصميم ونشره"
                       >
                         🔄 إعادة بناء
                       </button>

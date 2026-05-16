@@ -28,7 +28,7 @@ export default function DeployModal({ onClose, onDeployed }: DeployModalProps) {
     })
       .then(r => r.json())
       .then((data: Template[]) => setTemplates(data))
-      .catch(() => {})
+      .catch(() => { })
   }, [])
 
   const deploy = () => {
@@ -87,9 +87,9 @@ export default function DeployModal({ onClose, onDeployed }: DeployModalProps) {
           {status === 'idle' && (
             <>
               <div>
-                <label>القالب</label>
+                <label>التصميم</label>
                 <select id="deploy-template-select" value={templateId} onChange={e => setTemplateId(e.target.value)}>
-                  <option value="">اختر القالب...</option>
+                  <option value="">اختر التصميم...</option>
                   {templates.map(t => (
                     <option key={t._id} value={t._id}>{t.name} ({t.slug})</option>
                   ))}
