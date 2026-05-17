@@ -5,7 +5,10 @@
     "src/router.tsx",
     "src/routeTree.gen.ts",
     "src/server.ts",
-    "src/start.ts"
+    "src/start.ts",
+    "src/components/ui",
+    "src/lib",
+    "src/hooks/use-mobile.tsx"
   ],
   "compilerOptions": {
     "target": "ES2020",

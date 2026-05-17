@@ -288,7 +288,7 @@ function DayProgramSection() {
 function RSVPSection() {
   const { instance } = useTemplateData()
   const { get } = useTemplateFields()
-  const slug = instance.slug
+  const slug = instance?.slug ?? ''
   const [name, setName] = useState('')
   const [attending, setAttending] = useState(true)
   const [guests, setGuests] = useState(1)
@@ -423,7 +423,7 @@ function RSVPSection() {
 /* ─── Wish Wall ────────────────────────────────────────────────────────────── */
 function WishWallSection() {
   const { instance } = useTemplateData()
-  const slug = instance.slug
+  const slug = instance?.slug ?? ''
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)

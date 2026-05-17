@@ -341,7 +341,7 @@ export default function AdminDashboard() {
     }
   }
 
-  const groups = groupFields(instance.fields as Record<string, unknown>[])
+  const groups = groupFields((instance?.fields ?? []) as unknown as Record<string, unknown>[])
 
   return (
     <div dir="rtl" style={{ minHeight: '100vh', background: '#f0f6fa', fontFamily: 'Poppins, sans-serif' }}>
