@@ -309,7 +309,7 @@ function ImageUpload({ value, defaultValue, status, error, onUpload, onClear }: 
       {status === 'error' && error && <div style={{ background: '#FEE', padding: '0.5rem', marginTop: '0.4rem', fontSize: '0.75rem', color: '#C00', borderRadius: '4px', fontFamily: 'Tajawal, sans-serif' }}>{error}</div>}
 
       {displayUrl && (
-        <div style={{ relative: 'true', marginTop: '0.75rem' }}>
+        <div style={{ position: 'relative', marginTop: '0.75rem' }}>
           <img src={displayUrl} alt="" style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '4px', opacity: value ? 1 : 0.5 }} />
           {!value && (
             <p style={{ fontSize: '0.65rem', color: 'var(--gold-deep)', textAlign: 'center', marginTop: '0.25rem', opacity: 0.8 }}>
