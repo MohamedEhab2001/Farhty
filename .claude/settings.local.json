@@ -37,7 +37,8 @@
       "Bash(grep -E \"\\\\.\\(sh|js|ts\\)$\")",
       "PowerShell(New-Item *)",
       "PowerShell(Copy-Item *)",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(npm run *)"
     ]
   }
 }
