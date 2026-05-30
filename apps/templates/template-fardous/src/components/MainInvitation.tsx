@@ -121,10 +121,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
             بفضل الله وتوفيقه
           </p>
           <p className="mt-3 text-base" style={{ color: 'rgba(26,26,46,0.75)', fontFamily: 'Tajawal, sans-serif' }}>
-            تتشرف عائلتا {familyBride} و{familyGroom}
-          </p>
-          <p className="mt-1 text-base" style={{ color: 'rgba(26,26,46,0.75)', fontFamily: 'Tajawal, sans-serif' }}>
-            بدعوة حضراتكم لحضور حفل {eventType}
+            نتشرف بدعوة حضراتكم لحضور حفل {eventType}
           </p>
 
           {/* Names */}
