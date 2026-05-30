@@ -1,0 +1,9 @@
+{
+  "name": "farhty-gif-generator",
+  "version": "1.0.0",
+  "dependencies": {
+    "gif-encoder-2": "^1.0.4",
+    "playwright": "^1.44.0",
+    "sharp": "^0.33.4"
+  }
+}

@@ -16,7 +16,7 @@ export function WishingWall() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [localWishes, setLocalWishes] = useState<WishEntry[]>([])
   const formRef = useRef<HTMLDivElement>(null)
-  const inView = useInView(formRef, { once: true, margin: '-60px' })
+  const inView = useInView(formRef, { once: true, margin: '0px' })
 
   const existingWishes: WishEntry[] = (() => {
     const raw = get('wish_entries')

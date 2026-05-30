@@ -38,7 +38,14 @@
       "PowerShell(New-Item *)",
       "PowerShell(Copy-Item *)",
       "Bash(echo \"exit: $?\")",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npx playwright *)",
+      "Bash(ffmpeg -version)",
+      "Bash(cat vite.config.ts)",
+      "Bash(cat vite.config.js)",
+      "PowerShell(netstat *)",
+      "PowerShell(Invoke-RestMethod \"http://localhost:3001/api/instances/by-domain?slug=asala\" -ErrorAction SilentlyContinue | ConvertTo-Json -Depth 3 | Select-Object -First 50)",
+      "PowerShell(Get-ChildItem *)"
     ]
   }
 }

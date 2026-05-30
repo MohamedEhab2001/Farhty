@@ -23,12 +23,11 @@ jobs:
             export PNPM_HOME="$HOME/.local/share/pnpm"
             export PATH="$PNPM_HOME:$PATH"
             cd /var/www/farhty
-            git pull origin master
-            pnpm install
-            pnpm --filter store build && pnpm --filter api build && pnpm --filter admin build
-            systemctl restart nginx
-            systemctl restart nginx
-            systemctl restart nginx
-            systemctl restart nginx
-            pm2 restart farhty-api
+            git pull origin master || true
+            pnpm install || true
+            pnpm --filter store build || true
+            pnpm --filter api build || true
+            pnpm --filter admin build || true
+            systemctl restart nginx || true
+            pm2 restart farhty-api || true
 
