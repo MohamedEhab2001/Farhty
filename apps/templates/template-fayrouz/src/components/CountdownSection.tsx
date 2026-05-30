@@ -40,9 +40,6 @@ export default function CountdownSection() {
     <section
       ref={ref}
       className="relative py-14 md:py-28 linen-texture overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #3D2117 0%, #5A3424 30%, #6B3F2A 50%, #5A3424 70%, #3D2117 100%)',
-      }}
     >
       {/* Decorative ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] opacity-15 rounded-full"
