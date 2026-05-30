@@ -120,18 +120,16 @@ async function captureFrames(port, templateName) {
   });
   const page = await context.newPage();
 
-  // Speed up long setTimeout calls (handles bahr's 5200ms gate-video intro)
-  await page.addInitScript(() => {
-    const _orig = window.setTimeout.bind(window);
-    window.setTimeout = function(fn, ms, ...args) {
-      return _orig(fn, ms > 600 ? Math.min(ms, 300) : ms, ...args);
-    };
-  });
+  // Log page console and errors for debugging
+  page.on('console', msg => { if (msg.type() === 'error') console.log(`  [${templateName}] console.${msg.type()}: ${msg.text()}`); });
+  page.on('pageerror', err => console.log(`  [${templateName}] PAGE ERROR: ${err.message}`));
+  page.on('requestfailed', req => console.log(`  [${templateName}] FAILED: ${req.url()}`));
 
   // Intercept API calls – return mock data
-  await page.route('**/api/instances/by-domain**', route =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(mock) })
-  );
+  await page.route('**/api/instances/by-domain**', route => {
+    console.log(`  [${templateName}] intercepted: ${route.request().url()}`);
+    return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify(mock) });
+  });
   await page.route('**/api/**', route =>
     route.request().url().includes('by-domain')
       ? route.continue()
@@ -139,26 +137,46 @@ async function captureFrames(port, templateName) {
   );
 
   await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'networkidle', timeout: 30000 });
+  console.log(`  [${templateName}] page loaded`);
+
   // Wait for loading screen (SDK enforces min 800ms) + initial animations
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(3000);
 
-  // Dismiss curtain/envelope/cover intro by clicking
-  try { await page.click('body', { timeout: 300 }); } catch {}
-  await page.waitForTimeout(1000);
+  const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+  const bodyBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  console.log(`  [${templateName}] after 3s: height=${pageHeight}, bodyBg=${bodyBg}`);
 
-  // Remove overflow-hidden from app root container so full-page capture works
-  await page.evaluate(() => {
-    const appRoot = document.getElementById('root');
-    if (appRoot && appRoot.firstElementChild) {
-      const el = appRoot.firstElementChild;
-      const style = getComputedStyle(el);
-      if (style.overflow === 'hidden' || style.overflowY === 'hidden') {
-        el.style.overflow  = 'visible';
-        el.style.overflowX = 'hidden';
-      }
-    }
-  });
-  await page.waitForTimeout(300);
+  // Template-specific intro dismissal
+  if (templateName === 'bahr') {
+    // Click the intro button, then wait for 5.2s gate video
+    await page.evaluate(() => {
+      const btn = document.querySelector('button[aria-label="افتح الدعوة"]') ||
+                  document.querySelector('main button') ||
+                  document.querySelector('button');
+      console.log('bahr: found button:', btn ? btn.ariaLabel || btn.textContent.trim().slice(0, 30) : 'none');
+      if (btn) btn.click();
+    });
+    await page.waitForTimeout(6500); // video takes 5.2s
+  } else if (templateName === 'fardous') {
+    // Click the cover screen open button
+    await page.evaluate(() => {
+      document.querySelectorAll('button').forEach(b => {
+        console.log('fardous btn:', b.textContent.trim().slice(0, 40));
+        b.click();
+      });
+    });
+    await page.waitForTimeout(2500); // wait for AnimatePresence transition
+    // Remove overflow-hidden so full-page capture works
+    await page.evaluate(() => {
+      const el = document.getElementById('root')?.firstElementChild;
+      if (el) { el.style.overflow = 'visible'; el.style.overflowX = 'hidden'; }
+    });
+    await page.waitForTimeout(300);
+  } else {
+    // asala: click to dismiss curtain intro
+    try { await page.click('body', { timeout: 500 }); } catch {}
+    await page.waitForTimeout(2000);
+  }
 
   // Debug: save what the page looks like right now
   const debugBuf = await page.screenshot({ type: 'png' });

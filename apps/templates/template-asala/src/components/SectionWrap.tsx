@@ -36,7 +36,7 @@ export function SectionWrap({ id, eyebrow, title, children, onActive }: SectionW
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         className="relative z-20 w-full max-w-3xl mx-auto text-center"
       >
