@@ -6,7 +6,8 @@ import { useState } from 'react'
 
 export default function GallerySection() {
   const { get } = useTemplateFields()
-  const images = (get('gallery_images') as string[] | undefined) ?? []
+  const raw = get('gallery_images')
+  const images: string[] = Array.isArray(raw) ? raw : []
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
 
   if (images.length === 0) return null
