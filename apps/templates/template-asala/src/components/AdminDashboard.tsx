@@ -389,16 +389,35 @@ export function AdminDashboard() {
         )
       }
 
-      case 'json':
+      case 'json': {
+        const parsed: unknown = (() => {
+          if (Array.isArray(val)) return val
+          if (typeof val === 'string') { try { return JSON.parse(val) } catch { return null } }
+          return val
+        })()
+        const isWishList = Array.isArray(parsed) && (parsed.length === 0 || (parsed[0] && typeof parsed[0] === 'object' && 'name' in (parsed[0] as object) && 'message' in (parsed[0] as object)))
+        if (isWishList) {
+          const wishes = parsed as { name: string; message: string; timestamp?: string }[]
+          return wrap(
+            <div className="space-y-3">
+              {wishes.length === 0 ? (
+                <p className="font-arabic text-ivory/30 text-sm text-center py-6">لا توجد أمنيات بعد</p>
+              ) : (
+                wishes.map((w, i) => (
+                  <div key={i} className="rounded-xl border border-gold/15 p-4 text-right" style={{ background: 'oklch(0.14 0.02 25 / 0.6)' }}>
+                    <p className="font-arabic text-ivory/80 text-sm leading-relaxed mb-2">{w.message}</p>
+                    <p className="font-arabic text-gold/60 text-xs">— {w.name}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          )
+        }
         return wrap(
           <textarea
             value={typeof val === 'string' ? val : JSON.stringify(val ?? [], null, 2)}
             onChange={e => {
-              try {
-                set(key, JSON.parse(e.target.value))
-              } catch {
-                set(key, e.target.value)
-              }
+              try { set(key, JSON.parse(e.target.value)) } catch { set(key, e.target.value) }
             }}
             rows={6}
             dir="ltr"
@@ -406,6 +425,7 @@ export function AdminDashboard() {
             className="w-full bg-transparent border border-gold/30 rounded-lg px-4 py-3 font-body text-ivory/80 text-sm focus:outline-none focus:border-gold/60 transition resize-none"
           />
         )
+      }
 
       default:
         return null

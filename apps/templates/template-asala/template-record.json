@@ -181,15 +181,6 @@
       "hint": "تظهر في فقاعات الحوار في أسفل الشاشة"
     },
     {
-      "key": "accent_color",
-      "label": "اللون الرئيسي",
-      "type": "color",
-      "defaultValue": "#C9A96E",
-      "required": false,
-      "group": "الإعدادات",
-      "hint": "اللون الذهبي المستخدم في التمييزات والزخارف"
-    },
-    {
       "key": "wish_entries",
       "label": "التهاني والأمنيات",
       "type": "json",
