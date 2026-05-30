@@ -128,13 +128,14 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           </p>
 
           {/* Names */}
+            <h1 className="text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
+            {groomName}
+          </h1>
           <h1 className="mt-8 text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
             {brideName}
           </h1>
 
-          <h1 className="text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
-            {groomName}
-          </h1>
+        
 
           <Divider />
 

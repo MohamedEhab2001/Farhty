@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { WHATSAPP_NUMBER } from '../api/client'
 import { IconDiamond, IconWhatsApp } from './BrandIcons'
 import { Petals } from './Petals'
+import heroCouple from '../assets/hero-couple.jpg'
 
 const visitors = Math.floor(Math.random() * 1000)
 
@@ -140,7 +141,7 @@ export default function Hero() {
             </svg>
 
             <div className="absolute inset-0 rounded-[2rem] overflow-hidden img-zoom shadow-[var(--shadow-elegant)] border border-[#a66b96]/15">
-              <img src={"https://scontent.fspx1-1.fna.fbcdn.net/v/t39.30808-6/698990080_122098373661315584_2908464142913695598_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=upTkBHYADTMQ7kNvwGt0GRa&_nc_oc=AdqLJsWN3oru4kuJZjgU16fZLCLURn99AibvUGWZxfrljfDbH_ECj-uZK9vLfujpSrM&_nc_zt=23&_nc_ht=scontent.fspx1-1.fna&_nc_gid=Fk4rJ_nnfHj1rIf3cbr6JQ&_nc_ss=7b2a8&oh=00_Af53vh-EAWW-ekNaRw8IXcZuEM6dDQjo067Vy7iQCbuu3A&oe=6A0EB308"} alt="عروسان بلباس فاخر" className="w-full h-full object-cover" width={1536} height={1024} />
+              <img src={heroCouple} alt="عروسان بلباس فاخر" className="w-full h-full object-cover" width={1536} height={1024} />
               <div className="absolute inset-0 bg-gradient-to-t from-[#fdfbf7]/60 via-transparent to-transparent" />
             </div>
 

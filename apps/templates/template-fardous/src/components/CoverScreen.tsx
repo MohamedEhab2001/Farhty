@@ -78,7 +78,7 @@ export default function CoverScreen({ onOpen, get }: Props) {
         className="mt-4 text-4xl md:text-5xl"
         style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}
       >
-        {brideName} <span className="text-gold-gradient">❦</span> {groomName}
+        {groomName}  <span className="text-gold-gradient">❦</span>{brideName}
       </motion.h2>
 
       <motion.button
