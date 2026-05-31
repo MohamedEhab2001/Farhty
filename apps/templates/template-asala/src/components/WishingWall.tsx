@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTemplateData, useTemplateFields } from '@farhty/template-sdk'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 interface WishEntry {
   name: string
@@ -116,30 +116,25 @@ export function WishingWall() {
       </form>
 
       {/* Wishes grid */}
-      <AnimatePresence>
-        {allWishes.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
-            {allWishes.map((wish, i) => (
-              <motion.div
-                key={`${wish.name}-${wish.timestamp || i}-${i}`}
-                className="glass-card rounded-xl p-5 border border-gold/15 relative group"
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
-              >
-                {/* Decorative gold corners */}
-                <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-gold/25 rounded-tr-xl group-hover:border-gold/50 transition-colors duration-300" />
-                <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-gold/25 rounded-bl-xl group-hover:border-gold/50 transition-colors duration-300" />
+      {allWishes.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
+          {allWishes.map((wish, i) => (
+            <div
+              key={`${wish.name}-${wish.timestamp || i}-${i}`}
+              className="glass-card rounded-xl p-5 border border-gold/15 relative group"
+            >
+              {/* Decorative gold corners */}
+              <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-gold/25 rounded-tr-xl group-hover:border-gold/50 transition-colors duration-300" />
+              <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-gold/25 rounded-bl-xl group-hover:border-gold/50 transition-colors duration-300" />
 
-                <p className="font-arabic text-ivory/80 text-sm leading-relaxed mb-3">
-                  &ldquo;{wish.message}&rdquo;
-                </p>
-                <p className="font-arabic text-gold/70 text-xs">— {wish.name}</p>
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </AnimatePresence>
+              <p className="font-arabic text-ivory/80 text-sm leading-relaxed mb-3">
+                &ldquo;{wish.message}&rdquo;
+              </p>
+              <p className="font-arabic text-gold/70 text-xs">— {wish.name}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

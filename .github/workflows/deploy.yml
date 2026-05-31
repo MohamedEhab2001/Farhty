@@ -23,7 +23,8 @@ jobs:
             export PNPM_HOME="$HOME/.local/share/pnpm"
             export PATH="$PNPM_HOME:$PATH"
             cd /var/www/farhty
-            git pull origin master || true
+            git fetch || true
+            git reset --hard origin/master || true
             pnpm install || true
             pnpm --filter store build || true
             pnpm --filter api build || true
