@@ -59,13 +59,9 @@ export function WishingWall() {
   return (
     <div className="w-full space-y-8">
       {/* Form */}
-      <motion.form
+      <form
         onSubmit={submit}
         className="glass-card rounded-2xl p-6 md:p-8 text-right space-y-4"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0 }}
-        transition={{ duration: 0.7, delay: 0.15 }}
       >
         <div>
           <label className="block text-xs text-gold tracking-[0.3em] mb-2 font-body">
@@ -117,7 +113,7 @@ export function WishingWall() {
             'أرسل أمنيتك'
           )}
         </button>
-      </motion.form>
+      </form>
 
       {/* Wishes grid */}
       <AnimatePresence>
