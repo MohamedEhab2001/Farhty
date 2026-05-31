@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useTemplateData, useTemplateFields } from '@farhty/template-sdk'
-import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface WishEntry {
   name: string
@@ -15,8 +15,6 @@ export function WishingWall() {
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [localWishes, setLocalWishes] = useState<WishEntry[]>([])
-  const formRef = useRef<HTMLDivElement>(null)
-  const inView = useInView(formRef, { once: true, margin: '0px' })
 
   const existingWishes: WishEntry[] = (() => {
     const raw = get('wish_entries')
@@ -59,13 +57,14 @@ export function WishingWall() {
   }
 
   return (
-    <div ref={formRef} className="w-full space-y-8">
+    <div className="w-full space-y-8">
       {/* Form */}
       <motion.form
         onSubmit={submit}
         className="glass-card rounded-2xl p-6 md:p-8 text-right space-y-4"
         initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0 }}
         transition={{ duration: 0.7, delay: 0.15 }}
       >
         <div>
