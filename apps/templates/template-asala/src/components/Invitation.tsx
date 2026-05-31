@@ -263,9 +263,14 @@ export function Invitation() {
 
       {/* WISHING WALL */}
       {showWishWall && (
-        <SectionWrap id="wishwall" eyebrow="WISH WALL" title="حائط الأمنيات" onActive={setActive}>
-          <WishingWall />
-        </SectionWrap>
+        <section id="wishwall" className="relative flex items-center justify-center px-5 py-12 md:py-16">
+          <div className="relative z-20 w-full max-w-3xl mx-auto text-center">
+            <div className="text-gold/80 text-xs md:text-sm tracking-[0.5em] mb-4 font-body uppercase">WISH WALL</div>
+            <h2 className="font-arabic text-4xl md:text-6xl text-gradient-gold mb-6 leading-tight">حائط الأمنيات</h2>
+            <div className="ornament-divider w-32 mx-auto mb-6" />
+            <WishingWall />
+          </div>
+        </section>
       )}
 
       {/* FOOTER */}
