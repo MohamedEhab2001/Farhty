@@ -18,6 +18,22 @@ const BCRYPT_ROUNDS = 12;
 // Mounted at: /api/instances
 export const publicInstanceRouter: IRouter = Router();
 
+// GET /api/instances/check-slug?slug=foo — public availability check
+publicInstanceRouter.get('/check-slug', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const slug = ((req.query.slug as string) || '').toLowerCase().trim();
+    if (!slug) {
+      res.status(400).json({ error: 'slug required' });
+      return;
+    }
+    const exists = await Instance.findOne({ slug });
+    res.json({ available: !exists });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ error: msg });
+  }
+});
+
 // POST /api/instances/auth
 publicInstanceRouter.post('/auth', async (req: Request, res: Response): Promise<void> => {
   try {

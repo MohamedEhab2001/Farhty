@@ -4,6 +4,57 @@ import path from 'path';
 import { Instance } from '../models/Instance';
 import mongoose from 'mongoose';
 
+// ─── Background deploy (no SSE) — used by EasyKash webhook ───────────────────
+export async function deployInstanceBackground(
+  templateSlug: string,
+  instanceSlug: string,
+  templateId: string,
+  hashedPassword: string,
+  isPreview = false
+): Promise<{ instanceId: mongoose.Types.ObjectId | null; ok: boolean }> {
+  const scriptPath = path.resolve(__dirname, '../../../../deploy-instance.sh');
+
+  const exitCode = await new Promise<number>((resolve) => {
+    const child = spawn('bash', [scriptPath, templateSlug, instanceSlug], {
+      env: { ...process.env },
+      shell: false,
+    });
+    child.stdout.on('data', (c: Buffer) => console.log('[bg-deploy]', c.toString().trimEnd()));
+    child.stderr.on('data', (c: Buffer) => console.warn('[bg-deploy]', c.toString().trimEnd()));
+    child.on('error', (e) => { console.error('[bg-deploy] script error:', e); resolve(1); });
+    child.on('close', (code) => resolve(code ?? 1));
+  });
+
+  if (exitCode !== 0) {
+    console.error(`[bg-deploy] Script exited with code ${exitCode} for ${instanceSlug}`);
+    return { instanceId: null, ok: false };
+  }
+
+  try {
+    const existing = await Instance.findOne({ slug: instanceSlug });
+    if (existing) {
+      existing.deployedAt = new Date();
+      existing.lastUpdatedAt = new Date();
+      await existing.save();
+      return { instanceId: existing._id as mongoose.Types.ObjectId, ok: true };
+    }
+    const inst = await Instance.create({
+      templateId: new mongoose.Types.ObjectId(templateId),
+      slug: instanceSlug,
+      password: hashedPassword,
+      isPreview,
+      data: new Map(),
+      deployedAt: new Date(),
+      lastUpdatedAt: new Date(),
+    });
+    console.log(`[bg-deploy] Instance ${instanceSlug} saved to DB`);
+    return { instanceId: inst._id as mongoose.Types.ObjectId, ok: true };
+  } catch (err) {
+    console.error('[bg-deploy] DB save failed:', err);
+    return { instanceId: null, ok: false };
+  }
+}
+
 function timestamp(): string {
   return new Date().toLocaleTimeString('en-GB', { hour12: false });
 }

@@ -3,7 +3,11 @@ import Layout from '../components/Layout'
 import { api } from '../api/client'
 
 interface Order {
-  _id: string; customerPhone: string; paymentMethod: string
+  _id: string
+  customerName: string; customerEmail: string; customerPhone: string
+  instanceSlug: string
+  paymentMethod: string
+  easykashRef: string
   status: 'pending' | 'confirmed' | 'deployed'; notes: string; createdAt: string
   templateId: { name: string } | null
 }
@@ -62,26 +66,48 @@ export default function Orders() {
           <table>
             <thead>
               <tr>
-                <th>الهاتف</th><th>التصميم</th><th>طريقة الدفع</th>
-                <th>الحالة</th><th>التاريخ</th><th>الملاحظات</th><th>الإجراءات</th>
+                <th>العميل</th><th>التصميم</th><th>الرابط</th>
+                <th>طريقة الدفع</th><th>الحالة</th><th>التاريخ</th><th>الإجراءات</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map(o => (
                 <tr key={o._id}>
-                  <td className="font-mono text-xs text-[#9d8fa8]" dir="ltr">{o.customerPhone || '—'}</td>
+                  <td>
+                    <div className="text-sm text-[#f0e8d8]">{o.customerName || '—'}</div>
+                    <div className="text-xs text-[#9d8fa8] font-mono" dir="ltr">{o.customerPhone || o.customerEmail || ''}</div>
+                  </td>
                   <td className="text-[#f0e8d8]">{o.templateId?.name || '—'}</td>
-                  <td><span className="badge badge-gray">{o.paymentMethod}</span></td>
+                  <td>
+                    {o.instanceSlug ? (
+                      <a
+                        href={`https://${o.instanceSlug}.farhty.online`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xs font-mono text-[#c8973a] hover:underline"
+                        dir="ltr"
+                      >
+                        {o.instanceSlug}.farhty.online
+                      </a>
+                    ) : <span className="text-[#9d8fa8]">—</span>}
+                  </td>
+                  <td>
+                    <span className={`badge ${o.paymentMethod === 'easykash' ? 'badge-green' : 'badge-gray'}`}>
+                      {o.paymentMethod}
+                    </span>
+                  </td>
                   <td><span className={`badge ${STATUS_BADGE[o.status]}`}>{STATUS_AR[o.status]}</span></td>
                   <td className="text-[#9d8fa8] text-xs">{fmt(o.createdAt)}</td>
-                  <td className="text-[#9d8fa8] text-xs max-w-32 truncate">{o.notes || '—'}</td>
                   <td>
                     <div className="flex gap-2">
-                      {o.status === 'pending' && (
+                      {o.status === 'pending' && o.paymentMethod !== 'easykash' && (
                         <button id={`confirm-order-${o._id}`} onClick={() => confirm(o._id)} className="btn-gold py-1 px-3 text-xs">تأكيد الدفع</button>
                       )}
-                      {o.status === 'confirmed' && (
+                      {o.status === 'confirmed' && o.paymentMethod !== 'easykash' && (
                         <button id={`deploy-order-${o._id}`} onClick={() => markDeployed(o._id)} className="btn-ghost py-1 px-3 text-xs">تم النشر</button>
+                      )}
+                      {o.paymentMethod === 'easykash' && (
+                        <span className="text-xs text-[#9d8fa8]">تلقائي</span>
                       )}
                     </div>
                   </td>

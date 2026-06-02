@@ -29,6 +29,9 @@ import { publicTestimonialRouter, adminTestimonialRouter } from './routes/testim
 // Promos
 import { publicPromoRouter, adminPromoRouter } from './routes/promos';
 
+// EasyKash payments
+import easykashRoutes from './routes/easykash';
+
 // Upload
 import uploadRoutes from './routes/upload';
 
@@ -59,6 +62,9 @@ app.use('/api/admin/instances', adminInstanceRouter);
 app.use('/api/admin/orders', orderRoutes);
 app.use('/api/admin/testimonials', adminTestimonialRouter);
 app.use('/api/admin/promos', adminPromoRouter);
+
+// ─── EasyKash ─────────────────────────────────────────────────────────────────
+app.use('/api/payments/easykash', easykashRoutes);
 
 // ─── Upload ───────────────────────────────────────────────────────────────────
 app.use('/api/upload', uploadRoutes);
