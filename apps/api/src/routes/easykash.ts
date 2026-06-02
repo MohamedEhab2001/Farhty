@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, IRouter } from 'express';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import { Order } from '../models/Order';
@@ -6,7 +6,7 @@ import { Template } from '../models/Template';
 import { Instance } from '../models/Instance';
 import { deployInstanceBackground } from '../services/deploy.service';
 
-const router = Router();
+const router: IRouter = Router();
 
 const SLUG_RE = /^[a-z0-9][a-z0-9-]*[a-z0-9]$/;
 
