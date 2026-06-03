@@ -104,7 +104,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
         <div className="text-center">
           <ArabesqueMark small />
 
-          <p className="my-3 text-3xl sm:text-4xl text-gold-gradient" style={{ fontFamily: 'Amiri, serif' }}>﴿ ﷽ ﴾</p>
+          <p className="my-3 text-2xl sm:text-4xl text-gold-gradient" style={{ fontFamily: 'Amiri, serif', lineHeight: '1.6', overflow: 'visible' }}>﴿ ﷽ ﴾</p>
 
           {/* Quran verse */}
           <p className="mt-6 text-xl leading-[2] md:text-2xl" style={{ color: 'var(--emerald-deep)', fontFamily: 'Amiri, serif' }} dir="rtl">
@@ -125,7 +125,7 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
           </p>
 
           {/* Names */}
-            <h1 className="text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
+          <h1 className="mt-4 text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
             {groomName}
           </h1>
           <h1 className="mt-8 text-5xl sm:text-6xl md:text-8xl" style={{ color: 'var(--ink)', fontFamily: 'Amiri, serif' }}>
