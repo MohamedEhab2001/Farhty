@@ -181,6 +181,15 @@
       "hint": "تظهر في فقاعات الحوار في أسفل الشاشة"
     },
     {
+      "key": "rsvp_entries",
+      "label": "تأكيدات الحضور",
+      "type": "json",
+      "defaultValue": "[]",
+      "required": false,
+      "group": "الردود",
+      "hint": "يُحدَّث تلقائيًا عند تأكيد الضيوف لحضورهم — للقراءة فقط"
+    },
+    {
       "key": "wish_entries",
       "label": "التهاني والأمنيات",
       "type": "json",

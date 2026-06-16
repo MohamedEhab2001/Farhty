@@ -395,9 +395,53 @@ export function AdminDashboard() {
           if (typeof val === 'string') { try { return JSON.parse(val) } catch { return null } }
           return val
         })()
-        const isWishList = Array.isArray(parsed) && (parsed.length === 0 || (parsed[0] && typeof parsed[0] === 'object' && 'name' in (parsed[0] as object) && 'message' in (parsed[0] as object)))
+
+        if (key === 'rsvp_entries') {
+          const rsvps = (Array.isArray(parsed) ? parsed : []) as { name: string; attending: boolean; guests: number; timestamp?: string }[]
+          const attendingCount = rsvps.filter(r => r.attending).length
+          const totalGuests = rsvps.filter(r => r.attending).reduce((s, r) => s + (Number(r.guests) || 0), 0)
+          return wrap(
+            rsvps.length === 0 ? (
+              <p className="font-arabic text-ivory/30 text-sm text-center py-6">لا توجد تأكيدات حضور بعد</p>
+            ) : (
+              <div>
+                <div className="flex gap-3 mb-4 text-xs font-arabic">
+                  <div className="px-3 py-1.5 rounded-full border border-gold/25 text-ivory/80">إجمالي الردود: <span className="text-gold">{rsvps.length}</span></div>
+                  <div className="px-3 py-1.5 rounded-full border border-gold/25 text-ivory/80">حضور: <span className="text-gold">{attendingCount}</span></div>
+                  <div className="px-3 py-1.5 rounded-full border border-gold/25 text-ivory/80">عدد الأشخاص: <span className="text-gold">{totalGuests}</span></div>
+                </div>
+                <div className="overflow-x-auto rounded-xl border border-gold/15" style={{ background: 'oklch(0.14 0.02 25 / 0.6)' }}>
+                  <table className="w-full text-sm font-arabic">
+                    <thead>
+                      <tr className="border-b border-gold/15 text-gold/70 text-xs">
+                        <th className="py-3 px-4 text-right font-normal">الاسم</th>
+                        <th className="py-3 px-4 text-right font-normal">الحالة</th>
+                        <th className="py-3 px-4 text-right font-normal">العدد</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rsvps.map((r, i) => (
+                        <tr key={i} className="border-b border-gold/10 last:border-0 text-ivory/85">
+                          <td className="py-2.5 px-4">{r.name}</td>
+                          <td className="py-2.5 px-4">
+                            <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs ${r.attending ? 'bg-green-500/15 text-green-300' : 'bg-red-500/15 text-red-300'}`}>
+                              {r.attending ? 'حضور' : 'اعتذار'}
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-4" dir="ltr">{r.guests || 0}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )
+          )
+        }
+
+        const isWishList = key === 'wish_entries' || (Array.isArray(parsed) && parsed.length > 0 && parsed[0] && typeof parsed[0] === 'object' && 'name' in (parsed[0] as object) && 'message' in (parsed[0] as object))
         if (isWishList) {
-          const wishes = parsed as { name: string; message: string; timestamp?: string }[]
+          const wishes = (Array.isArray(parsed) ? parsed : []) as { name: string; message: string; timestamp?: string }[]
           return wrap(
             <div className="space-y-3">
               {wishes.length === 0 ? (
