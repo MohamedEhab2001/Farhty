@@ -587,7 +587,7 @@ export default function Invitation() {
 
               {/* Arabic names */}
               <Reveal delay={500}>
-                <h1 className="font-name-ar leading-snug mb-3" style={{ fontSize: 'clamp(3rem,9vw,6rem)', color: '#f5ede0' }}>
+                <h1 className="leading-snug mb-3" style={{ fontFamily: "'Noto Sans Arabic', 'Amiri', serif", fontWeight: 700, fontSize: 'clamp(3rem,9vw,6rem)', color: '#f5ede0' }}>
                   {groomAr}
                   <span className="mx-4 text-[0.55em]" style={{ color: accentColor }}>و</span>
                   {brideAr}
