@@ -27,7 +27,7 @@
   --ivory:     #faf7f2;
   --navy:      #1a3a4a;
 
-  --fn-ar:     'Amiri', serif;
+  --fn-ar:     'Aref Ruqaa', 'Amiri', serif;
   --fn-en:     'Balinesty', 'Great Vibes', cursive;
   --fn-body:   'Poppins', sans-serif;
   --fn-arabic: 'Amiri', serif;
@@ -47,7 +47,7 @@ body {
 }
 
 /* ── Typography helpers ───────────────────────────────────────────────────── */
-.font-name-ar  { font-family: var(--fn-ar); }
+.font-name-ar  { font-family: var(--fn-ar); font-weight: 700; }
 .font-name-en  { font-family: var(--fn-en); }
 .font-arabic   { font-family: var(--fn-arabic); }
 
