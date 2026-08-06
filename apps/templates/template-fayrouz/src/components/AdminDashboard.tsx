@@ -125,17 +125,6 @@ export default function AdminDashboard() {
               onUpload={f => handleUpload('hero_image', f, `templates/fayrouz/hero`)}
             />
           </Field>
-          <Field label="اللون الرئيسي">
-            <div className="flex items-center gap-3">
-              <input
-                type="color"
-                value={get('accent_color') ?? '#C9A96E'}
-                onChange={e => set('accent_color', e.target.value)}
-                className="w-12 h-10 rounded-lg border-none cursor-pointer"
-              />
-              <span className="text-espresso/60 text-sm font-mono">{get('accent_color') ?? '#C9A96E'}</span>
-            </div>
-          </Field>
         </Section>
 
         {/* ─── Section: Venue ─── */}

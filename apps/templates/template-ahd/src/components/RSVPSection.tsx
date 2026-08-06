@@ -1,6 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTemplateData } from '@farhty/template-sdk'
 
+/** Tiny decorative flourish — echoes the botanical-divider motif at a compact scale. */
+function MiniFlourish() {
+  return (
+    <svg width="26" height="16" viewBox="0 0 26 16" fill="none" className="mx-auto mb-5" style={{ color: 'var(--gold)' }} aria-hidden="true">
+      <path d="M1 8c4.5-7 9-7 12 0s7.5 7 12 0" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" />
+      <circle cx="13" cy="4.5" r="1.4" fill="currentColor" />
+    </svg>
+  )
+}
+
 export default function RSVPSection() {
   const { slug } = useTemplateData()
   const sectionRef = useRef<HTMLElement>(null)
@@ -47,35 +57,45 @@ export default function RSVPSection() {
       <div className="max-w-xl mx-auto px-6">
 
         <div
-          className="text-center mb-14"
+          className="text-center mb-12"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? 'translateY(0)' : 'translateY(24px)',
             transition: 'all 1s cubic-bezier(0.22,1,0.36,1)',
           }}
         >
-          {/* <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
-            يُرجى الرد بحلول الموعد المحدد
-          </p> */}
+          <p className="font-tajawal font-light mb-3" style={{ fontSize: '0.7rem', letterSpacing: '0.3em', color: 'var(--gold-dark)' }}>
+            RSVP
+          </p>
           <h2 className="font-amiri italic font-light text-charcoal mb-4" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
             هل ستحضر معنا؟
           </h2>
           <div style={{ width: '40px', height: '1px', background: 'var(--gold)', margin: '0 auto' }} />
         </div>
 
-        <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(32px)', transition: 'all 1s cubic-bezier(0.22,1,0.36,1) 0.15s' }}>
+        <div
+          className="event-card p-8 sm:p-10 md:p-12"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(32px)',
+            transition: 'all 1s cubic-bezier(0.22,1,0.36,1) 0.15s',
+          }}
+        >
           {alreadySubmitted || status === 'success' ? (
-            <div className="text-center py-12">
-              <div className="mx-auto mb-6 flex items-center justify-center" style={{ width: '56px', height: '56px', border: '1px solid var(--gold)', borderRadius: '50%' }}>
-                <svg viewBox="0 0 24 24" fill="none" style={{ width: '22px', height: '22px' }}>
+            <div className="text-center py-6 rsvp-pop">
+              <MiniFlourish />
+              <div className="mx-auto mb-6 flex items-center justify-center" style={{ width: '60px', height: '60px', border: '1px solid var(--gold)', borderRadius: '50%' }}>
+                <svg viewBox="0 0 24 24" fill="none" style={{ width: '24px', height: '24px' }}>
                   <path d="M5 13l4 4L19 7" stroke="#C4A35A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <p className="font-amiri italic font-light text-charcoal" style={{ fontSize: '1.5rem' }}>شكرًا لك.</p>
-              <p className="font-tajawal font-light text-warm-gray mt-2" style={{ fontSize: '0.85rem' }}>تم تسجيل ردك بنجاح.</p>
+              <p className="font-amiri italic font-light text-charcoal" style={{ fontSize: '1.6rem' }}>شكرًا لك.</p>
+              <p className="font-tajawal font-light text-warm-gray mt-2" style={{ fontSize: '0.85rem' }}>
+                تم تسجيل ردك بنجاح، ويسعدنا حضورك معنا في هذه الليلة.
+              </p>
             </div>
           ) : (
-            <form onSubmit={submit} className="space-y-10">
+            <form onSubmit={submit} className="space-y-9">
 
               <div>
                 <label className="block font-tajawal font-light text-warm-gray mb-2" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
@@ -88,7 +108,7 @@ export default function RSVPSection() {
                 <label className="block font-tajawal font-light text-warm-gray mb-4" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
                   الحضور
                 </label>
-                <div className="flex gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   {[
                     { val: true, label: 'بكل سرور' },
                     { val: false, label: 'مع الأسف' },
@@ -97,17 +117,19 @@ export default function RSVPSection() {
                       key={String(opt.val)}
                       type="button"
                       onClick={() => setAttending(opt.val)}
-                      className="flex-1 py-3 font-tajawal font-light text-sm uppercase transition-all duration-300 min-h-[48px]"
+                      className="py-4 font-tajawal font-light text-sm transition-all duration-300 min-h-[52px]"
                       style={{
+                        borderRadius: '14px',
                         border: attending === opt.val
-                          ? `1px solid ${opt.val ? 'var(--gold)' : 'var(--charcoal)'}`
+                          ? `1.5px solid ${opt.val ? 'var(--gold)' : 'var(--charcoal)'}`
                           : '1px solid #D5C9B8',
                         color: attending === opt.val
-                          ? (opt.val ? 'var(--gold)' : 'var(--charcoal)')
+                          ? (opt.val ? 'var(--gold-dark)' : 'var(--charcoal)')
                           : 'var(--warm-gray)',
-                        background: attending === opt.val && opt.val ? 'rgba(196,163,90,0.05)' : 'transparent',
-                        fontSize: '0.8rem',
-                        letterSpacing: '0.05em',
+                        background: attending === opt.val ? (opt.val ? 'rgba(196,163,90,0.07)' : 'rgba(60,60,60,0.04)') : 'transparent',
+                        transform: attending === opt.val ? 'scale(1.02)' : 'scale(1)',
+                        fontSize: '0.85rem',
+                        letterSpacing: '0.03em',
                       }}
                     >
                       {opt.label}
@@ -117,15 +139,33 @@ export default function RSVPSection() {
               </div>
 
               {attending === true && (
-                <div>
-                  <label className="block font-tajawal font-light text-warm-gray mb-2" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
+                <div className="rsvp-stepper-in">
+                  <label className="block font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
                     عدد الحضور
                   </label>
-                  <select value={guests} onChange={e => setGuests(Number(e.target.value))} className="ahd-input" style={{ cursor: 'pointer' }}>
-                    {[1, 2, 3, 4, 5].map(n => (
-                      <option key={n} value={n}>{n} {n === 1 ? 'ضيف' : 'ضيوف'}</option>
-                    ))}
-                  </select>
+                  <div className="flex items-center justify-between rounded-full px-2 py-1.5" style={{ border: '1px solid #D5C9B8' }}>
+                    <button
+                      type="button"
+                      onClick={() => setGuests(g => Math.max(1, g - 1))}
+                      className="w-9 h-9 rounded-full flex items-center justify-center font-tajawal text-lg leading-none transition-colors duration-300 hover:bg-[var(--gold)] hover:text-white"
+                      style={{ color: 'var(--charcoal)' }}
+                      aria-label="تقليل عدد الحضور"
+                    >
+                      −
+                    </button>
+                    <span className="font-tajawal font-light text-sm" style={{ color: 'var(--charcoal)' }}>
+                      {guests} {guests === 1 ? 'ضيف' : 'ضيوف'}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setGuests(g => Math.min(6, g + 1))}
+                      className="w-9 h-9 rounded-full flex items-center justify-center font-tajawal text-lg leading-none transition-colors duration-300 hover:bg-[var(--gold)] hover:text-white"
+                      style={{ color: 'var(--charcoal)' }}
+                      aria-label="زيادة عدد الحضور"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -133,6 +173,7 @@ export default function RSVPSection() {
                 <button
                   type="submit"
                   disabled={status === 'submitting' || !name.trim() || attending === null}
+                  className="transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
                   style={{
                     display: 'block', width: '100%', padding: '1rem 2rem',
                     borderRadius: '999px', background: 'var(--navy)',
@@ -140,7 +181,6 @@ export default function RSVPSection() {
                     fontWeight: 300, fontSize: '0.9rem', border: 'none',
                     cursor: status === 'submitting' ? 'not-allowed' : 'pointer',
                     opacity: status === 'submitting' || !name.trim() || attending === null ? 0.5 : 1,
-                    transition: 'opacity 0.3s ease',
                   }}
                 >
                   {status === 'submitting' ? 'جاري الإرسال...' : 'إرسال الرد'}

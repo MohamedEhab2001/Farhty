@@ -8,8 +8,16 @@ export default function Footer() {
   return (
     <footer className="bg-ivory py-12 text-center" style={{ borderTop: '1px solid rgba(196,163,90,0.15)' }}>
       <p className="font-tajawal font-light text-warm-gray" style={{ fontSize: '0.75rem' }}>
-        {groomName} &amp; {brideName} &nbsp;·&nbsp; صُمِّمت بكل حب بواسطة{' '}
-        <span style={{ color: 'var(--gold)' }}>فرحتي</span>
+        {groomName} &amp; {brideName} &nbsp;·&nbsp; صممت بكل حب بواسطة{' '}
+        <a
+          href="https://farhty.online"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:no-underline"
+          style={{ color: 'var(--gold)' }}
+        >
+          فرحتي
+        </a>
       </p>
     </footer>
   )

@@ -8,6 +8,11 @@ export interface WishEntry {
   visible?: boolean   // undefined / true = shown; false = hidden by admin
 }
 
+/** First letter of the wisher's name, used as a small monogram avatar on each card. */
+function initialOf(name: string) {
+  return (name.trim().charAt(0) || '♦').toUpperCase()
+}
+
 export default function WishWall() {
   const { slug } = useTemplateData()
   const { get } = useTemplateFields()
@@ -16,6 +21,7 @@ export default function WishWall() {
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [showToast, setShowToast] = useState(false)
   // optimistically shown right after submit (always visible locally)
   const [localWishes, setLocalWishes] = useState<WishEntry[]>([])
 
@@ -63,7 +69,9 @@ export default function WishWall() {
       setName('')
       setMessage('')
       setStatus('success')
-      setTimeout(() => setStatus('idle'), 3000)
+      setShowToast(true)
+      setTimeout(() => setShowToast(false), 2600)
+      setTimeout(() => setStatus('idle'), 2600)
     } catch {
       setStatus('error')
       setTimeout(() => setStatus('idle'), 3000)
@@ -83,19 +91,20 @@ export default function WishWall() {
             transition: 'all 1s cubic-bezier(0.22,1,0.36,1)',
           }}
         >
-          <p className="font-tajawal font-light text-warm-gray mb-3" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>
-            دفتر التهانى          </p>
+          <p className="font-tajawal font-light mb-3" style={{ fontSize: '0.7rem', letterSpacing: '0.3em', color: 'var(--gold-dark)' }}>
+            دفتر التهانى
+          </p>
           <h2 className="font-amiri italic font-light text-charcoal mb-4" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-            أرسل تهنئتك          </h2>
+            أرسل تهنئتك
+          </h2>
           <div style={{ width: '40px', height: '1px', background: 'var(--gold)', margin: '0 auto' }} />
         </div>
 
         {/* Form */}
         <form
           onSubmit={submit}
-          className="mb-16 pb-16"
+          className="event-card p-8 sm:p-10 md:p-12 mb-16"
           style={{
-            borderBottom: '1px solid rgba(196,163,90,0.15)',
             opacity: sectionVisible ? 1 : 0,
             transform: sectionVisible ? 'translateY(0)' : 'translateY(32px)',
             transition: 'all 1s cubic-bezier(0.22,1,0.36,1) 0.1s',
@@ -133,7 +142,7 @@ export default function WishWall() {
             <button
               type="submit"
               disabled={status === 'submitting' || !name.trim() || !message.trim()}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
               style={{
                 padding: '0.9rem 2.5rem', borderRadius: '999px',
                 background: 'var(--navy)', color: '#F5E6C8',
@@ -141,13 +150,11 @@ export default function WishWall() {
                 fontSize: '0.85rem', border: 'none',
                 cursor: status === 'submitting' ? 'not-allowed' : 'pointer',
                 opacity: !name.trim() || !message.trim() ? 0.45 : 1,
-                transition: 'opacity 0.3s ease',
               }}
             >
               {status === 'submitting' ? 'جاري الإرسال...'
-                : status === 'success' ? 'تم الإرسال ✓'
-                  : status === 'error' ? 'خطأ — حاول مرة أخرى'
-                    : 'أرسل أمنيتك'}
+                : status === 'error' ? 'خطأ — حاول مرة أخرى'
+                  : 'أرسل أمنيتك'}
             </button>
           </div>
         </form>
@@ -159,19 +166,34 @@ export default function WishWall() {
               <div
                 key={`${wish.name}-${wish.timestamp ?? i}-${i}`}
                 style={{
-                  background: 'white', padding: '2rem',
+                  background: 'white', padding: '1.75rem', borderRadius: '14px',
                   boxShadow: '0 1px 16px rgba(0,0,0,0.05)',
                   opacity: sectionVisible ? 1 : 0,
                   transform: sectionVisible ? 'translateY(0)' : 'translateY(24px)',
-                  transition: `all 0.9s cubic-bezier(0.22,1,0.36,1) ${i * 0.08}s`,
+                  transition: `opacity 0.9s cubic-bezier(0.22,1,0.36,1) ${i * 0.08}s, transform 0.3s ease, box-shadow 0.3s ease`,
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-3px)'
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(196,163,90,0.16)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 1px 16px rgba(0,0,0,0.05)'
                 }}
               >
-                <p className="font-amiri italic text-gold mb-3" style={{ fontSize: '2rem', lineHeight: 1, opacity: 0.6 }}>"</p>
-                <p className="font-tajawal font-light text-charcoal/75 leading-relaxed mb-5" style={{ fontSize: '0.9rem', lineHeight: 1.9 }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className="flex items-center justify-center rounded-full shrink-0"
+                    style={{ width: '34px', height: '34px', background: 'rgba(196,163,90,0.12)', color: 'var(--gold-dark)' }}
+                  >
+                    <span className="font-amiri" style={{ fontSize: '0.95rem' }}>{initialOf(wish.name)}</span>
+                  </div>
+                  <p className="font-tajawal font-light text-warm-gray" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
+                    {wish.name}
+                  </p>
+                </div>
+                <p className="font-tajawal font-light text-charcoal/75 leading-relaxed" style={{ fontSize: '0.9rem', lineHeight: 1.9 }}>
                   {wish.message}
-                </p>
-                <p className="font-tajawal font-light text-warm-gray" style={{ fontSize: '0.65rem', letterSpacing: '0.1em' }}>
-                  — {wish.name}
                 </p>
               </div>
             ))}
@@ -185,6 +207,15 @@ export default function WishWall() {
         )}
 
       </div>
+
+      {showToast && (
+        <div className="ahd-toast" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <svg viewBox="0 0 24 24" fill="none" style={{ width: '14px', height: '14px', flexShrink: 0 }}>
+            <path d="M5 13l4 4L19 7" stroke="var(--champagne)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          تم إرسال تهنئتك بنجاح
+        </div>
+      )}
     </section>
   )
 }

@@ -56,14 +56,6 @@
       "group": "الصور والوسائط"
     },
     {
-      "key": "accent_color",
-      "label": "اللون الرئيسي",
-      "type": "color",
-      "defaultValue": "#C9A96E",
-      "required": false,
-      "group": "الإعدادات"
-    },
-    {
       "key": "venue_name",
       "label": "اسم القاعة",
       "type": "text",

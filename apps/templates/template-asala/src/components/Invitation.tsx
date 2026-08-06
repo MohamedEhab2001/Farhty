@@ -277,7 +277,17 @@ export function Invitation() {
       <footer className="relative z-20 text-center py-16 px-5">
         <div className="ornament-divider w-32 mx-auto mb-6" />
         <p className="font-arabic text-gold text-lg">شكرًا لكونكم جزءًا من فرحتنا</p>
-        <p className="text-xs text-ivory/40 tracking-[0.3em] mt-4 font-body">صنعت لكل حب بواسطة farhty.online</p>
+        <p className="text-xs text-ivory/40 tracking-[0.3em] mt-4 font-body">
+          صممت بكل حب بواسطة{' '}
+          <a
+            href="https://farhty.online"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold underline hover:no-underline"
+          >
+            فرحتي
+          </a>
+        </p>
       </footer>
     </main>
   )

@@ -28,7 +28,7 @@ export interface TemplateField {
   placeholder?: string
   hint?: string
   options?: { label: string; value: string }[]
-  itemSchema?: { key: string; label: string; type: string; placeholder?: string }[]
+  itemSchema?: { key: string; label: string; type: string; placeholder?: string; options?: { label: string; value: string }[] }[]
   min?: number | null
   max?: number | null
 }

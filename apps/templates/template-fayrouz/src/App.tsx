@@ -52,7 +52,15 @@ export default function App() {
           style={{ background: 'linear-gradient(90deg, transparent, #C9A96E40, transparent)' }}
         />
         <p className="font-naskh text-sm text-cream/40">
-          صنعت لكل حب بواسطة <span className="gold-shimmer font-bold">farhty.online</span>
+          صممت بكل حب بواسطة{' '}
+          <a
+            href="https://farhty.online"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="gold-shimmer font-bold underline hover:no-underline"
+          >
+            فرحتي
+          </a>
         </p>
       </footer>
 

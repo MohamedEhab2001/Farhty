@@ -14,7 +14,15 @@ export default function Footer() {
           أريج
         </p>
         <p className="font-body text-warm-charcoal/30 text-xs">
-          صنعت لكل حب بواسطة <span className="rose-shimmer font-bold">farhty.online</span>
+          صممت بكل حب بواسطة{' '}
+          <a
+            href="https://farhty.online"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rose-shimmer font-bold underline hover:no-underline"
+          >
+            فرحتي
+          </a>
         </p>
       </motion.div>
     </footer>

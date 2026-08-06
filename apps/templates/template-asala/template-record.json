@@ -100,7 +100,7 @@
       "hint": "رسالة تظهر في فقاعة الحوار عند التمرير لكل قسم — القسم يجب أن يطابق: hero | invitation | story | countdown | venue | rsvp",
       "itemSchema": [
         { "key": "id",      "label": "القسم",      "type": "text", "placeholder": "hero | invitation | story | countdown | venue | rsvp" },
-        { "key": "speaker", "label": "المتحدث",    "type": "text", "placeholder": "bride أو groom" },
+        { "key": "speaker", "label": "المتحدث",    "type": "select", "options": [{ "label": "العريس (Groom)", "value": "groom" }, { "label": "العروسة (Bride)", "value": "bride" }] },
         { "key": "text",    "label": "نص الرسالة", "type": "text", "placeholder": "اكتب الرسالة هنا..." }
       ]
     },

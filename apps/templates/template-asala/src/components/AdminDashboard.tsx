@@ -213,21 +213,6 @@ export function AdminDashboard() {
           />
         )
 
-      case 'color':
-        return wrap(
-          <div className="flex items-center gap-4">
-            <input
-              type="color"
-              value={(val as string) ?? '#C9A96E'}
-              onChange={e => set(key, e.target.value)}
-              className="w-12 h-10 rounded-lg cursor-pointer border border-gold/30 bg-transparent p-1"
-            />
-            <span className="font-body text-ivory/60 text-sm" dir="ltr">
-              {(val as string) ?? ''}
-            </span>
-          </div>
-        )
-
       case 'boolean':
         return (
           <div key={key} className="flex items-center justify-between py-1">
@@ -345,29 +330,49 @@ export function AdminDashboard() {
                     {field.itemSchema?.map(sub => (
                       <div key={sub.key}>
                         <label className="block text-xs text-gold/60 mb-1.5 font-body">{sub.label}</label>
-                        <input
-                          type={
-                            sub.type === 'time'
-                              ? 'time'
-                              : sub.type === 'number'
-                                ? 'number'
-                                : 'text'
-                          }
-                          value={(item[sub.key] as string) ?? ''}
-                          onChange={e => {
-                            const newItems = items.map((it, i) =>
-                              i === idx ? { ...it, [sub.key]: e.target.value } : it
-                            )
-                            set(key, newItems)
-                          }}
-                          placeholder={sub.placeholder}
-                          dir={
-                            sub.type === 'time' || sub.type === 'number' || sub.type === 'url'
-                              ? 'ltr'
-                              : undefined
-                          }
-                          className="w-full bg-transparent border border-gold/20 rounded-lg px-3 py-2 font-arabic text-ivory text-sm placeholder:text-ivory/30 focus:outline-none focus:border-gold/50 transition"
-                        />
+                        {sub.type === 'select' ? (
+                          <select
+                            value={(item[sub.key] as string) ?? ''}
+                            onChange={e => {
+                              const newItems = items.map((it, i) =>
+                                i === idx ? { ...it, [sub.key]: e.target.value } : it
+                              )
+                              set(key, newItems)
+                            }}
+                            className="w-full bg-[#1a1410] border border-gold/20 rounded-lg px-3 py-2 font-arabic text-ivory text-sm focus:outline-none focus:border-gold/50 transition cursor-pointer"
+                          >
+                            <option value="" className="bg-[#1a1410] text-ivory">— اختر —</option>
+                            {sub.options?.map(opt => (
+                              <option key={opt.value} value={opt.value} className="bg-[#1a1410] text-ivory">
+                                {opt.label}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input
+                            type={
+                              sub.type === 'time'
+                                ? 'time'
+                                : sub.type === 'number'
+                                  ? 'number'
+                                  : 'text'
+                            }
+                            value={(item[sub.key] as string) ?? ''}
+                            onChange={e => {
+                              const newItems = items.map((it, i) =>
+                                i === idx ? { ...it, [sub.key]: e.target.value } : it
+                              )
+                              set(key, newItems)
+                            }}
+                            placeholder={sub.placeholder}
+                            dir={
+                              sub.type === 'time' || sub.type === 'number' || sub.type === 'url'
+                                ? 'ltr'
+                                : undefined
+                            }
+                            className="w-full bg-transparent border border-gold/20 rounded-lg px-3 py-2 font-arabic text-ivory text-sm placeholder:text-ivory/30 focus:outline-none focus:border-gold/50 transition"
+                          />
+                        )}
                       </div>
                     ))}
                   </div>

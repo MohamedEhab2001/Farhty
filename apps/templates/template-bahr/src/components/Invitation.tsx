@@ -19,6 +19,17 @@ async function getConfig(): Promise<{ slug: string; apiBase: string }> {
 
 function pad(n: number) { return String(n).padStart(2, '0') }
 
+/** Formats a "HH:mm" 24-hour time string as 12-hour with an Arabic ص/م suffix, e.g. "18:30" → "6:30 م". */
+function formatTime12h(time: string): string {
+  const m = /^(\d{1,2}):(\d{2})/.exec((time ?? '').trim())
+  if (!m) return time
+  let h = parseInt(m[1], 10)
+  const suffix = h >= 12 ? 'م' : 'ص'
+  h = h % 12
+  if (h === 0) h = 12
+  return `${h}:${m[2]} ${suffix}`
+}
+
 /* ─── Stars overlay (intro screen) ────────────────────────────────────────── */
 function Stars() {
   const [mounted, setMounted] = useState(false)
@@ -254,30 +265,34 @@ function DayProgramSection() {
           </div>
         </Reveal>
 
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute right-[3.25rem] sm:right-1/2 top-0 bottom-0 w-px" style={{ background: 'linear-gradient(to bottom,transparent,#c8a96e,transparent)' }} />
-
-          <div className="space-y-6">
-            {items.map((it, i) => (
-              <Reveal key={i} delay={i * 120}>
-                <div className="flex items-center gap-4 sm:gap-6 flex-row">
-                  {/* Time */}
-                  <div className="w-24 sm:w-28 text-right shrink-0">
-                    <span className="font-body font-semibold text-sm sm:text-base tabular-nums" style={{ color: '#c8a96e' }}>
-                      {it.time}
-                    </span>
-                  </div>
-                  {/* Dot */}
-                  <div className="shrink-0 z-10 w-4 h-4 rounded-full border-2 shadow-md" style={{ background: '#faf7f2', borderColor: '#c8a96e', boxShadow: '0 0 0 4px rgba(200,169,110,0.15)' }} />
-                  {/* Label */}
-                  <div className="flex-1">
-                    <p className="font-arabic text-base sm:text-lg" style={{ color: '#1e4d6b' }}>{it.label}</p>
-                  </div>
+        <div className="space-y-4">
+          {items.map((it, i) => (
+            <Reveal key={i} delay={i * 120}>
+              <div
+                className="flex items-center gap-5 sm:gap-6 rounded-2xl px-5 sm:px-7 py-5 transition-shadow duration-300 hover:shadow-lg"
+                style={{ background: '#fff', border: '1px solid rgba(200,169,110,0.18)' }}
+              >
+                {/* Order badge */}
+                <div
+                  className="shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center font-body font-semibold text-sm sm:text-base"
+                  style={{ background: 'linear-gradient(135deg,#c8a96e,#e0c880)', color: '#1a3a4a' }}
+                >
+                  {pad(i + 1)}
                 </div>
-              </Reveal>
-            ))}
-          </div>
+                {/* Label */}
+                <div className="flex-1">
+                  <p className="font-arabic text-base sm:text-lg" style={{ color: '#1e4d6b' }}>{it.label}</p>
+                </div>
+                {/* Time */}
+                <span
+                  className="shrink-0 font-body font-semibold text-xs sm:text-sm tabular-nums rounded-full px-3.5 py-1.5"
+                  style={{ color: '#a9803f', background: 'rgba(200,169,110,0.12)' }}
+                >
+                  {formatTime12h(it.time)}
+                </span>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -335,7 +350,9 @@ function RSVPSection() {
         {submitted ? (
           <Reveal delay={200}>
             <div className="rounded-3xl p-8 text-center" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(12px)' }}>
-              <div className="text-5xl mb-4">🎉</div>
+              <div className="mx-auto mb-4 w-16 h-16 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,169,110,0.15)', border: '1px solid rgba(200,169,110,0.4)' }}>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="#c8a96e"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" /></svg>
+              </div>
               <p className="font-arabic text-2xl mb-2" style={{ color: '#f5ede0' }}>شكراً جزيلاً!</p>
               <p className="font-body text-sm" style={{ color: 'rgba(245,237,224,0.75)' }}>تم تسجيل ردّك بنجاح</p>
             </div>
@@ -363,7 +380,7 @@ function RSVPSection() {
               <div>
                 <label className="block font-body text-sm mb-3" style={{ color: 'rgba(245,237,224,0.85)' }}>هل ستحضر؟</label>
                 <div className="flex gap-3">
-                  {[{ val: true, label: 'نعم، سأحضر 🎊' }, { val: false, label: 'آسف، لن أتمكن' }].map(opt => (
+                  {[{ val: true, label: 'نعم، سأحضر' }, { val: false, label: 'آسف، لن أتمكن' }].map(opt => (
                     <button
                       key={String(opt.val)}
                       onClick={() => setAttending(opt.val)}
@@ -458,7 +475,12 @@ function WishWallSection() {
         {submitted ? (
           <Reveal delay={100}>
             <div className="rounded-3xl p-10 text-center shadow-lg" style={{ background: '#fff' }}>
-              <div className="text-5xl mb-4">💌</div>
+              <div className="mx-auto mb-4 w-16 h-16 rounded-full flex items-center justify-center" style={{ background: 'rgba(30,77,107,0.08)' }}>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1e4d6b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <polyline points="3 7 12 13 21 7" />
+                </svg>
+              </div>
               <p className="font-arabic text-2xl mb-2" style={{ color: '#1e4d6b' }}>شكراً لكلماتك الجميلة!</p>
               <p className="font-body text-sm" style={{ color: '#4a7fa5' }}>وصلت تهنئتك إلى العروسَين</p>
             </div>
@@ -493,7 +515,7 @@ function WishWallSection() {
                 className="w-full py-4 rounded-xl font-body font-semibold text-sm transition-all active:scale-[0.98] disabled:opacity-50"
                 style={{ background: 'linear-gradient(135deg,#1e4d6b,#4a7fa5)', color: '#fff' }}
               >
-                {loading ? 'جاري الإرسال...' : 'أرسل تهنئتك 💙'}
+                {loading ? 'جاري الإرسال...' : 'أرسل تهنئتك'}
               </button>
             </div>
           </Reveal>
@@ -659,9 +681,12 @@ export default function Invitation() {
                   </p>
                   {/* Details pills */}
                   <div className="mt-8 flex flex-wrap gap-3 justify-center md:justify-start">
-                    <span className="rounded-full px-5 py-2 font-body text-xs font-semibold" style={{ background: 'rgba(30,77,107,0.12)', color: '#1e4d6b' }}>📅 {weddingDateFormatted}</span>
-                    <span className="rounded-full px-5 py-2 font-body text-xs font-semibold" style={{ background: 'rgba(30,77,107,0.12)', color: '#1e4d6b' }}>🕖 {timeStr}</span>
-                    <span className="rounded-full px-5 py-2 font-body text-xs font-semibold" style={{ background: 'rgba(30,77,107,0.12)', color: '#1e4d6b' }}>👔 {dressLabels[dressCode] || dressCode}</span>
+                    {[weddingDateFormatted, formatTime12h(timeStr), dressLabels[dressCode] || dressCode].map((text, i) => (
+                      <span key={i} className="rounded-full px-5 py-2 font-body text-xs font-semibold inline-flex items-center gap-2" style={{ background: 'rgba(30,77,107,0.12)', color: '#1e4d6b' }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" /></svg>
+                        {text}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </Reveal>
@@ -760,7 +785,12 @@ export default function Invitation() {
                     <Reveal delay={200}>
                       <div className="rounded-3xl flex items-center justify-center text-center py-16 border-2 border-dashed" style={{ borderColor: 'rgba(200,169,110,0.35)', background: 'rgba(200,169,110,0.05)' }}>
                         <div>
-                          <p className="text-3xl mb-3">🗺️</p>
+                          <div className="mx-auto mb-4 w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'rgba(74,127,165,0.1)' }}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4a7fa5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 1 1 18 0z" />
+                              <circle cx="12" cy="10" r="3" />
+                            </svg>
+                          </div>
                           <p className="font-arabic text-lg" style={{ color: '#4a7fa5' }}>يُضاف رابط الخريطة من لوحة التحكم</p>
                         </div>
                       </div>
@@ -802,7 +832,15 @@ export default function Invitation() {
           {/* ── Footer ────────────────────────────────────────────────────── */}
           <footer className="py-8 px-5 text-center" style={{ background: '#1a3a4a' }}>
             <p className="font-body text-xs tracking-widest" style={{ color: 'rgba(245,237,224,0.3)', letterSpacing: '0.12em' }}>
-              صنعت لكل حب بواسطة farhty.online
+              صممت بكل حب بواسطة{' '}
+              <a
+                href="https://farhty.online"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#c8a96e', textDecoration: 'underline' }}
+              >
+                فرحتي
+              </a>
             </p>
           </footer>
 

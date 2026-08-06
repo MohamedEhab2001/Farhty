@@ -197,21 +197,18 @@ export default function MainInvitation({ muted, onToggleMute, get, instance }: P
 
       <div className="mt-16 flex flex-col items-center gap-1 opacity-40 transition-opacity hover:opacity-100">
         <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--emerald-deep)', fontFamily: 'Tajawal, sans-serif' }}>
-          صنعت بكل حب بواسطة
+          صممت بكل حب بواسطة{' '}
+          <a
+            href="https://farhty.online"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-medium tracking-widest underline hover:no-underline"
+            style={{ color: 'var(--gold-deep)', fontFamily: 'Tajawal, sans-serif' }}
+          >
+            فرحتي
+          </a>
         </p>
-        <a
-          href="https://farhaty.online"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs font-medium tracking-widest"
-          style={{ color: 'var(--gold-deep)', fontFamily: 'Tajawal, sans-serif' }}
-        >
-          farhaty.online
-        </a>
       </div>
-      <p className="mt-3 text-xs" style={{ color: 'rgba(184,150,46,0.4)', fontFamily: 'Tajawal, sans-serif', letterSpacing: '0.1em' }}>
-        صنعت لكل حب بواسطة farhty.online
-      </p>
     </motion.section>
   )
 }
