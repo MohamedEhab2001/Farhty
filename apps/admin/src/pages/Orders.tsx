@@ -57,7 +57,7 @@ export default function Orders() {
         ))}
       </div>
 
-      <div className="card p-0 overflow-hidden">
+      <div className="card p-0 overflow-x-auto">
         {loading ? (
           <div className="p-8 text-center text-[#9d8fa8]">جاري التحميل...</div>
         ) : filtered.length === 0 ? (

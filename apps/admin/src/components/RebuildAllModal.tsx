@@ -54,18 +54,18 @@ export default function RebuildAllModal({ templateId, templateName, onClose }: R
   const logStatus = status === 'rebuilding' ? 'deploying' : status
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm" dir="rtl">
-      <div className="bg-[#1e1928] border border-[#2e2840] rounded-2xl w-full max-w-xl mx-4 shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" dir="rtl">
+      <div className="bg-[#1e1928] border border-[#2e2840] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
 
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#2e2840]">
-          <div>
-            <h2 className="font-bold text-[#f0e8d8]">إعادة بناء جميع حسابات التصميم</h2>
-            <p className="text-[#9d8fa8] text-xs mt-0.5">{templateName}</p>
+        <div className="flex items-center justify-between gap-3 px-6 py-4 border-b border-[#2e2840] flex-shrink-0">
+          <div className="min-w-0">
+            <h2 className="font-bold text-[#f0e8d8] truncate">إعادة بناء جميع حسابات التصميم</h2>
+            <p className="text-[#9d8fa8] text-xs mt-0.5 truncate">{templateName}</p>
           </div>
-          <button onClick={onClose} className="text-[#9d8fa8] hover:text-white transition-colors text-lg">✕</button>
+          <button onClick={onClose} className="text-[#9d8fa8] hover:text-white transition-colors text-lg flex-shrink-0">✕</button>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 overflow-y-auto">
           <DeployLog lines={lines} status={logStatus} slug={templateName} />
 
           {(status === 'done' || status === 'failed') && (

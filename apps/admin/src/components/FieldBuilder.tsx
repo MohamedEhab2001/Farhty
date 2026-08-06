@@ -93,7 +93,7 @@ export default function FieldBuilder({ fields, onChange }: FieldBuilderProps) {
             onDrop={() => onDrop(i)}
             className="bg-[#0d0b0e] border border-[#2e2840] rounded-xl p-4 cursor-grab active:cursor-grabbing"
           >
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
               <span className="text-[#9d8fa8] text-lg select-none">⠿</span>
               <span className="text-[#9d8fa8] text-xs">حقل {i + 1}</span>
               {f.key && <span className="text-[#c8973a] text-xs font-mono">{f.key}</span>}
@@ -115,7 +115,7 @@ export default function FieldBuilder({ fields, onChange }: FieldBuilderProps) {
             </div>
 
             {/* Basic fields — always visible */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               <div>
                 <label>المفتاح (key)</label>
                 <input
@@ -183,7 +183,7 @@ export default function FieldBuilder({ fields, onChange }: FieldBuilderProps) {
             {/* Expanded metadata */}
             {expandedIdx === i && (
               <div className="mt-4 pt-4 border-t border-[#2e2840]">
-                <div className="grid grid-cols-2 gap-3 mb-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                   <div>
                     <label>نص توضيحي (placeholder)</label>
                     <input
@@ -217,7 +217,7 @@ export default function FieldBuilder({ fields, onChange }: FieldBuilderProps) {
 
                 {/* Min/Max for number */}
                 {f.type === 'number' && (
-                  <div className="grid grid-cols-2 gap-3 mb-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                     <div>
                       <label>الحد الأدنى (min)</label>
                       <input
@@ -285,18 +285,18 @@ function OptionsEditor({ options, onChange }: { options: FieldOption[]; onChange
       <label className="block text-xs text-[#9d8fa8] mb-2">الاختيارات (options)</label>
       <div className="space-y-2">
         {options.map((opt, i) => (
-          <div key={i} className="flex gap-2 items-center">
+          <div key={i} className="flex gap-2 items-center flex-wrap sm:flex-nowrap">
             <input
               value={opt.label}
               onChange={e => update(i, { label: e.target.value })}
               placeholder="التسمية"
-              className="flex-1"
+              className="flex-1 min-w-[100px]"
             />
             <input
               value={opt.value}
               onChange={e => update(i, { value: e.target.value })}
               placeholder="القيمة"
-              className="flex-1"
+              className="flex-1 min-w-[100px]"
               dir="ltr"
             />
             <button type="button" onClick={() => remove(i)} className="text-red-400 hover:text-red-300 text-xs">✕</button>
@@ -324,24 +324,24 @@ function ItemSchemaEditor({ schema, onChange }: { schema: ItemSchemaEntry[]; onC
       <label className="block text-xs text-[#9d8fa8] mb-2">هيكل العنصر (itemSchema)</label>
       <div className="space-y-2">
         {schema.map((s, i) => (
-          <div key={i} className="flex gap-2 items-center">
+          <div key={i} className="flex gap-2 items-center flex-wrap sm:flex-nowrap">
             <input
               value={s.key}
               onChange={e => update(i, { key: e.target.value })}
               placeholder="المفتاح"
-              className="flex-1"
+              className="flex-1 min-w-[100px]"
               dir="ltr"
             />
             <input
               value={s.label}
               onChange={e => update(i, { label: e.target.value })}
               placeholder="التسمية"
-              className="flex-1"
+              className="flex-1 min-w-[100px]"
             />
             <select
               value={s.type}
               onChange={e => update(i, { type: e.target.value })}
-              className="w-24"
+              className="w-full sm:w-24"
             >
               <option value="text">نص</option>
               <option value="time">وقت</option>
@@ -352,7 +352,7 @@ function ItemSchemaEditor({ schema, onChange }: { schema: ItemSchemaEntry[]; onC
               value={s.placeholder || ''}
               onChange={e => update(i, { placeholder: e.target.value })}
               placeholder="placeholder"
-              className="flex-1"
+              className="flex-1 min-w-[100px]"
             />
             <button type="button" onClick={() => remove(i)} className="text-red-400 hover:text-red-300 text-xs">✕</button>
           </div>

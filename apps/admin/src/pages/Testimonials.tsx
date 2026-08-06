@@ -57,9 +57,9 @@ export default function Testimonials() {
     <Layout title="التقييمات">
       {deleteId && <ConfirmDialog message="حذف هذا التقييم؟" onConfirm={confirmDelete} onCancel={() => setDeleteId(null)} loading={deleting} />}
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
         <p className="text-[#9d8fa8] text-sm">{list.length} تقييم</p>
-        <button id="add-testimonial-btn" onClick={() => setEditing({ ...EMPTY })} className="btn-gold">+ إضافة تقييم</button>
+        <button id="add-testimonial-btn" onClick={() => setEditing({ ...EMPTY })} className="btn-gold w-full sm:w-auto">+ إضافة تقييم</button>
       </div>
 
       {/* Form */}
@@ -82,7 +82,7 @@ export default function Testimonials() {
         </div>
       )}
 
-      <div className="card p-0 overflow-hidden">
+      <div className="card p-0 overflow-x-auto">
         {loading ? (
           <div className="p-8 text-center text-[#9d8fa8]">جاري التحميل...</div>
         ) : (

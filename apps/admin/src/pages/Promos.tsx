@@ -374,9 +374,9 @@ export default function Promos() {
         />
       )}
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
         <p className="text-[#9d8fa8] text-sm">{promos.length} عرض</p>
-        <button onClick={() => setEditTarget('new')} className="btn-gold">
+        <button onClick={() => setEditTarget('new')} className="btn-gold w-full sm:w-auto">
           + عرض جديد
         </button>
       </div>
@@ -390,7 +390,7 @@ export default function Promos() {
             <h2 className="text-[#f0e8d8] font-semibold mb-3 flex items-center gap-2">
               <span>🖼️</span> البنرات ({banners.length})
             </h2>
-            <div className="card p-0 overflow-hidden">
+            <div className="card p-0 overflow-x-auto">
               {banners.length === 0 ? (
                 <div className="p-6 text-center text-[#9d8fa8] text-sm">لا توجد بنرات بعد</div>
               ) : (
@@ -436,7 +436,7 @@ export default function Promos() {
                           </span>
                         </td>
                         <td>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <button onClick={() => setEditTarget(p)} className="btn-ghost py-1 px-3 text-xs">تعديل</button>
                             <button onClick={() => toggleActive(p)} className="btn-ghost py-1 px-3 text-xs">
                               {p.isActive ? 'إيقاف' : 'تفعيل'}
@@ -462,7 +462,7 @@ export default function Promos() {
                 </span>
               )}
             </h2>
-            <div className="card p-0 overflow-hidden">
+            <div className="card p-0 overflow-x-auto">
               {popups.length === 0 ? (
                 <div className="p-6 text-center text-[#9d8fa8] text-sm">لا توجد نوافذ منبثقة بعد</div>
               ) : (
@@ -496,7 +496,7 @@ export default function Promos() {
                           </span>
                         </td>
                         <td>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <button onClick={() => setEditTarget(p)} className="btn-ghost py-1 px-3 text-xs">تعديل</button>
                             <button onClick={() => toggleActive(p)} className="btn-ghost py-1 px-3 text-xs">
                               {p.isActive ? 'إيقاف' : 'تفعيل'}

@@ -17,10 +17,10 @@ export default function DeployLog({ lines, status, slug }: DeployLogProps) {
     <div className="bg-[#070509] border border-[#2e2840] rounded-xl overflow-hidden font-mono">
       {/* Terminal header */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-[#2e2840] bg-[#0d0b0e]">
-        <div className="w-3 h-3 rounded-full bg-red-500" />
-        <div className="w-3 h-3 rounded-full bg-yellow-500" />
-        <div className="w-3 h-3 rounded-full bg-green-500" />
-        <span className="text-[#9d8fa8] text-xs mr-2">
+        <div className="w-3 h-3 rounded-full bg-red-500 flex-shrink-0" />
+        <div className="w-3 h-3 rounded-full bg-yellow-500 flex-shrink-0" />
+        <div className="w-3 h-3 rounded-full bg-green-500 flex-shrink-0" />
+        <span className="text-[#9d8fa8] text-xs mr-2 truncate">
           {slug ? `Deploying ${slug}.farhty.online...` : 'Deploy Log'}
         </span>
       </div>

@@ -137,11 +137,13 @@ export default function TemplateForm() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            gap: '12px',
+            flexWrap: 'wrap',
           }}>
-            <span style={{ fontSize: '12px', color: '#9d8fa8', fontFamily: 'monospace' }}>
+            <span style={{ fontSize: '12px', color: '#9d8fa8', fontFamily: 'monospace', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>
               {isEdit ? `template-${id}.json` : 'new-template.json'}
             </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
               <span style={{ fontSize: '11px', color: '#2e2840' }}>{lineCount} lines</span>
               <button
                 onClick={format}

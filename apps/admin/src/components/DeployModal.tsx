@@ -75,15 +75,15 @@ export default function DeployModal({ onClose, onDeployed }: DeployModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm" dir="rtl">
-      <div className="bg-[#1e1928] border border-[#2e2840] rounded-2xl w-full max-w-xl mx-4 shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" dir="rtl">
+      <div className="bg-[#1e1928] border border-[#2e2840] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#2e2840]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#2e2840] flex-shrink-0">
           <h2 className="font-bold text-[#f0e8d8]">🚀 نشر حساب جديد</h2>
           <button onClick={onClose} className="text-[#9d8fa8] hover:text-white transition-colors">✕</button>
         </div>
 
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-4 overflow-y-auto">
           {status === 'idle' && (
             <>
               <div>

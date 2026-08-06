@@ -46,14 +46,14 @@ export default function Instances() {
       {showDeploy && <DeployModal onClose={() => setShowDeploy(false)} onDeployed={load} />}
       {rebuildInst && <RebuildModal instanceId={rebuildInst.id} slug={rebuildInst.slug} onClose={() => { setRebuildInst(null); load() }} />}
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
         <p className="text-[#9d8fa8] text-sm">{instances.length} حساب</p>
-        <button id="deploy-new-btn" onClick={() => setShowDeploy(true)} className="btn-gold">
+        <button id="deploy-new-btn" onClick={() => setShowDeploy(true)} className="btn-gold w-full sm:w-auto">
           + نشر حساب جديد
         </button>
       </div>
 
-      <div className="card p-0 overflow-hidden">
+      <div className="card p-0 overflow-x-auto">
         {loading ? (
           <div className="p-8 text-center text-[#9d8fa8]">جاري التحميل...</div>
         ) : instances.length === 0 ? (
@@ -81,7 +81,7 @@ export default function Instances() {
                     <div className="flex items-center gap-2 flex-wrap">
                       {resetId === inst._id ? (
                         <div className="flex gap-1">
-                          <input value={newPw} onChange={e => setNewPw(e.target.value)} placeholder="كلمة جديدة" className="w-28 text-xs py-1" dir="ltr" />
+                          <input value={newPw} onChange={e => setNewPw(e.target.value)} placeholder="كلمة جديدة" className="w-24 sm:w-28 text-xs py-1" dir="ltr" />
                           <button onClick={() => resetPassword(inst._id)} className="btn-gold py-1 px-2 text-xs">حفظ</button>
                           <button onClick={() => setResetId(null)} className="btn-ghost py-1 px-2 text-xs">إلغاء</button>
                         </div>

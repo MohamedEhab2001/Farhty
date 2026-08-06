@@ -71,14 +71,14 @@ export default function Templates() {
         />
       )}
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
         <p className="text-[#9d8fa8] text-sm">{templates.length} تصميم</p>
-        <button id="new-template-btn" onClick={() => navigate('/templates/new')} className="btn-gold">
+        <button id="new-template-btn" onClick={() => navigate('/templates/new')} className="btn-gold w-full sm:w-auto">
           + تصميم جديد
         </button>
       </div>
 
-      <div className="card p-0 overflow-hidden">
+      <div className="card p-0 overflow-x-auto">
         {loading ? (
           <div className="p-8 text-center text-[#9d8fa8]">جاري التحميل...</div>
         ) : templates.length === 0 ? (
@@ -122,7 +122,7 @@ export default function Templates() {
                   </td>
                   <td className="text-[#9d8fa8] font-mono text-xs">{t.version}</td>
                   <td>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <button
                         id={`edit-tpl-${t._id}`}
                         onClick={() => navigate(`/templates/${t._id}/edit`)}
